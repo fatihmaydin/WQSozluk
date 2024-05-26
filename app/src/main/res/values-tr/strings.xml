@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- The name of the application. -->
+    <string name="app_name">WQFerheng</string>
+    <string name="headerEndChar">¿</string>
+    <string name="newlinebreak">¡</string>
+    <!-- The label for use as a searchable item -->
+    <string name="search_label">Sözlük</string>
+    <string name="description"></string>
+    <string name="menu_settings">Bul</string>
+    <string name="buttonc">ç</string>
+    <string name="buttoni">î</string>
+    <string name="buttons">ş</string>
+    <string name="buttonu">û</string>
+    <string name="buttone">ê</string>
+    <string name="buttonii">ı</string>
+    <string name="buttonue">ü</string>
+    <string name="buttonoe">ö</string>
+    <string name="buttong">ğ</string>
+    <string name="buttonarabic">ابت</string>
+    <string name="buttonlatin">a b c</string>
+    <string name="buttonreset">Sil</string>
+    <string name="derbar">Hakkında</string>
+    <string name="buttonhere">Bul!</string>
+    <string name="buttonarAlph">Ar.</string>
+    <string name="Lêbigere">Ara</string>
+    <string name="legerrinenbere">Geçmiş</string>
+    <!-- The hint text that appears in the search box. -->
+    <string name="search_hint">Sözlükte ara</string>
+    <string name="helpbody">Aranmak istenen kelimeyi arama kutucuğuna yazarak, anlık olarak verilen kelime ya da kelime öbeklerini seçebilirsiniz.
+       \"Bul!\" butonuna tıklayarak yazılan kelime ile birebir eşleşen başlığa gidebilirsiniz.
+        Yazılan kelimeye yakın eşleşmeleri aramak için Ara butonuna tıklayınız.</string>
+    <string name="whatsnew">Çi hat Nûkirin / Yenilikler</string>
+    <string name="loading">Kelimeler yükleniyor &#8230;</string>
+    <string name="loaded"> madde yüklendi</string>
+    <string name="processingwords">Kelimeler bulunuyor&#8230;</string>
+    <string name="temam">Tamam</string>
+    <string name="betal">İptal</string>
+    <string name="resultsfound">%1$d sonuç bulundu.</string>
+    <string name="resultsnotfound">\'%1$s\' için hiçbir sonuç bulunamadı.</string>
+    <string name="resultinstant">Rastgele bir kelime</string>
+    
+         <string name="addedtofav"> \'%1$s\' favoriler listesine eklendi.</string>
+           <string name="notaddedtofav"> \'%1$s\' favoriler listesine eklenemedi.</string>
+                     <string name="favwordexists"> \'%1$s\' zaten favoriler listesinde mevcut.</string>
+    
+    <string name="langchange">Dil değiştirildi:</string>
+    <string name="DerbarBody1">Bu sözlükte %1$s kayıt bulunmakta. Beklenmeyen hatalarla ile ilgili olarak bana </string>
+    <string name="DerbarBody2">adresinden ulaşabilirsiniz. Aşağıda sözlük hakkında daha fazla bilgi bulabilirsiniz. </string>
+    <string name="Langku">Kürtçe</string>
+    <string name="Langen">Îngilizce</string>
+    <string name="Langde">Almanca</string>
+    <string name="Langtr">Türkçe</string>
+     <string name="Langfa">Farsça</string>
+    <string name="AppRateString"> %1$s uygulamasını kullanmaktan memnun iseniz. Lütfen değerlendirin!</string>
+    <string name="Remind">Sonra hatırlat!</string>
+    <string name="Thanks">Hayır, Teşekkürler</string>
+    <string name="Rate"> %1$si değerlendir</string>
+ <string name="na">Na</string>
+ 
+    <!-- The menu entry that invokes search. -->
+    <string name="menu_search">Ara</string>
+    <string name="help">Yardım</string>
+    <string name="ziman">Dil Değiştirme</string>
+          <string name="herekategoriye">Kategori</string>
+          <string name="herekategoriyemesaj">Gerçekten \'%s\' kategorisine gitmek istiyor musunuz?\n Bu biraz zaman alabilir.</string>
+
+    <string name="Useful">Kullanışlı ve zengin bir Kürtçe Sözlük</string>
+    <string name="peyvebisine">Vê gotinê di Wikiferhengê de bibîne: </string>
+       <string name="nowordSelected"> Öncelikle bir kelime arayıp, daha sonra gönderiniz. </string>
+     
+    <string name="select">Seç</string>
+    <string name="parvekirin">Paylaş</string>
+    <string name="liwikiferheng">Wîkîferheng Sayfası</string>
+   
+    <string name="Wate">Anlam</string>
+    <string name="Bideber">Karşılaştır</string>
+    <string name="Binihere">Bknz. </string>
+    <string name="Dijwate">Karşıt</string>
+    <string name="Hevwate">Eşanlam </string>
+    <string name="Tekildar">İlişkili</string>
+    <string name="Bibine">Ayrıca Bknz.</string>
+    <string name="bialfabeyendin">Diğer Alfabelerde</string>
+    <string name="bizaravayendin">Diğer Lehçelerde</string>
+    <string name="Ji">Etimoloji</string>
+    <string name="Je">Sözcük Yapımı</string>
+    <string name="bikaranin">Kullanım</string>
+    <string name="herwiha">Diğer Yazım</string>
+    <string name="werger">Çeviriler</string>
+    <string name="header">başlık</string>
+    <string name="jiwejeye">Yazından</string>
+    <string name="tewandin">Fiil Çekimi</string>
+     <string name="derbaraminheader">Di derbara Programçêker de(Geliştirici Hakkında)  </string>
+  <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
+        Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
+        Heta niha wergereka wî, ji Almanî Veguherîn(Die Verwandlung) û Koloniya Tawanê(In der Strafkolonie) ya Franz Kafka, û romaneka wî, Sefernameya Hezar û Yek Fersengî, ji Weşanên Lîsê derketiye û 
+        di wara wergerrê de xebatên xwe li ser berhemên Kafka didomîne. Wergera Nmaeyên Moltke ji Almanî bo Kurdî kir û ew ji nav Weşanên Avesta derket. Ji xeynî WQFerhengê, bernameyeka din, Nûçexane, ya ku li ser Google Playê li berdest jî ji hêla wî hatiye çêkirin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+        Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;\n\n
+        
+        Bu sözlük Fatîh Aydin tarafından, Wîkîferheng in verileri ve katkı yapanların emeği sayesinde, geliştirildi.
+        Fatîh Aydin, yazılımcılığın dışında, Wîkîferhenge yaptığı katkılar, çevirmenlik ve yazarlık üzerinden yaptığı çalışmalar ile Kürtçe\'ye katkı yapmaya çalışıyor.
+        Şimdiye kadar bir çevirisi, Almanca dan Franz Kafka nın Veguherîn(Die Verwandlung, Dönüşüm)ve Koloniya Tawanê (In der Strafkolonie, Ceza Kolonisi) eseri, ve bir romanı, Sefernameya Hezar û Yek Fersengî(Binbir Fersah Seyahatnamesi), Lis yayınlarından çıktı. 
+        Moltke\'nin Mektupları\'nı Almanca\'dan Kürtçe\'ye çevirdi ve Avesta yayınları tarafından basıldı. Bu arada çeviri ile ilgili çalışmalarını Franz Kafka nın eserleri üzerinden sürdürmekte. WQFerheng, dışında, yine Android için, Kürtçe haberlerini izlenebildiği Nûçexane isimli bir program daha geliştirmiştir.
+        Blog ve aşağıdaki adreslerini ziyaret edebilirsiniz;\n\n
+        </string>
+    <string name="Version46">Version 4.5 (06/05/2023) </string>
+    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    * Navrûyê Ferhengê û rengên piş hatin guhertin
+    # Nasandina dengê(Nivîsandina Dengî) hatzêdekirin</string>
+
+    <string name="Version45">Version 4.5 (10/10/2019) </string>
+    <string name="Version45Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 500 000\'an peyv hene.\n   
+            * Li çendanî û çawaniya peyv û biwêjên ferhengê gelek çêtirkirin hatin kirin.\n\n
+         
+
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~130 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
+           
+           * Veritabanı senkronize edildi ve şu anda WQFerheng de yaklaşık 475 000 başlık mevcut..\n
+          
+
+           * Uyarı: Artan kelime sayısı ile uygulamanın diskte kapladığı alanda büyümekte (~130 MB) . Lütfen cihazınızda yeterli yer olup olmadığını kontrol ediniz.
+           </string>    
+        
+          <string name="Version42">Version 4.3 (16/07/2018) </string>
+    <string name="Version42Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 450 000\'an peyv hene.\n   
+            * Li çendanî û çawaniya peyv û biwêjên ferhengê gelek çêtirkirin hatin kirin.\n\n
+           * Taybetiya gerîna bi tilîxuşandinê hat zêde kirin. Êdî bi xuşandina tiliyan a li rast û çepê meriv dikare di nav lîsteyan de bigere. 
+       	   Ew gerîna hêsan herwiha bi bûtona jî bi pêş de û paş de dikare bê kirin.\n
+       	   * Taybetiya favorîkirinê hat lê zêdekirin. Êdî hûn dikarin peyv û biwêjan fav bikin û paşê lê binihêrin.  \n 
+           * Bi hin algorîtmayan mezinahiya ferhengê hat kêm kirin û li hember zêdebûna naverokê mezinahiya app\'ê daket 115 MB\'an.\n\n
+           
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~115 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
+           
+           * Veritabanı senkronize edildi ve şu anda WQFerheng de yaklaşık 500 000 başlık mevcut..\n
+           * Kaydırma hareketi ile arama listeleri arasında gezinme özelliği eklendi. Bu ekranın sağ ve solundaki butonlar ile de gerçekleştirilebilir.
+           * Favorilere ekleme özelliği eklendi.
+           * Başlık sayısındaki artışa rağmen, bir kaç algoritma ile sözlüğün disk üzerindeki hacmi düşürüldü. 
+           
+           * Uyarı: Artan kelime sayısı ile uygulamanın diskte kapladığı alanda büyümekte (~115 MB) . Lütfen cihazınızda yeterli yer olup olmadığını kontrol ediniz.
+           </string>   
+
+   
+    <plurals name="search_results">
+        <item quantity="one">%1$d result for \"%2$s\": </item>
+        <item quantity="other">%1$d results for \"%2$s\": </item>
+    </plurals>
+
+    <!-- Search failure message. -->
+    <string name="no_results">No results found for \"%s\"</string>
+
+</resources>

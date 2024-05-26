@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdk 34
+    buildToolsVersion '33.0.0'
+
+
+    defaultConfig {
+        applicationId "com.wqferheng"
+        namespace 'com.wqferheng'
+        minSdkVersion 21
+        targetSdkVersion 33
+
+        setProperty("archivesBaseName", applicationId + "-v" + versionCode + "(" + versionName + ")")
+        //or so
+        archivesBaseName = "$applicationId"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.1'
+    implementation 'androidx.work:work-runtime:2.7.1'
+
+
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.cardview:cardview:1.0.0-alpha3'
+    implementation 'com.google.android.gms:play-services-ads:23.1.0'
+
+   
+}

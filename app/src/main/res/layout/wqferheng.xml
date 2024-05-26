@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/layoutListViewContents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?customAndroidlistlistViewBackColor1Attribute"
+        android:clickable="true"
+        android:orientation="vertical" 
+        android:layout_above="@+id/adView" >
+
+        <com.wqferheng.TextProgressBar
+            android:id="@+id/progressBarWithText"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?customAndroidlistlistViewBackColor2Attribute"
+
+
+
+            android:max="100"
+            android:maxHeight="30dp"
+            android:minHeight="30dp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutcustomkeys"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="?customAndroidlistlistViewBackColor3Attribute"
+            >
+
+            <com.wqferheng.CustomKeys
+                android:id="@+id/customkeys"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal"
+            android:background="#ffffff"
+            android:weightSum="100" >
+
+
+            <ImageView
+                android:id="@+id/buttonsearch"
+                android:background="?customAndroidBackAttributeColor"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:src="@drawable/search"/>
+
+            <com.wqferheng.CustomAutoCompleteTextView
+                android:id="@+id/autocomplete_search"
+                android:layout_width="0px"
+
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="76"
+                android:background="?customAndroidlistlistViewBackColor2Attribute"
+                android:drawableRight="@drawable/clear"
+                android:textColorHint="?customAndroidTextHintColorAttribute"
+                android:hint="@string/Lêbigere"
+                android:imeOptions="actionDone"
+
+                android:textCursorDrawable="@null" />
+
+
+            <ImageView
+                android:id="@+id/buttonhere"
+                android:background="?customAndroidBackAttributeColor"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="8"
+                android:src="@drawable/btn_go"/>
+            <ImageView
+                android:id="@+id/search_voice_btn"
+                android:background="?customAndroidBackAttributeColor"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:src="@drawable/ic_mic"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textHistory"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="fill_parent"
+               android:gravity="center"
+               android:background="?customAndroidlistlistTabBackColorAttribute"
+               android:textColor="#4E275A"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/legerrinenbere" />
+
+        <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:background="?customAndroidExpBackColorAttribute"
+            android:scrollbars="none"></ExpandableListView>
+
+        
+
+        <ListView
+            android:id="@+id/list_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?customAndroidViewTextColorAttribute"
+            >
+        </ListView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+     
+        android:layout_above="@+id/adView" >
+
+        <ImageButton
+            android:id="@+id/imageButtonBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:alpha="0.7"
+            android:background="?customAndroidBackAttributeColor"
+            android:contentDescription="@string/description"
+            android:src="@drawable/arrowback" />
+        <LinearLayout android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            >
+        <ImageButton
+            android:id="@+id/imageButtonFav"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="20dp"
+            android:alpha="0.6"
+            android:background="?customAndroidButtonDarkBackColorAttribute"
+            android:contentDescription="@string/description"
+            android:src="@drawable/favoruite" />
+
+        <ImageButton
+            android:id="@+id/imageButtonGoToWiki"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?customAndroidButtonDarkBackColorAttribute"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/imageButtonFav"
+            android:alpha="0.99"
+            android:contentDescription="@string/description"
+            android:src="@drawable/onweb" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imageButtonForward"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="?customAndroidButtonDarkBackColorAttribute"
+            android:alpha="0.6"
+            android:contentDescription="@string/description"
+            android:src="@drawable/arrowforward" />
+    </RelativeLayout>
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-4819188859318435/5036961654" >
+    </com.google.android.gms.ads.AdView>
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardview"
+        android:keyBackground="?customAndroidButtonDarkBackColorAttribute"
+        android:keyTextColor="?customAndroidTextDarkColorAttribute"
+        android:background="?customAndroidButtonDarkBackColorAttribute"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

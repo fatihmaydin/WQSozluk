@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- The name of the application. -->
+    <string name="app_name">WQFerheng ()</string>
+    <string name="headerEndChar">¿</string>
+    <string name="newlinebreak">¡</string>
+    <!-- The label for use as a searchable item -->
+    <string name="search_label">فرهنگ لغت</string>
+    <!-- <string name="button2">Finde</string> -->
+    <string name="description"></string>
+    <string name="menu_settings">یافتن</string>
+    <string name="buttonc">ç</string>
+    <string name="buttoni">î</string>
+    <string name="buttons">ş</string>
+    <string name="buttonu">û</string>
+    <string name="buttone">ê</string>
+    <string name="buttonii">ı</string>
+    <string name="buttonue">ü</string>
+    <string name="buttonoe">ö</string>
+    <string name="buttong">ğ</string>
+    <string name="buttonarabic">ابت</string>
+    <string name="buttonlatin">abc</string>
+    <string name="buttonreset">برداشتن</string>
+    <string name="derbar">در باره</string>
+    <string name="buttonarAlph">عر.</string>
+    <string name="buttonhere">یافت!</string>
+    <string name="Lêbigere">جستجو</string>
+    <string name="legerrinenbere">تاریخچه</string>
+    <!-- The hint text that appears in the search box. -->
+    <string name="search_hint">جستجو در فرهنگ لغت</string>
+    <string name="helpbody">Bona lêgerîna peyvan li qutiya lêgerrînê ya peyvan, peyva mebestkirî binivîsinin û ji pêşniyarên 
+          ji lîsteya dadileqe peyvan hilbijêrin. Bi pişkoja \"Here!\" hûn dikarin herine ser sernava bi nivîskê re rasterast eynî. Bona lêgerrîna peyvên nêzik ên nivîska mebestkirî li pişkoja bigere 
+				bitikînin.</string>
+    <string name="whatsnew">Çi hat Nûkirin / چه چیزی جدید?</string>
+    <string name="loading">کلمات بارگذاری &#8230;</string>
+    <string name="loaded"> کلمات بارگذاری شده</string>
+    <string name="processingwords">جستجو برای کلمات&#8230;</string>
+    <string name="temam">باشه</string>
+    <string name="betal">لغو</string>
+    <string name="na">نه</string>
+    <string name="resultsfound">%1$d نتیجه یافت شد.</string>
+    <string name="resultsnotfound">هیچ نتیجه به \'%1$s\'.</string>
+    <string name="resultinstant">Eine zufällige Worte</string>
+    
+         <string name="favwordexists">کلمه  \'%1$s\' در لیست مورد علاقه موجود است.</string>
+           <string name="notaddedtofav">کلمه \'%1$s\'نمیتواند به لیست مورد علاقه اضافه شود.</string>
+                     <string name="addedtofav">کلمه  \'%1$s\' به لیست مورد علاقه اضافه شده است.</string>
+    
+    <string name="langchange">زبان به تغییر کرده به:</string>
+    <string name="DerbarBody1"> در فرهنگ لغت  xxx  ماده وجود دارد. لطفا اطلاعات من را ارسال کنید برای استثناهای غیر منتظره در برنامه </string>
+    <string name="DerbarBody2">شما می توانید اطلاعات بیشتر زیر پیدا می کند</string>
+    <string name="Langku">کردی</string>
+    <string name="Langen">انگلیسی</string>
+    <string name="Langde">آلمانی</string>
+    <string name="Langtr">ترکی</string>
+     <string name="Langfa">فارسی</string>
+    <string name="AppRateString"> اگر شما با استفاده از برنامه راضی  بودی %1$s لطفا نرخ بدهید!</string>
+    <string name="Remind">به یاد بعد!</string>
+    <string name="Thanks">نه, متشکرم</string>
+    <string name="Rate">نرخ بده  %1$s </string>
+
+    <!-- The menu entry that invokes search. -->
+    <string name="menu_search">جستجو</string>
+    <string name="help">کمک</string>
+    <string name="ziman">تغییر زبان</string>
+       <string name="herekategoriye">To Category</string>
+          <string name="herekategoriyemesaj">Do you really want to navigate \'%s\' category?\n It kan take some time.</string>
+
+    <string name="Useful">برنامه سودمند برای اندروید.</string>
+     <string name="peyvebisine">Vê gotinê di Wikiferhengê de bibîne: </string>
+       <string name="nowordSelected">لطفا ابتدا جستجو برای یک کلمه، بعد از ارسال. </string>
+    <string name="select">برگزیدن</string>
+    <string name="parvekirin">ارسال</string>
+    <string name="liwikiferheng"> ویکیواژه</string>
+ 
+
+    <string name="Wate">معنی</string>
+    <string name="Bideber">نگاه  کن</string>
+    <string name="Binihere">همچنین نگاه کن</string>
+    <string name="Dijwate">متضاد </string>
+    <string name="Hevwate">هم معنی </string>
+    <string name="Tekildar">نزدیک</string>
+    <string name="Bibine">Siehe Auch</string>
+    <string name="tewandin">ترکیب</string>
+    <string name="bizaravayendin">در لهجه های دیگر</string>
+    <string name="bialfabeyendin">دیگر حروف</string>
+    <string name="Ji">ریشه شناسی</string>
+    <string name="Je">مشتقات کلمه</string>
+    <string name="bikaranin">استعمال</string>
+    <string name="herwiha">مچنین</string>
+    <string name="werger">ترجمه</string>
+    <string name="header">ماده ها</string>
+    <string name="jiwejeye">از ادبیات</string>
+     <string name="derbaraminheader">درباره نرم افزار (Di derbara Programçêker de) </string>
+     <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
+        Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
+        Heta niha 4 wergerên wî, ji Almanî; Veguherîn(Die Verwandlung), Koloniya Tawanê(In der Strafkolonie) û Keleh(Das Schloß) ya Franz Kafka,  û Li Çiyayên Kurdistanê - Di Bin Nîveheyvê de(Briefe über die Zustände und Begebenheiten in der
+Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+        Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;;\n\n</string>
+      <string name="Version45">Version 4.6 (10/05/2023) </string>
+    <string name="Version45Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 500 000\'an peyv hene.\n   
+                  	  
+
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~130 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.</string>
+    <string name="Version46">Version 4.5 (06/05/2023) </string>
+    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    * Navrûyê Ferhengê û rengên piş hatin guhertin
+    # Nasandina dengê(Nivîsandina Dengî) hatzêdekirin</string>
+
+
+    <string name="Version42">Version 4.3 (16/07/2018) </string>
+    <string name="Version42Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 500 000\'an peyv hene.\n   
+                  	  * Taybetiya gerîna bi tilîxuşandinê hat zêde kirin. Êdî bi xuşandina tiliyan a li rast û çepê meriv dikare di nav lîsteyan de bigere. 
+       	   Ew gerîna hêsan herwiha bi bûtona jî bi pêş de û paş de dikare bê kirin.\n
+       	   * Taybetiya favorîkirinê hat lê zêdekirin. Êdî hûn dikarin peyv û biwêjan fav bikin û paşê lê binihêrin.  \n 
+           * Bi hin algorîtmayan mezinahiya ferhengê hat kêm kirin û li hember zêdebûna naverokê mezinahiya app\'ê daket 115 MB\'an.\n\n
+           
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~115 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.</string>
+        
+      
+
+    <plurals name="search_results">
+        <item quantity="one">%1$d  نتیجه برای  \"%2$s\": </item>
+        <item quantity="other">%1$d نتایج برای \"%2$s\": </item>
+    </plurals>
+
+    <!-- Search failure message. -->
+    <string name="no_results">هیچ نتیجه برای \"%s\"</string>
+
+</resources>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayoutR"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="?customAndroidlistlistViewBackColor1Attribute"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/adView"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="?customAndroidlistlistViewBackColor2Attribute"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/definitionHedaer"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="wrap_content"
+            android:background="?customAndroidDrawableAttribute"
+            android:layout_height="wrap_content" />
+
+        <ExpandableListView
+            android:id="@+id/expandableListViewdefinition"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?customAndroidExpBackColorAttribute"
+
+            android:scrollbars="none"></ExpandableListView>
+    </LinearLayout>
+    
+       <RelativeLayout
+        android:id="@+id/relativeLayoutlistButtons"
+        android:layout_width="fill_parent"
+        android:layout_centerInParent="true"
+        android:layout_height="50dp"  >
+
+           <ImageButton
+               android:id="@+id/imagelistBack"
+               android:layout_width="60dp"
+               android:layout_height="fill_parent"
+               android:alpha="0.4"
+               android:background="?customAndroidBackAttributeColor"
+               android:contentDescription="@string/description"
+               android:src="@drawable/fastbackward" />
+
+           <ImageButton
+               android:id="@+id/imagelistForward"
+               android:layout_width="60dp"
+               android:layout_height="fill_parent"
+               android:layout_alignParentRight="true"
+               android:alpha="0.4"
+               android:background="?customAndroidBackAttributeColor"
+               android:contentDescription="@string/description"
+               android:src="@drawable/fastforward" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/adView">
+
+        <ImageButton
+            android:id="@+id/imageButtonBack"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:alpha="0.7"
+            android:background="?customAndroidBackAttributeColor"
+            android:contentDescription="@string/description"
+            android:src="@drawable/arrowback" />
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            >
+        <ImageButton
+            android:id="@+id/imageButtonFav"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:alpha="0.6"
+            android:background="?customAndroidBackAttributeColor"
+            android:contentDescription="@string/description"
+            android:src="@drawable/favoruite" />
+
+        <ImageButton
+            android:id="@+id/imageButtonGoToWiki"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@+id/imageButtonFav"
+            android:alpha="0.99"
+            android:background="?customAndroidBackAttributeColor"
+            android:contentDescription="@string/description"
+            android:src="@drawable/onweb" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imageButtonForward"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:background="?customAndroidBackAttributeColor"
+            android:alpha="0.6"
+            android:contentDescription="@string/description"
+            android:src="@drawable/arrowforward" />
+    </RelativeLayout>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-4819188859318435/5036961654" >
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout>

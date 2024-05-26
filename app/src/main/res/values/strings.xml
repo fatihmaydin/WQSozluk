@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- The name of the application. -->
+    <string name="app_name">WQFerheng</string>
+    <string name="headerEndChar">¿</string>
+    <string name="newlinebreak">¡</string>
+    <!-- The label for use as a searchable item -->
+    <string name="search_label">Dictionary</string>
+    <!-- <string name="button2">Bibîne</string> -->
+    <string name="description"></string>
+    <string name="menu_settings">Bibîne</string>
+    <string name="buttonc">ç</string>
+    <string name="buttoni">î</string>
+    <string name="buttons">ş</string>
+    <string name="buttonu">û</string>
+    <string name="buttone">ê</string>
+    <string name="buttonii">ı</string>
+    <string name="buttonue">ü</string>
+    <string name="buttonoe">ö</string>
+    <string name="buttong">ğ</string>
+    <string name="buttonarabic">ابت</string>
+    <string name="buttonlatin">abc</string>
+    <string name="buttonreset">Jêbibe</string>
+    <string name="derbar">Derbar</string>
+    <string name="buttonhere">Here!</string>
+    <string name="buttonarAlph">Er.</string>
+    <string name="Lêbigere">Lêbigere</string>
+    <string name="legerrinenbere">Lêgerrînên Berê</string>
+       <string name="herekategoriye">Here Kategoriyê</string>
+          <string name="herekategoriyemesaj">Gelo, bi rastî tu dixwazî herî ser kategoriya \'%s\'?\n Dibe ku ew hinekî dem bigire</string>
+    <!-- The hint text that appears in the search box. -->
+    <string name="search_hint">Search the dictionary</string>
+    <string name="helpbody">Bona lêgerîna peyvan li qutiya lêgerrînê ya peyvan, peyva mebestkirî binivîsinin û ji pêşniyarên 
+          ji lîsteya dadileqe peyvan hilbijêrin. Bi pişkoja \"Here!\" hûn dikarin herine ser sernava bi nivîskê re rasterast eynî. Bona lêgerrîna peyvên nêzik ên nivîska mebestkirî li pişkoja bigere 
+				bitikînin.</string>
+    <string name="whatsnew">Çi hat Nûkirin</string>
+    <string name="loading">Peyv têne bar kirin &#8230;</string>
+    <string name="loaded"> peyv lê hat(in) bar kirin. Bo şixulîna hin taybetiyên ferhengê,\n gerek ew ji nû ve bê dest pê kirin.</string>
+    <string name="processingwords">Li peyvan digere&#8230;</string>
+    <string name="temam">Temam</string>
+    <string name="betal">Betal</string>
+    <string name="resultsfound">%1$d encam hat(in) dîtin.</string>
+    <string name="resultsnotfound">Tu encam bo \'%1$s\' nehatin dîtin.</string>
+        <string name="addedtofav">Peyva \'%1$s\' li ser favoriyan hat zêde kirin.</string>
+           <string name="notaddedtofav">Peyva \'%1$s\' nekarî li ser favoriyan bê zêde kirin.</string>
+                     <string name="favwordexists">Peyva \'%1$s\' jixwe ji berê de di nav favoriyan de heye.</string>
+    <string name="resultinstant">peyveka rasthatî</string>
+    <string name="langchange">Ziman hat guherîn:</string>
+    <string name="DerbarBody1">Di ferhengê de %1$s sernav hene. Bona rûdanên nepayî yên li bernameyê hûn dikarin ji min re ji navnîşana </string>
+    <string name="DerbarBody2"> re e-nameyê bişînin. Agahiyên zêdetir hûn dikarin li jêr bibînin. </string>
+    <string name="Langku">Kurdî</string>
+    <string name="Langen">Înglîzî</string>
+    <string name="Langde">Almanî</string>
+    <string name="Langtr">Tirkî</string>
+    <string name="Langfa">Farsî</string>
+    <string name="AppRateString">Eger hûn ji bikaranîna %1$sê memnûn in, ji kerema xwe re binirxînin. Spas bo alîkariya we</string>
+    <string name="Remind">Paşê bi bîr bîne!</string>
+    <string name="Thanks">Na, Spas</string>
+    <string name="Rate">%1$sê binirxîne</string>
+
+    <!-- The menu entry that invokes search. -->
+    <string name="menu_search">Search</string>
+    <string name="help">Alîkarî</string>
+    <string name="ziman">Zimanguhertin</string>
+    <string name="Useful">Ferhengeka Kurdî ya faydedar. </string>
+      <string name="peyvebisine">Vê gotinê di Wikiferhengê de bibîne: </string>
+       <string name="nowordSelected">Ji kerema xwe re li peyveke bigerrin û dû re bişînin. </string>
+      
+    <string name="select">Hilbijêre</string>
+    <string name="parvekirin">Bişîne</string>
+    <string name="liwikiferheng"> Wîkîferheng</string>
+  
+
+    <string name="na">Na</string>
+    <string name="Wate">Wate</string>
+    <string name="Bideber">Bide ber</string>
+    <string name="Binihere">Binihêre</string>
+    <string name="Dijwate">Dijwate</string>
+    <string name="Hevwate">Hevwate</string>
+    <string name="Tekildar">Têkildar</string>
+    <string name="Bibine">Bibîne</string>
+    <string name="bialfabeyendin">Bi alfabeyên din</string>
+    <string name="Ji">Ji</string>
+    <string name="Je">Jê</string>
+    <string name="bikaranin">Bikaranîn</string>
+    <string name="herwiha">Herwiha</string>
+    <string name="tewandin">Tewandin</string>
+    <string name="bizaravayendin">Bi zaravayên kurdî</string>
+    <string name="werger">Werger</string>
+    <string name="header">sernav</string>
+    <string name="jiwejeye">Ji Wêjeyê</string>
+    <string name="derbaraminheader">Di derbara Programçêker de</string>
+    <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
+        Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
+        Heta niha 4 wergerên wî, ji Almanî; Veguherîn(Die Verwandlung), Koloniya Tawanê(In der Strafkolonie) û Keleh(Das Schloß) ya Franz Kafka,  û Li Çiyayên Kurdistanê - Di Bin Nîveheyvê de(Briefe über die Zustände und Begebenheiten in der
+Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+        Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;\n\n</string>
+    <string name="Version46">Version 4.6 (10/05/2023) </string>
+    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    * Navrûyê Ferhengê û rengên piş hatin guhertin
+    # Nasandina dengê(Nivîsandina Dengî) lê hat zêdekirin</string>
+
+
+    <string name="Version45">Version 4.5 (10/10/2019) </string>
+          <string name="Version45Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 500 000\'an peyv hene.\n   
+       	   * Li çendanî û çawaniya peyv û biwêjên ferhengê gelek çêtirkirin hatin kirin.\n
+       	   * Li navrûyên ferhengê hin baştirkirin hatin kirin
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~130 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.</string><string name="Version42">Version 4.3 (16/07/2018) </string>
+          <string name="Version42Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 475 000\'an peyv hene.\n   
+       	   * Li çendanî û çawaniya peyv û biwêjên ferhengê gelek çêtirkirin hatin kirin.\n
+       	   * Taybetiya gerîna bi tilîxuşandinê hat zêde kirin. Êdî bi xuşandina tiliyan a li rast û çepê meriv dikare di nav lîsteyan de bigere. 
+       	   Ew gerîna hêsan herwiha bi bûtona jî bi pêş de û paş de dikare bê kirin.\n
+       	   * Taybetiya favorîkirinê hat lê zêdekirin. Êdî hûn dikarin peyv û biwêjan fav bikin û paşê lê binihêrin.  \n 
+       	   * Bi hin algorîtmayan mezinahiya ferhengê hat kêm kirin û li hember zêdebûna naverokê mezinahiya app\'ê daket 115 MB\'an.\n\n
+           
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~115 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.</string>
+      
+
+    <!-- Shown above search results when we receive a search request. -->
+    <plurals name="search_results">
+        <item quantity="one">%1$d result for \"%2$s\": </item>
+        <item quantity="other">%1$d results for \"%2$s\": </item>
+    </plurals>
+
+    <!-- Search failure message. -->
+    <string name="no_results">No results found for \"%s\"</string>
+
+</resources>

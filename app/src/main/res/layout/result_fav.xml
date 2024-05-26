@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+         android:id="@+id/layoutRow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+    android:background="?customAndroidlistlistViewBackColor4Attribute"
+        android:drawSelectorOnTop="true"
+        android:padding="2dp">
+    <TextView
+            android:id="@+id/word"
+            style="@android:style/TextAppearance.Large"
+              android:layout_height="fill_parent"
+
+        android:layout_width="fill_parent"
+        android:drawSelectorOnTop="true"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:layout_marginLeft="5dp"
+        />
+
+
+ <ImageButton
+            android:id="@+id/imgFav"
+            android:layout_width="50dp"
+            android:layout_height="50dip"
+            android:src="@drawable/clear"
+
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/description"
+            android:alpha="0.6"
+             />
+    
+</LinearLayout>

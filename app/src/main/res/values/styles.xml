@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="background">
+        <item name="android:background">@drawable/btn_blue</item>
+    </style>
+
+    <style name="ButtonText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="Buttonkey">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">fill</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textSize">22dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="Buttonhere">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="Buttonletter">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="Buttonarabic">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+    <style name="MyTabs">
+        <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
+        <item name="android:background">?customAndroidViewAttributeColor</item>
+
+    </style>
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+
+
+
+    </style>
+    <style name="MyCustomTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorCustomPrimary</item>
+        <item name="colorPrimaryDark">@color/colorCustomPrimaryDark</item>
+        <item name="colorAccent">@color/colorCustomAccent</item>
+        <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
+        <item name="android:background">?customAndroidlistlistTabBackColorAttribute</item>
+
+
+        <item name="android:popupBackground">#272727</item>
+        <item name="customAndroidViewAttributeColor">#2F4F6C</item>
+        <item name="customAndroidBackAttributeColor">@drawable/btn_blue</item>
+        <item name="customAndroidViewAttributeDarkColor">#061043</item>
+        <item name="customAndroidViewTextColorAttribute">#323232</item>
+        <item name="customAndroidExpBackColorAttribute">#2C3842</item>
+        <item name="customAndroidExpTextViewTextColorAttribute">#e6e6e6</item>
+        <item name="customAndroidTextColorGroupAttribute">#E3D3D3</item>
+        <item name="customAndroidlistExpBackColorAttribute">#4D76A1</item>
+        <item name="customAndroidlistExpTextColorAttribute">#D1C9C9</item>
+
+        <item name="customAndroidlistlistViewBackColor1Attribute">#547188</item>
+        <item name="customAndroidlistlistViewBackColor2Attribute">#264055</item>
+        <item name="customAndroidlistlistViewBackColor3Attribute">#264055</item>
+        <item name="customAndroidlistlistViewBackColor4Attribute">#384751</item>
+        <item name="customAndroidlistlistTabBackColorAttribute">#132640</item>
+        <item name="customAndroidButtonDarkBackColorAttribute">#061043</item>
+
+        <item name="customAndroidDrawableAttribute">#2F6699</item>
+        <item name="customAndroidLinkColorAttribute">#1E275A</item>
+
+        <item name="customAndroidCheckBoxForegroundColorAttribute">#1090CB</item>
+        <item name="customAndroidDrawableColorAttribute">#1090CB</item>
+        <item name="customAndroidTextDarkColorAttribute">@color/colorCustomPrimaryDark</item>
+    </style>
+
+    <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#ffffff</item>
+    </style>
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">#6ffff3ff</item>
+        <item name="colorPrimaryDark">#6ffff3ff</item>
+        <item name="colorAccent">#B9CBD9</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
+        <!-- Customize light strtheme attributes here -->
+
+        <item name="customAndroidBackAttributeColor">@drawable/btn_white</item>
+        <item name="customAndroidViewAttributeColor">#11fff3ff</item>
+        <item name="customAndroidViewAttributeDarkColor">#6efff3ff</item>
+
+        <item name="customAndroidViewTextColorAttribute">@color/colorPrimaryDark</item>
+        <item name="customAndroidExpBackColorAttribute">#6ffff3ff</item>
+        <item name="customAndroidExpTextViewTextColorAttribute">#000011</item>
+        <item name="customAndroidTextColorGroupAttribute">#00000f</item>
+        <item name="customAndroidlistExpBackColorAttribute">#1ffff3ff</item>
+        <item name="customAndroidlistExpTextColorAttribute">#000011</item>
+
+        <item name="customAndroidlistlistViewBackColor1Attribute">#E5EBF0</item>
+        <item name="customAndroidlistlistViewBackColor2Attribute">#DFE6ED</item>
+        <item name="customAndroidlistlistViewBackColor3Attribute">#E6EDF2</item>
+        <item name="customAndroidlistlistViewBackColor4Attribute">#E6EDF2</item>
+        <item name="customAndroidlistlistTabBackColorAttribute">#DAE3EA</item>
+
+        <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_white</item>
+        <item name="customAndroidDrawableAttribute">#B9CBD9</item>
+        <item name="customAndroidLinkColorAttribute">#090000</item>
+        <item name="customAndroidBorderColorAttribute">#84BBE4</item>
+
+        <item name="customAndroidTextHintColorAttribute">#090000</item>
+
+        <item name="customAndroidDrawableColorAttribute">#0F8113</item>
+        <item name="customAndroidCheckBoxForegroundColorAttribute">#0F8113</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="ThemeOverlay.AppCompat.Dark">
+        <!-- Customize dark strtheme attributes here -->
+        <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
+        <item name="android:background">?customAndroidlistlistTabBackColorAttribute</item>
+        <item name="customAndroidViewAttributeColor">#011111</item>
+        <item name="customAndroidViewAttributeDarkColor">#ffffff</item>
+
+
+
+        <item name="customAndroidBackAttributeColor">@drawable/btn_black</item>
+        <item name="customAndroidDrawableAttribute">#5E809B</item>
+
+        <item name="customAndroidLinkColorAttribute">#298b28</item>
+
+        <item name="customAndroidCheckBoxForegroundColorAttribute">#0F8113</item>
+
+    </style>
+    <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="android:background">#5E809B</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+</resources>

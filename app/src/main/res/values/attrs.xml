@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<declare-styleable name="TextProgressBar">
+    <attr name="text" format="string" />
+    <attr name="textColor" format="color" />
+    <attr name="textSize" format="dimension"></attr>
+    <attr name="customAndroidBackAttributeColor" format="color" />
+    <attr name="customAndroidViewAttributeColor" format="color" />
+    <attr name="customAndroidViewAttributeDarkColor" format="color" />
+    <attr name="customAndroidViewTextColorAttribute" format="color" />
+    <attr name="customAndroidExpBackColorAttribute" format="color" />
+    <attr name="customAndroidExpTextViewTextColorAttribute" format="color" />
+    <attr name="customAndroidTextColorGroupAttribute" format="color" />
+    <attr name="customAndroidlistExpBackColorAttribute" format="color" />
+    <attr name="customAndroidlistExpTextColorAttribute" format="color" />
+    <attr name="customAndroidlistlistViewBackColor1Attribute" format="color" />
+    <attr name="customAndroidlistlistViewBackColor2Attribute" format="color" />
+    <attr name="customAndroidlistlistViewBackColor3Attribute" format="color" />
+    <attr name="customAndroidlistlistViewBackColor4Attribute" format="color" />
+    <attr name="customAndroidTextDarkColorAttribute" format="color" />
+
+
+    <attr name="customAndroidlistlistTabBackColorAttribute" format="color" />
+    <attr name="customAndroidButtonDarkBackColorAttribute" format="color" />
+
+    <attr name="customAndroidDrawableAttribute" format="color" />
+    <attr name="customAndroidLinkColorAttribute" format="color" />
+    <attr name="customAndroidBorderColorAttribute" format="color" />
+    <attr name="customAndroidCheckBoxForegroundColorAttribute" format="color" />
+
+    <attr name="customAndroidTextHintColorAttribute" format="color" />
+    <attr name="customAndroidDrawableColorAttribute" format="color" />
+
+</declare-styleable>
+
+
+</resources>
+
+

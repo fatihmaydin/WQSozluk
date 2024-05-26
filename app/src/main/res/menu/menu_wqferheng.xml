@@ -1,0 +1,46 @@
+<menu  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/derbar"      
+       android:title="@string/derbar"        />
+    <item
+        android:id="@+id/action_eyar"
+        android:orderInCategory="100"
+
+        android:title="Eyar"/>
+
+      <item android:id="@+id/ziman"      
+       android:title="@string/ziman" />
+
+     <item
+        android:id="@+id/action_fav"
+        android:orderInCategory="100"
+
+
+        android:icon="@drawable/favoruite"
+        android:title="Fav"/>
+    <item
+        android:id="@+id/action_Parveke"
+        android:orderInCategory="100"    
+        android:icon="@drawable/share"
+        android:title="Peyvê Bişîne"/>
+      
+        <item
+        android:id="@+id/action_erebic"
+        android:orderInCategory="100"       
+        android:icon="@drawable/kurdiee"
+        android:title="Elifba"/>
+        
+       <item
+        android:id="@+id/action_erebickeyboard"
+        android:orderInCategory="100"      
+        android:icon="@drawable/keyboarde"
+        android:title="keyboard"/>
+      
+        
+          <item
+        android:id="@+id/action_list"
+        android:orderInCategory="100"    
+        android:icon="@drawable/llist"
+        android:title="Lîsteya Zimanan"/>
+
+    
+</menu>

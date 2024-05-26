@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal"
+    android:background="#7F9DB4"
+     >
+
+    <Button
+        android:id="@+id/buttonarabic"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="1dp"
+        android:layout_weight="0.92"
+        android:background="?customAndroidBackAttributeColor"
+
+
+        android:onClick="showPopup"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttonarabic"
+        android:text="@string/buttonarabic" />
+
+    <Button
+        android:id="@+id/buttonc"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:onClick="showPopup"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttonc"
+        android:text="@string/buttonc" />
+
+    <Button
+        android:id="@+id/buttone"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:onClick="showPopup"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttone"
+        android:text="@string/buttone" />
+
+    <Button
+        android:id="@+id/buttoni"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:onClick="showPopup"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttoni"
+        android:text="@string/buttoni" />
+
+    <Button
+        android:id="@+id/buttons"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttons"
+        android:text="@string/buttons" />
+
+    <Button
+        android:id="@+id/buttonu"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttonu"
+        android:text="@string/buttonu" />
+
+    <Button
+        android:id="@+id/buttonii"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttonii"
+        android:text="@string/buttonii" />
+
+    <Button
+        android:id="@+id/buttong"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttong"
+        android:text="@string/buttong" />
+
+    <Button
+        android:id="@+id/buttonue"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttonue"
+        android:text="@string/buttonue" />
+
+    <Button
+        android:id="@+id/buttonoe"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="1dp"
+        android:layout_weight="1"
+        android:background="?customAndroidBackAttributeColor"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttonoe"
+        android:text="@string/buttonoe" />
+
+    <Button
+        android:id="@+id/buttonarabickeyboard"
+        style="@style/Buttonletter"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+
+        android:layout_marginRight="1dp"
+        android:layout_weight="0.92"
+        android:background="?customAndroidBackAttributeColor"
+        android:soundEffectsEnabled="true"
+        android:tag="@string/buttonarAlph"
+        android:text="@string/buttonarAlph" />
+
+</LinearLayout>

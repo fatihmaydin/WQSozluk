@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical"
+
+    android:background="?customAndroidlistlistViewBackColor4Attribute"
+
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@xml/border"
+        android:layout_marginBottom="13dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textKeys"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+
+            android:background="?customAndroidlistlistViewBackColor4Attribute"
+
+            android:text="Show Keys: " />
+
+        <CheckBox
+            android:id="@+id/chkKeys"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:buttonTint="?customAndroidCheckBoxForegroundColorAttribute"
+
+            android:layout_gravity="right"
+            android:tag="SpecialKeys"
+            android:layout_weight="30" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@xml/border"
+        android:gravity="center"
+           android:layout_marginBottom="13dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textShowLangTrans"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?customAndroidlistlistViewBackColor4Attribute"
+
+
+            android:layout_weight="3"
+            android:text="Lang. Translation" />
+
+        <CheckBox
+            android:id="@+id/chkLangTr"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:buttonTint="?customAndroidCheckBoxForegroundColorAttribute"
+
+            android:layout_weight="30"
+
+            android:tag="LangTranslation"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@xml/border"
+        android:gravity="center"
+        android:layout_marginBottom="13dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textHeaderTr"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+              android:layout_weight="3"
+
+            android:background="?customAndroidlistlistViewBackColor4Attribute"
+
+            android:text="Header Trans" />
+
+        <CheckBox
+            android:id="@+id/chkHeaderTr"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:background="?customAndroidlistlistViewBackColor2Attribute"
+            android:tag="HeaderTranslation"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:buttonTint="?customAndroidCheckBoxForegroundColorAttribute"
+
+            android:layout_weight="30" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearTheme"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@xml/border"
+        android:gravity="center"
+        android:layout_marginBottom="13dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textTheme"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:background="?customAndroidlistlistViewBackColor4Attribute"
+
+            android:text="Theme" />
+
+        <Spinner
+            android:id="@+id/spinnerTheme"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+
+            android:textColor="?customAndroidExpTextViewTextColorAttribute"
+            android:background="?customAndroidlistlistViewBackColor2Attribute"
+
+            android:layout_weight="60" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="13dp" >
+
+        <ImageView
+            android:id="@+id/buttonOK"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentRight="true"
+            android:background="?customAndroidBackAttributeColor"
+            android:onClick="onClick"
+            android:src="@drawable/okcheck"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

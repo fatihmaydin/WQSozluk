@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- The name of the application. -->
+    <string name="app_name">WQFerheng</string>
+    <string name="headerEndChar">¿</string>
+    <string name="newlinebreak">¡</string>
+    <!-- The label for use as a searchable item -->
+    <string name="search_label">Dictionary</string>
+    <!-- <string name="button2">Find</string> -->
+    <string name="description"></string>
+    <string name="menu_settings">Find</string>
+    <string name="buttonc">ç</string>
+    <string name="buttoni">î</string>
+    <string name="buttons">ş</string>
+    <string name="buttonu">û</string>
+    <string name="buttone">ê</string>
+    <string name="buttonii">ı</string>
+    <string name="buttonue">ü</string>
+    <string name="buttonoe">ö</string>
+    <string name="buttong">ğ</string>
+    <string name="buttonarabic">ابت</string>
+    <string name="buttonlatin">abc</string>
+    <string name="buttonreset">Clear</string>
+    <string name="derbar">About</string>
+    <string name="buttonhere">Go!</string>
+    <string name="buttonarAlph">Ar.</string>
+    <string name="Lêbigere">Search</string>
+    <string name="legerrinenbere">History</string>
+    <!-- The hint text that appears in the search box. -->
+    <string name="search_hint">Search the dictionary</string>
+    <string name="helpbody">Please write searching text in Search box and select words or phrases from tipped list. 
+        With \"Go!\" button you can go to exact match of written text. For searching for including written text please tip on \"Search\" button.</string>
+    <string name="whatsnew">Çi hat Nûkirin / What is New</string>
+    <string name="loading">Words are being loaded &#8230;</string>
+    <string name="loaded"> Words are loaded</string>
+    <string name="processingwords">Searching for words&#8230;</string>
+    <string name="temam">OK</string>
+    <string name="betal">Cancel</string>
+    <string name="resultsfound">%1$d result(s) has(ve) found</string>
+    <string name="resultsnotfound">No result found for \'%1$s\'</string>
+    <string name="resultinstant">Random word</string>
+    
+         <string name="addedtofav">The word \'%1$s\' has been added to favorite list.</string>
+           <string name="notaddedtofav">The word \'%1$s\' could not be added to favorite list.</string>
+                     <string name="favwordexists">The word \'%1$s\' is already in favorite list.</string>
+    
+    <string name="langchange">The app language changed to:</string>
+    <string name="DerbarBody1">There is %1$s entry in this dictionary. For unexpected errors on this app you can contact
+			with me at </string>
+    <string name="DerbarBody2"></string>
+    <string name="Langku">Kurdish</string>
+    <string name="Langen">English</string>
+    <string name="Langde">German</string>
+    <string name="Langtr">Turkish</string>
+     <string name="Langfa">Persian</string>
+    <string name="AppRateString">If you enjoy using %1$s, please take a moment to rate it. Thanks for your support!</string>
+    <string name="Remind">Remind later!</string>
+    <string name="Thanks">No, Thanks</string>
+    <string name="Rate">Rate %1$s</string>
+       <string name="herekategoriye">To Category</string>
+          <string name="herekategoriyemesaj">Do you really want to navigate \'%s\' category?\n It can take some time.</string>
+    <!-- The menu entry that invokes search. -->
+    <string name="menu_search">Search</string>
+    <string name="help">Help</string>
+    <string name="ziman">Language Change</string>
+   
+    <string name="Useful">Useful and rich Kurdish Dictionary for Android</string>
+      <string name="peyvebisine">Vê gotinê di Wikiferhengê de bibîne: </string>
+       <string name="nowordSelected">Please first search for a word, the try to send </string>
+    <string name="select">Hilbijêre</string>
+    <string name="parvekirin">Share</string>
+    <string name="liwikiferheng"> Wîkîferheng</string>
+   
+ <string name="na">Na</string>
+    <string name="Wate">Definition</string>
+    <string name="Bideber">Compare</string>
+    <string name="Binihere">Look Up</string>
+    <string name="Dijwate">Antonym</string>
+    <string name="Hevwate">Synonym</string>
+    <string name="Tekildar">Closed</string>
+    <string name="Bibine">See Also</string>
+    <string name="bialfabeyendin">With other Alpabets</string>
+    <string name="bizaravayendin">With Other Dialects</string>
+    <string name="Ji">Etymology</string>
+    <string name="Je">Derived</string>
+    <string name="bikaranin">Usage</string>
+    <string name="herwiha">Also</string>
+    <string name="werger">Translations</string>
+    <string name="header">entries</string>
+    <string name="jiwejeye">From Literature</string>
+    <string name="tewandin">Conjugation</string>
+     <string name="derbaraminheader">Di derbara Programçêker de(About Developer)</string>
+    <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
+        Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
+        Heta niha 4 wergerên wî, ji Almanî; Veguherîn(Die Verwandlung), Koloniya Tawanê(In der Strafkolonie) û Keleh(Das Schloß) ya Franz Kafka,  û Li Çiyayên Kurdistanê - Di Bin Nîveheyvê de(Briefe über die Zustände und Begebenheiten in der
+Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+        Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;;\n\n
+        
+        This App, based on Wîkîferheng resources and thanks to its contributors, developed by Fatîh Aydin. Except software developing, with contributions to Wîkîferheng, Fatîh Aydin is also making contributions with translations and novel writing,
+        to the Kurdish. Since now, a translation, from German Veguherîn (Die Verwandlung, The Methamorphosis) and Koloniya Tawanê(In der Strafkolonie, In Penal Colony), a novel, Sefernameya Hezar û yek Fersengî (Travel Book of one Thousand and one Parasang),
+        of him published by Weşanên Lîs publications. He is still continuing his contributions by working on Kafka\'s works. Except WQFerheng, He also developed another App with name Nûçexane, which is useful for following Kurdish news.
+        You can visit his blog and his adresses below;\n\n
+        
+        </string>
+    <string name="Version46">Version 4.6 (10/05/2023) </string>
+    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    * Navrûyê Ferhengê û rengên piş hatin guhertin
+    # Nasandina dengê(Nivîsandina Dengî) hatzêdekirin</string>
+
+    <string name="Version45">Version 4.5 (10/10/2019) </string>
+    <string name="Version45Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 500 000\'an peyv hene.\n   
+                  	   * Li çendanî û çawaniya peyv û biwêjên ferhengê gelek çêtirkirin hatin kirin.\n
+                  	     
+
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~130 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
+           
+           * Database was synchronized and now there are 475 000 articles in the WQFerheng.\n
+          
+    
+          * Caution: With increasing count of words, also capacity of App on disk(~130 MB) is increasing, because of that please check it if there is enough space on your disk.\n\n
+           </string>  
+     <string name="Version42">Version 4.2 (26/11/2017) </string>
+    <string name="Version42Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 475 000\'an peyv hene.\n   
+                  	   * Li çendanî û çawaniya peyv û biwêjên ferhengê gelek çêtirkirin hatin kirin.\n
+                  	      * Taybetiya gerîna bi tilîxuşandinê hat zêde kirin. Êdî bi xuşandina tiliyan a li rast û çepê meriv dikare di nav lîsteyan de bigere. 
+       	   Ew gerîna hêsan herwiha bi bûtona jî bi pêş de û paş de dikare bê kirin.\n
+       	   * Taybetiya favorîkirinê hat lê zêdekirin. Êdî hûn dikarin peyv û biwêjan fav bikin û paşê lê binihêrin.  \n 
+           * Bi hin algorîtmayan mezinahiya ferhengê hat kêm kirin û li hember zêdebûna naverokê mezinahiya app\'ê daket 115 MB\'an.\n\n
+           
+           * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~115 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
+           
+           * Database was synchronized and now there are 475 000 articles in the WQFerheng.\n
+           * With swiping with finger you can go through searched words. This can be done also with buttons on the left and right of screen.\n
+           * Words and articles can be taken to favourite list.
+           * With a few tricks, even though number of articles were increased, size of dictionary has been reduced to 115 MB
+                  
+          * Caution: With increasing count of words, also capacity of App on disk(~115 MB) is increasing, because of that please check it if there is enough space on your disk.\n\n
+           </string>   
+         
+
+    
+  
+         
+
+    <!-- Shown above search results when we receive a search request. -->
+    <plurals name="search_results">
+        <item quantity="one">%1$d result for \"%2$s\": </item>
+        <item quantity="other">%1$d results for \"%2$s\": </item>
+    </plurals>
+
+    <!-- Search failure message. -->
+    <string name="no_results">No results found for \"%s\"</string>
+
+</resources>
