@@ -18,6 +18,7 @@
     <attr name="customAndroidlistlistViewBackColor3Attribute" format="color" />
     <attr name="customAndroidlistlistViewBackColor4Attribute" format="color" />
     <attr name="customAndroidTextDarkColorAttribute" format="color" />
+    <attr name="customAndroidBackButtonColorAttribute" format="color" />
 
 
     <attr name="customAndroidlistlistTabBackColorAttribute" format="color" />

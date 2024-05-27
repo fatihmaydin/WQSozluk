@@ -205,7 +205,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		encoderList=GetDecodeList();
 		headerEndChar = getString(R.string.headerEndChar);
 		newlinebreak = getString(R.string.newlinebreak);
-		//AdSettings.addTestDevice("328404cebf50ec1fdb05795c0007a8a7");
+
 
 		if(currentVersionNumber>20)
 		{
@@ -590,7 +590,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		else if(strtheme.equalsIgnoreCase("Dark"))
 		{
 			WQFerhengActivity.theme=(R.style.AppTheme_Dark);
-			WQFerhengActivity.linkColor="#4E275A";
+			WQFerhengActivity.linkColor="#0F8113";
 		}
 		else if(strtheme.equalsIgnoreCase("Light"))
 		{

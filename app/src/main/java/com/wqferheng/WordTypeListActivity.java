@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -40,6 +41,8 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import kotlin.math.UMathKt;
 
 public class WordTypeListActivity extends TabActivity {
 	ListView listwordType;
@@ -52,6 +55,8 @@ public class WordTypeListActivity extends TabActivity {
 	List<String> ListCure;
 	List<String> letterList;
 	String zimantemp = "Kurdî";
+	ImageButton buttonHome;
+	ImageButton buttonBack;
 
 	@SuppressLint({ "NewApi", "NewApi", "NewApi" })
 	@Override
@@ -72,7 +77,14 @@ public class WordTypeListActivity extends TabActivity {
 		final String ziman = zimantemp;
 		listwordType = (ListView) findViewById(R.id.listwordType);
 		listalfabe = (ListView) findViewById(R.id.listalfabe);
+		buttonBack = (ImageButton) findViewById(R.id.buttonBack);
 
+		buttonBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				GoBack();
+			}
+		});
 		String d = ziman;
 		if (ziman.startsWith("Î"))
 			d = ziman.replace("Î", "î").trim();
@@ -90,21 +102,21 @@ public class WordTypeListActivity extends TabActivity {
 
 				String def=WQFerhengActivity.Decode(w.getwate(),wordmapcure.peyv,wordmapcure.peyv);
 
-			String[] cureArray = def.split(java.util.regex.Pattern.quote("|"));
-			ListCure = new ArrayList<String>();
-		
-			String hedaer = getString(R.string.header);
-			for (int x = 0; x < cureArray.length; x++) {
-				String item = cureArray[x].toLowerCase();
-				if (item.contains(":"))
-					item += " " + hedaer;
-				ListCure.add(item);
-			}
+				String[] cureArray = def.split(java.util.regex.Pattern.quote("|"));
+				ListCure = new ArrayList<String>();
 
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-					R.layout.zimanrow, ListCure);
-		
-			listwordType.setAdapter(adapter);
+				String hedaer = getString(R.string.header);
+				for (int x = 0; x < cureArray.length; x++) {
+					String item = cureArray[x].toLowerCase();
+					if (item.contains(":"))
+						item += " " + hedaer;
+					ListCure.add(item);
+				}
+
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+						R.layout.zimanrow, ListCure);
+
+				listwordType.setAdapter(adapter);
 			}
 		}
 		listwordType.setOnItemClickListener(new OnItemClickListener() {
@@ -262,6 +274,10 @@ public class WordTypeListActivity extends TabActivity {
 
 		tabHost.setCurrentTab(0);
 
+	}
+
+	private void GoBack() {
+		finsihActivity();
 	}
 
 	@SuppressLint("NewApi")
@@ -451,15 +467,15 @@ public class WordTypeListActivity extends TabActivity {
 
 	private void showBigDataWarningDialog(long hejmar, final Intent intent) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this
-		,  R.style.MyDialogTheme);
+		);
 		try {
 
 			TextView title = new TextView(this);
-			title.setBackgroundColor(Color.parseColor("#264055"));
-			title.setTextColor(Color.parseColor("#e6e6e6"));
+			//title.setBackgroundColor(Color.parseColor("#264055"));
+			//title.setTextColor(Color.parseColor("#e6e6e6"));
 			final TextView textViewmessage = new TextView(this);
-			textViewmessage.setBackgroundColor(Color.parseColor("#4D76A1"));
-			textViewmessage.setTextColor(Color.parseColor("#e6e6e6"));
+			//textViewmessage.setBackgroundColor(Color.parseColor("#4D76A1"));
+			//textViewmessage.setTextColor(Color.parseColor("#e6e6e6"));
 			textViewmessage.setTextSize(17);
 			title.setPadding(10, 10, 10, 10);
 			title.setGravity(Gravity.CENTER);
