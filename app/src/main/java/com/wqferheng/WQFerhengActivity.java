@@ -478,7 +478,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 		String pref=WQFerhengConfig. loadUrlPref(this.getBaseContext(),
 				"SpecialKeys");
-		makeText("SpecialKeys:"+pref);
+		//makeText("SpecialKeys:"+pref);
 		if(pref.equalsIgnoreCase("false")) {
 			ShowSpecialKeys = false;
 			ShowHideSpecialKeys(ShowSpecialKeys);
@@ -487,7 +487,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					"HeaderTranslation");
 		if(pref.equalsIgnoreCase("false"))
 			ShowHeaderTranslation=false;
-		makeText("ShowHeaderTranslation:"+pref);
+		//makeText("ShowHeaderTranslation:"+pref);
 		pref=WQFerhengConfig. loadUrlPref(this.getBaseContext(),
 				"LangTranslation");
 		if(pref.equalsIgnoreCase("false"))
@@ -505,8 +505,15 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			Log.e(TAG, "Could not get themeResId for activity", e);
 			themeResId = -1;
 		}
+		test();
 		//AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 	}
+
+	private void test()
+	{
+		
+	}
+
 	private void ShowHideSpecialKeys(boolean visible)
 	{
 		if(!visible)
@@ -523,12 +530,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 				int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
 				if (heightDiff > 100) { // 99% of the time the height diff will be due to a keyboard.
-					//Toast.makeText(getApplicationContext(), "Gotcha!!! softKeyboardup", 0).show();
-					if(!isOpened)
-					//autoCmopletetextView.setDropDownHeight(height/4);
-					if (isOpened == false) {
-						//Do two things, make the view top visible and the editText smaller
-					}
+
 					isOpened = true;
 				} else if (isOpened == true) {
 
@@ -541,7 +543,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	{
 		Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		//makeText(languageToLoad);
 
 		if (languageToLoad.equalsIgnoreCase("ku")) {
 			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
@@ -557,7 +558,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		}
 		else if (languageToLoad.equals( "tr")) {
 			Locale locale = new Locale("tr", "TR");
-			//makeText(locale.toString());
 			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,  "tr-TR");
 
 		}
@@ -580,7 +580,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		{
 			WQFerhengActivity.theme=R.style.MyCustomTheme;
 
-			WQFerhengActivity.linkColor="#4E275A";
+			WQFerhengActivity.linkColor="#950714";
 		}
 		else if (strtheme.equalsIgnoreCase("Appold"))
 		{
@@ -590,11 +590,16 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		else if(strtheme.equalsIgnoreCase("Dark"))
 		{
 			WQFerhengActivity.theme=(R.style.AppTheme_Dark);
-			WQFerhengActivity.linkColor="#0F8113";
+			WQFerhengActivity.linkColor="#A36A00";
 		}
 		else if(strtheme.equalsIgnoreCase("Light"))
 		{
 			WQFerhengActivity.theme=R.style.AppTheme_Light;
+			WQFerhengActivity.linkColor="#2478B7";
+		}
+		else if(strtheme.equalsIgnoreCase("Classic"))
+		{
+			WQFerhengActivity.theme=R.style.AppTheme_Classic;
 			WQFerhengActivity.linkColor="#2478B7";
 		}
 		else
@@ -608,16 +613,15 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		WQFerhengActivity.strtheme =WQFerhengConfig. loadUrlPref(this.getBaseContext(),
 				"Theme");
 
-		//makeText("Theme"+ WQFerhengActivity.strtheme);
+
 		SelectTheme();
 		setTheme(WQFerhengActivity.theme);
 		if(sender.equalsIgnoreCase("Config"))
 			recreate() ;// Recreate the activity to apply the new strtheme
 		else
 		{
-			//makeText(linkColor);
 
-		}
+					}
 		//isDarkTheme = !isDarkTheme // Toggle the strtheme flag
         return true;
     }
@@ -716,7 +720,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			AdRequest adRequest = new AdRequest.Builder().build();
 			if(adRequest!=null&&mAdView!=null)
 			{
-				//makeText(mAdView.toString());
+
 				mAdView.loadAd(adRequest);
 				mAdView.setAdListener(new AdListener() {
 					@Override
@@ -731,7 +735,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		}
 		else
 		{
-			//makeText("aabd");
 			mAdView =(AdView) this.findViewById(R.id.adView);
 			mAdView.setVisibility(View.GONE);
 			final RelativeLayout rlayout =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
@@ -1203,7 +1206,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) 
 			{
-				makeText("Clicked");
 				raisetextChanged=false;
 				Uri data = Uri.withAppendedPath(uriDB, String.valueOf(id));
 				listviewresult.setVisibility(View.GONE);
@@ -2532,7 +2534,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			mapLanguages.put(name, neighbors);
 		}
 		String languageCOde=Locale.getDefault().getLanguage();
-		//makeText("Locale:"+languageCOde);
 		if (languageCOde.equalsIgnoreCase("ku"))
 		{
 			LocalisationIndex=1;
@@ -2658,7 +2659,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				//makeText("heigt:"+height);
 				if (mExpandableListView.getChildCount() > 0)
 				{
 					mExpandableListView.expandGroup(0);
@@ -2666,12 +2666,10 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					
 					if(heightofExpanablelistview>0&& adapter.getGroupCount()>1&& heightofExpanablelistview<height-130)
 					{
-						//makeText(heightofExpanablelistview+"");
 						for	(int i=1; i<adapter.getGroupCount();i++)
 						{
 							mExpandableListView.expandGroup(1);
 							heightofExpanablelistview+=  adapter.getGroupViewHeight(1);;
-							//makeText(heightofExpanablelistview+"");
 							if(heightofExpanablelistview>height-130)
 								break;
 						}
@@ -2933,7 +2931,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 						listviewresult.setAdapter(adapter);
 						WQFerhengActivity.listofWords=listofWords;
 						UpdateAnimatedButtonVisibilities(true);
-						//makeText("himmm");
 					}
 					listviewresult.requestFocus();
 				}
@@ -2993,11 +2990,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
 	}
 
-//	private String GetValue(Cursor cursor, String ColumnName) {
-//		int dIndex = cursor.getColumnIndexOrThrow(ColumnName);
-//		String def = cursor.getString(dIndex);
-//		return def;
-//	}
 
 	public String Reverse(String str, Boolean suppressIsArabic) {
 		if (suppressIsArabic) {
@@ -3226,7 +3218,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 				.getText().toString());
 		edit.commit();
 		// TODO Auto-generated method stub
-		// makeText(sb.toString());
 	}
 
 	private String GetSavedSearchHistory() {
@@ -3234,7 +3225,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 				Context.MODE_PRIVATE);
 		String sOld = sharedPref.getString("wqferheng_" + "SearchHistory", "");
 
-		// makeText(sOld.toString());
 		return sOld;
 	}
 
@@ -3437,7 +3427,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			for (int ix = 0; ix < listofFavwords.size(); ix++) {
 				Words w = listofFavwords.get(ix);
 				list.add(putData(w.peyv, ""));
-				//makeText(w.peyv);
 			}
 			SimpleAdapter adapter = new SimpleAdapter(this, list,
 					R.layout.result, columnsDB, to) {
@@ -3565,7 +3554,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		}
 
 		Toast.makeText(cont, res, Toast.LENGTH_SHORT).show();
-		//makeText(res);
 	}
 	private void ShareThisWord() 
 	{
@@ -3833,7 +3821,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		onSwipeListener=	new OnSwipeTouchListener() {
 			
 	        public boolean onSwipeTop() {
-	           // Toast.makeText(WQFerhengActivity.cont, "top", Toast.LENGTH_SHORT).show();
 	            return false;
 	        }
 	        public boolean onSwipeRight() 
@@ -3880,7 +3867,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 						return;
 					}
 					UpdateAnimatedButtonVisibilities(!IsButtonsVisible);
-					//makeText("gimmm");
 
 				}
 			}

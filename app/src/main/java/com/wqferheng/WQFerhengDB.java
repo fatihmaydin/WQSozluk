@@ -163,7 +163,7 @@ public class WQFerhengDB {
 			//Log.d("selectionArgs", selectionArgs[0].toString());
 			cursor= query(selection, selectionArgs, columns);
 			if(cursor!=null)
-			System.out.println("Cursor returned, now wrapping:"+ cursor.getCount());
+				System.out.println("Cursor returned, now wrapping:"+ cursor.getCount());
 			return new CurSorWrapperDefinition(cursor,
 					WQFerhengActivity.zimanquery
 						,

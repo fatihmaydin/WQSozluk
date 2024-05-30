@@ -18,30 +18,30 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="?customAndroidlistlistViewBackColor2Attribute"
+        android:background="?customAndroidBackAttributeColor0"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/definitionHedaer"
             style="@android:style/TextAppearance.Large"
             android:layout_width="wrap_content"
-            android:background="?customAndroidDrawableAttribute"
+            android:background="?customAndroidBackAttributeColor"
             android:layout_height="wrap_content" />
 
         <ExpandableListView
             android:id="@+id/expandableListViewdefinition"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="?customAndroidExpBackColorAttribute"
+            android:background="?customAndroidBackAttributeColor0"
 
-            android:scrollbars="none"></ExpandableListView>
+            android:scrollbars="none"/>
     </LinearLayout>
     
        <RelativeLayout
         android:id="@+id/relativeLayoutlistButtons"
         android:layout_width="fill_parent"
         android:layout_centerInParent="true"
-           android:alpha="0.6"
+           android:background="@android:color/transparent"
         android:layout_height="50dp"  >
 
            <ImageButton
@@ -49,7 +49,7 @@
                android:layout_width="60dp"
                android:layout_height="fill_parent"
                android:alpha="0.4"
-               android:background="?customAndroidBackAttributeColor"
+               android:background="?customAndroidBackAttributeColor2"
                android:contentDescription="@string/description"
                android:src="@drawable/fastbackward" />
 
@@ -59,7 +59,7 @@
                android:layout_height="fill_parent"
                android:layout_alignParentRight="true"
                android:alpha="0.4"
-               android:background="?customAndroidBackAttributeColor"
+               android:background="?customAndroidBackAttributeColor2"
                android:contentDescription="@string/description"
                android:src="@drawable/fastforward" />
     </RelativeLayout>
@@ -68,6 +68,7 @@
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:background="@android:color/transparent"
         android:layout_alignParentBottom="true">
 
         <ImageButton
@@ -75,12 +76,14 @@
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:alpha="0.7"
-            android:background="?customAndroidBackAttributeColor"
+            android:background="?customAndroidBackAttributeColor2"
             android:contentDescription="@string/description"
             android:src="@drawable/arrowback" />
+
         <LinearLayout android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
+            android:background="@android:color/transparent"
             android:layout_centerVertical="true"
             >
         <ImageButton
@@ -89,7 +92,7 @@
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:alpha="0.6"
-            android:background="?customAndroidBackAttributeColor"
+            android:background="?customAndroidBackAttributeColor2"
             android:contentDescription="@string/description"
             android:src="@drawable/favoruite" />
 
@@ -101,7 +104,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toLeftOf="@+id/imageButtonFav"
             android:alpha="0.99"
-            android:background="?customAndroidBackAttributeColor"
+            android:background="?customAndroidBackAttributeColor2"
             android:contentDescription="@string/description"
             android:src="@drawable/onweb" />
         </LinearLayout>
@@ -111,7 +114,7 @@
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:background="?customAndroidBackAttributeColor"
+            android:background="?customAndroidBackAttributeColor2"
             android:alpha="0.6"
             android:contentDescription="@string/description"
             android:src="@drawable/arrowforward" />

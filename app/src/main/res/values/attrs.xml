@@ -19,6 +19,7 @@
     <attr name="customAndroidlistlistViewBackColor4Attribute" format="color" />
     <attr name="customAndroidTextDarkColorAttribute" format="color" />
     <attr name="customAndroidBackButtonColorAttribute" format="color" />
+    <attr name="customAndroidClearTintColorAttribute" format="color" />
 
 
     <attr name="customAndroidlistlistTabBackColorAttribute" format="color" />
@@ -27,10 +28,16 @@
     <attr name="customAndroidDrawableAttribute" format="color" />
     <attr name="customAndroidLinkColorAttribute" format="color" />
     <attr name="customAndroidBorderColorAttribute" format="color" />
+    <attr name="customAndroidBackAttributeColor2" format="color" />
+    <attr name="customAndroidBackAttributeColor0" format="color" />
+
     <attr name="customAndroidCheckBoxForegroundColorAttribute" format="color" />
 
     <attr name="customAndroidTextHintColorAttribute" format="color" />
     <attr name="customAndroidDrawableColorAttribute" format="color" />
+    <attr name="customAndroidEditTextBackgroundColorAttribute" format="color" />
+    <attr name="customAndroidLinkTextColorAttribute" format="color" />
+
 
 </declare-styleable>
 

@@ -3,16 +3,16 @@
     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+
     android:orientation="vertical" >
 
     <ListView
         android:id="@+id/listziman"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/adView"
         android:layout_alignParentTop="true"
         android:background="?customAndroidlistExpBackColorAttribute"
-        android:dividerHeight="2.0sp"></ListView>
+        android:dividerHeight="2.0sp" />
 
 
     <com.google.android.gms.ads.AdView

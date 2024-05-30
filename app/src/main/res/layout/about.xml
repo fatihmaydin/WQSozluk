@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="5sp"
+        android:layout_marginTop="1sp"
         android:background="?customAndroidExpBackColorAttribute"
 
         android:scrollbars="vertical" />
@@ -19,21 +19,22 @@
     <RelativeLayout
         android:id="@+id/relativeLayout5"
         android:layout_width="fill_parent"
-        android:layout_height="50dp" 
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
           android:layout_alignParentBottom="true">
 
         <ImageButton
             android:id="@+id/imageButtonOK_about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:alpha="0.5"
             android:contentDescription="@string/description"
             android:src="@drawable/okcheck" />
 
         <ImageButton
             android:id="@+id/imageButtonShare_abo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:alpha="0.5"
             android:contentDescription="@string/description"

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="?customAndroidlistlistViewBackColor1Attribute"
     android:orientation="vertical" >
 
     <LinearLayout android:layout_height="60dp"
@@ -10,15 +11,13 @@
         >
         <ImageButton
             android:id="@+id/buttonBack"
-            android:background="?customAndroidBackAttributeColor"
+            android:background="?customAndroidDrawableAttribute"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            
-
             android:src="@drawable/buttonback"/>
         <ImageView
             android:id="@+id/buttonHome"
-            android:background="?customAndroidBackAttributeColor"
+            android:background="?customAndroidDrawableAttribute"
             android:layout_width="50dp"
             android:layout_height="match_parent"
 
@@ -30,9 +29,7 @@
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="60dp"
-        android:theme="@style/MyTabs"
-        >
+        android:layout_marginTop="60dp" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -49,14 +46,14 @@
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                style="@style/MyTabs">
+                android:background="?customAndroidBackAttributeColor"
+                android:layout_height="fill_parent" >
 
                 <ListView
                     android:id="@+id/listwordType"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-
+                    android:textColor="?customAndroidViewTextColorAttribute"
                     android:layout_marginBottom="3dp"
                     android:dividerHeight="2.0sp" >
                 </ListView>
@@ -66,6 +63,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
+                    android:textColor="?customAndroidViewTextColorAttribute"
                     android:dividerHeight="2.0sp" >
                 </ListView>
             </FrameLayout>

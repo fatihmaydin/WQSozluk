@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -266,6 +267,8 @@ public class WordTypeListActivity extends TabActivity {
 		}
 		spec = tabHost.newTabSpec("Tab 1 Tag").setIndicator("Cûre")
 				.setContent(R.id.listwordType);
+		tabHost.setFadingEdgeLength(3);
+		tabHost.setLeftTopRightBottom(3,3,3,3);
 		tabHost.addTab(spec);
 
 		spec = tabHost.newTabSpec("Tab 2 Tag").setIndicator("ABC")
@@ -273,6 +276,36 @@ public class WordTypeListActivity extends TabActivity {
 		tabHost.addTab(spec);
 
 		tabHost.setCurrentTab(0);
+		tabHost.getTabWidget().setShowDividers(TabWidget.SHOW_DIVIDER_MIDDLE);
+		tabHost.getTabWidget().setDividerPadding(20);
+		tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+			@Override
+			public void onTabChanged(String tabId) {
+				updateTabs();;
+			}
+		});
+		tabHost.getTabWidget()
+				.getChildAt(0)
+				.setBackgroundColor(Color.parseColor(WQFerhengActivity.linkColor));
+
+	}
+	protected void updateTabs() {
+		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+
+			if (tabHost.getTabWidget().getChildAt(i).isSelected()) {
+
+				tabHost.getTabWidget()
+						.getChildAt(i)
+						.setBackgroundColor(Color.parseColor(WQFerhengActivity.linkColor));
+			} else {
+
+				tabHost.getTabWidget()
+						.getChildAt(i)
+						.setBackgroundResource(
+								R.drawable.unselected_tab);
+
+			}
+		}
 
 	}
 

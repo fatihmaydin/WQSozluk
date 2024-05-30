@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:background="?customAndroidlistlistViewBackColor1Attribute"
     android:orientation="vertical"
-    android:layout_height="wrap_content" >
+    android:layout_height="fill_parent" >
     
  <EditText android:id="@+id/edittext_filter"
   android:layout_width="fill_parent"

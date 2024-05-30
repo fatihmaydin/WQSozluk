@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
- 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/groupItem"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
@@ -12,7 +10,7 @@
         <Button
             android:id="@+id/button_gotin"       
             android:drawableLeft="@drawable/play"
-            android:background="?customAndroidBackAttributeColor"
+            android:background="?customAndroidDrawableAttribute"
             android:layout_width="wrap_content"
               android:layout_height="30dp"
             android:layout_weight="15" />      
@@ -22,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:textColor="?customAndroidExpTextViewTextColorAttribute"
-              
+            android:background="?customAndroidDrawableAttribute"
             android:textSize="20sp" />
         
           <ProgressBar

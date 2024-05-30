@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -223,7 +224,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		if(WQFerhengActivity.ShowHeaderTranslation) {
 			if (WQFerhengActivity.mapLanguages.containsKey(line0.replace(":", ""))) {
 				String translation = GetTranslation(line0.replace(":", ""));
-				lines[0] = lines[0].replace(":", "") + " (" + translation + ")" + ":";
+				if(!translation.trim().equalsIgnoreCase("")) {
+					lines[0] = lines[0].replace(":", "") + " (" + translation + ")" + ":";
+				}
 				if (wFerhengActivity != null)
 					wFerhengActivity.makeText(line0.replace(":", ""));
 			}
@@ -1345,9 +1348,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		groupHolder.title.setText(myEntity.Name);
 		if(WQFerhengActivity.ShowLanguageTranslation) {
 		   String translation=GetTranslation(myEntity.Name.toLowerCase());
-			if(!translation.equalsIgnoreCase(""));
+			Toast.makeText(mContext,myEntity.Name.toLowerCase()+"  :"+ translation+";", Toast.LENGTH_LONG).show();
+			if(!translation.replace(" ","").trim().equalsIgnoreCase(""));
 			{
+				if(translation.length()>0)
 				groupHolder.titleTranslate.setText("(" + translation + ")");
+				else
+					groupHolder.titleTranslate.setText("");
+
 			}
 		}
 
@@ -1361,6 +1369,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			List listtranslation=WQFerhengActivity.mapLanguages.get(name);
 			translation=listtranslation.get(WQFerhengActivity.LocalisationIndex).toString();
 		}
+
 		return  translation;
 	}
 
