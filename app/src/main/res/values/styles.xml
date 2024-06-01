@@ -88,6 +88,7 @@
         <item name="colorPrimary">@color/colorCustomPrimary</item>
         <item name="colorPrimaryDark">@color/colorCustomPrimaryDark</item>
         <item name="colorAccent">@color/colorCustomAccent</item>
+
         <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
         <item name="android:background">?customAndroidlistlistTabBackColorAttribute</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
@@ -108,7 +109,8 @@
         <item name="customAndroidExpTextViewTextColorAttribute">#e6e6e6</item>
         <item name="customAndroidTextColorGroupAttribute">#E3D3D3</item>
         <item name="customAndroidlistExpBackColorAttribute">#4D76A1</item>
-        <item name="customAndroidlistExpTextColorAttribute">#D1C9C9</item>
+        <item name="customAndroidlistExpTextColorAttribute">#FAF6F6</item>
+        <item name="customAndroidlistExpTextColorAttribute1">#ffffff</item>
 
 
 
@@ -128,18 +130,18 @@
         <item name="customAndroidlistlistTabBackColorAttribute">#132640</item>
         <item name="customAndroidButtonDarkBackColorAttribute">#061043</item>
 
-        <item name="customAndroidDrawableAttribute">#28374A</item>
-        <item name="customAndroidLinkColorAttribute">#1E275A</item>
+        <item name="customAndroidDrawableAttribute">@drawable/btn_dark_blue</item>
+        <item name="customAndroidLinkColorAttribute">#552640</item>
 
         <item name="customAndroidCheckBoxForegroundColorAttribute">#1090CB</item>
-        <item name="customAndroidDrawableColorAttribute">#E9EFEC</item>
+        <item name="customAndroidDrawableColorAttribute">#4CAF50</item>
         <item name="customAndroidTextDarkColorAttribute">@color/colorCustomPrimaryDark</item>
         <item name="customAndroidBackButtonColorAttribute">#e6e6e6</item>
 
         <item name="customAndroidBorderColorAttribute">#84BBE4</item>
 
         <item name="customAndroidTextHintColorAttribute">#DAD5D5</item>
-        <item name="customAndroidClearTintColorAttribute">#800518</item>
+        <item name="customAndroidClearTintColorAttribute">#4CAF50</item>
 
 
         <item name="customAndroidEditTextBackgroundColorAttribute">#6ffff3ff</item>
@@ -156,6 +158,8 @@
         <item name="colorAccent">#B9CBD9</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="colorSurface">#4f4f4f</item>
+        <item name="android:popupElevation">8dp</item>
         <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
         <!-- Customize light strtheme attributes here -->
         <item name="customAndroidBackAttributeColor0">@drawable/btn_white</item>
@@ -172,6 +176,7 @@
         <item name="customAndroidTextColorGroupAttribute">#00000f</item>
         <item name="customAndroidlistExpBackColorAttribute">#1ffff3ff</item>
         <item name="customAndroidlistExpTextColorAttribute">#000011</item>
+        <item name="customAndroidlistExpTextColorAttribute1">#000011</item>
 
         <item name="customAndroidlistlistViewBackColor1Attribute">#E5EBF0</item>
         <item name="customAndroidlistlistViewBackColor2Attribute">#DFE6ED</item>
@@ -180,13 +185,13 @@
         <item name="customAndroidlistlistTabBackColorAttribute">#DAE3EA</item>
 
         <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_white</item>
-        <item name="customAndroidDrawableAttribute">#DAE3EA</item>
-        <item name="customAndroidLinkColorAttribute">#090000</item>
+        <item name="customAndroidDrawableAttribute">@drawable/btn_white</item>
+        <item name="customAndroidLinkColorAttribute">#2478B7</item>
         <item name="customAndroidBorderColorAttribute">#84BBE4</item>
 
-        <item name="customAndroidTextHintColorAttribute">#090000</item>
+        <item name="customAndroidTextHintColorAttribute">#C5C3C3</item>
 
-        <item name="customAndroidDrawableColorAttribute">#0F8113</item>
+        <item name="customAndroidDrawableColorAttribute">#4FAC52</item>
         <item name="customAndroidCheckBoxForegroundColorAttribute">#0F8113</item>
         <item name="customAndroidBackButtonColorAttribute">@color/colorCustomPrimaryDark</item>
         <item name="customAndroidEditTextBackgroundColorAttribute">#6ffff3ff</item>
@@ -197,11 +202,14 @@
 
     <style name="AppTheme.Dark" parent="ThemeOverlay.AppCompat.Dark">
         <!-- Customize dark strtheme attributes here -->
-        <item name="colorPrimary">#6ffff3ff</item>
+        <item name="colorPrimary">#6FDAD3DA</item>
         <item name="colorPrimaryDark">#6ffff3ff</item>
         <item name="colorAccent">#898B8C</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="colorSurface">#4f4f4f</item>
+        <item name="android:popupElevation">8dp</item>
+
         <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
         <item name="android:background">?customAndroidlistlistTabBackColorAttribute</item>
         <item name="customAndroidBackAttributeColor0">@drawable/btn_black</item>
@@ -215,10 +223,11 @@
 
         <item name="customAndroidViewTextColorAttribute">@color/colorPrimaryDark</item>
         <item name="customAndroidExpBackColorAttribute">#010B3E</item>
-        <item name="customAndroidExpTextViewTextColorAttribute">#898991</item>
-        <item name="customAndroidTextColorGroupAttribute">#9E9EAC</item>
+        <item name="customAndroidExpTextViewTextColorAttribute">#D5D5DA</item>
+        <item name="customAndroidTextColorGroupAttribute">#D5D5DA</item>
         <item name="customAndroidlistExpBackColorAttribute">#181919</item>
-        <item name="customAndroidlistExpTextColorAttribute">#8F8F93</item>
+        <item name="customAndroidlistExpTextColorAttribute">#D5D5DA</item>
+        <item name="customAndroidlistExpTextColorAttribute1">#ffffff</item>
 
         <item name="customAndroidlistlistViewBackColor1Attribute">#181919</item>
         <item name="customAndroidlistlistViewBackColor2Attribute">#252727</item>
@@ -227,18 +236,18 @@
         <item name="customAndroidlistlistTabBackColorAttribute">#000000</item>
 
         <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_black</item>
-        <item name="customAndroidDrawableAttribute">#393737</item>
-        <item name="customAndroidLinkColorAttribute">#B3EDB5</item>
+        <item name="customAndroidDrawableAttribute">@drawable/btn_black</item>
+        <item name="customAndroidLinkColorAttribute">#32db44</item>
         <item name="customAndroidBorderColorAttribute">#A3B5C3</item>
 
         <item name="customAndroidTextHintColorAttribute">#A3B5C3</item>
 
-        <item name="customAndroidDrawableColorAttribute">#0F8113</item>
-        <item name="customAndroidCheckBoxForegroundColorAttribute">#0F8113</item>
+        <item name="customAndroidDrawableColorAttribute">#32db44</item>
+        <item name="customAndroidCheckBoxForegroundColorAttribute">#32db44</item>
         <item name="customAndroidBackButtonColorAttribute">#ffffff</item>
         <item name="customAndroidEditTextBackgroundColorAttribute">#181919</item>
         <item name="customAndroidLinkTextColorAttribute">#181919</item>
-        <item name="customAndroidClearTintColorAttribute">#470812</item>
+        <item name="customAndroidClearTintColorAttribute">#0F8113</item>
 
     </style>
     <style name="AppTheme.Classic" parent="Theme.AppCompat">
@@ -249,20 +258,21 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="android:textColor">?customAndroidExpTextViewTextColorAttribute</item>
         <!-- Customize light strtheme attributes here -->
-        <item name="customAndroidBackAttributeColor0">@drawable/btn_white</item>
+        <item name="customAndroidBackAttributeColor0">@drawable/btn_black_classic</item>
 
-        <item name="customAndroidBackAttributeColor">@drawable/btn_white</item>
-        <item name="customAndroidBackAttributeColor2">@drawable/btn_white</item>
+        <item name="customAndroidBackAttributeColor">@drawable/btn_black_classic</item>
+        <item name="customAndroidBackAttributeColor2">@drawable/btn_black_classic</item>
 
         <item name="customAndroidViewAttributeColor">#11fff3ff</item>
         <item name="customAndroidViewAttributeDarkColor">#6efff3ff</item>
 
-        <item name="customAndroidViewTextColorAttribute">@color/colorPrimaryDark</item>
+        <item name="customAndroidViewTextColorAttribute">#000000</item>
         <item name="customAndroidExpBackColorAttribute">#6ffff3ff</item>
-        <item name="customAndroidExpTextViewTextColorAttribute">#000011</item>
-        <item name="customAndroidTextColorGroupAttribute">#000000</item>
-        <item name="customAndroidlistExpBackColorAttribute">#1ffff3ff</item>
+        <item name="customAndroidExpTextViewTextColorAttribute">#D3D3D3</item>
+        <item name="customAndroidTextColorGroupAttribute">#06F17E</item>
+        <item name="customAndroidlistExpBackColorAttribute">#000000</item>
         <item name="customAndroidlistExpTextColorAttribute">#000011</item>
+        <item name="customAndroidlistExpTextColorAttribute1">#000011</item>
 
         <item name="customAndroidlistlistViewBackColor1Attribute">#636363</item>
         <item name="customAndroidlistlistViewBackColor2Attribute">#D8D8BF</item>
@@ -270,8 +280,8 @@
         <item name="customAndroidlistlistViewBackColor4Attribute">#E6EDF2</item>
         <item name="customAndroidlistlistTabBackColorAttribute">#DAE3EA</item>
 
-        <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_white</item>
-        <item name="customAndroidDrawableAttribute">#D3D3D3</item>
+        <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_black_classic</item>
+        <item name="customAndroidDrawableAttribute">#000000</item>
         <item name="customAndroidLinkColorAttribute">#090000</item>
         <item name="customAndroidBorderColorAttribute">#84BBE4</item>
 

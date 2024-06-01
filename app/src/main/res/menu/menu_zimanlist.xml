@@ -5,6 +5,6 @@
         android:id="@+id/action_order"
         android:orderInCategory="100"   
         android:icon="@drawable/sortalpha"
-
-        android:title="Order"/>
+              android:title="Order"
+              app:showAsAction="always|withText" />
 </menu>

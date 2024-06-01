@@ -23,6 +23,5 @@
         android:layout_height="wrap_content"
         android:background="?customAndroidViewAttributeColor"
         android:textColor="?customAndroidExpTextViewTextColorAttribute"
-        android:singleLine="true"
-         />
+        android:singleLine="true"         />
 </LinearLayout>

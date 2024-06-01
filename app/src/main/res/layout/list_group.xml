@@ -2,20 +2,18 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
+    android:layout_height="fill_parent">
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?customAndroidDrawableAttribute"
     android:gravity="center_vertical"
-
     android:descendantFocusability="blocksDescendants"  >
 
     <ImageView
         android:id="@+id/tag_img"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="0dip"
@@ -37,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dip"
+        android:layout_marginLeft="5dip"
         android:text="aa"
         android:background="?customAndroidDrawableAttribute"
         android:textColor="?customAndroidTextColorGroupAttribute"

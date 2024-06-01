@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainLayout"
     android:layout_width="fill_parent"
+
     android:layout_height="wrap_content" >
 
     <LinearLayout
@@ -19,9 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?customAndroidlistlistViewBackColor2Attribute"
-
-
-
             android:max="100"
             android:maxHeight="30dp"
             android:minHeight="30dp" />
@@ -31,8 +29,7 @@
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:background="?customAndroidlistlistViewBackColor3Attribute"
-            >
+            android:background="?customAndroidlistlistViewBackColor3Attribute">
 
             <com.wqferheng.CustomKeys
                 android:id="@+id/customkeys"
@@ -64,14 +61,15 @@
                 android:layout_width="0px"
 
                 android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginRight="1dp"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginBottom="0.5dp"
+                android:layout_marginTop="0.5dp"
+                android:layout_marginRight="0.5dp"
                 android:layout_weight="76"
                 android:background="?customAndroidlistlistViewBackColor2Attribute"
                 android:drawableRight="@drawable/clear"
                 android:textColorHint="?customAndroidTextHintColorAttribute"
+                android:textColor="?customAndroidlistExpTextColorAttribute1"
                 android:hint="@string/Lêbigere"
                 android:imeOptions="actionDone"
 
@@ -110,12 +108,8 @@
             android:id="@+id/expandableListView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-
             android:background="?customAndroidExpBackColorAttribute"
             android:scrollbars="none"/>
-
-        
-
         <ListView
             android:id="@+id/list_result"
             android:layout_width="match_parent"
@@ -191,7 +185,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
+        android:visibility="visible"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-4819188859318435/5036961654" >
     </com.google.android.gms.ads.AdView>

@@ -6,7 +6,6 @@
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="?customAndroidlistlistViewBackColor1Attribute"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -18,14 +17,16 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="?customAndroidBackAttributeColor0"
+        android:background="?customAndroidlistlistViewBackColor1Attribute"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/definitionHedaer"
             style="@android:style/TextAppearance.Large"
             android:layout_width="wrap_content"
-            android:background="?customAndroidBackAttributeColor"
+            android:textColor="?customAndroidLinkColorAttribute"
+            android:background="?customAndroidlistlistViewBackColor1Attribute"
+
             android:layout_height="wrap_content" />
 
         <ExpandableListView
@@ -75,7 +76,7 @@
             android:id="@+id/imageButtonBack"
             android:layout_width="50dp"
             android:layout_height="40dp"
-            android:alpha="0.7"
+            android:alpha="0.6"
             android:background="?customAndroidBackAttributeColor2"
             android:contentDescription="@string/description"
             android:src="@drawable/arrowback" />
@@ -103,7 +104,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:layout_toLeftOf="@+id/imageButtonFav"
-            android:alpha="0.99"
+            android:alpha="0.6"
             android:background="?customAndroidBackAttributeColor2"
             android:contentDescription="@string/description"
             android:src="@drawable/onweb" />

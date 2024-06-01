@@ -264,7 +264,7 @@ if(false)
 				MenuItem itemaaction_order = menu.findItem(R.id.action_order);
 
 				itemaaction_order
-						.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+						.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
 
 			} catch (Exception exc) {

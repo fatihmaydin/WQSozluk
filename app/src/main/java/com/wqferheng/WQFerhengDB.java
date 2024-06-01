@@ -391,7 +391,44 @@ public class WQFerhengDB {
 		//	Log.d("Selected word in ", diffInSec +" msecs");
 			return ww;
 		}
-		
+
+		public String GetCount(String id)
+		{
+			Date currentDate1 = new Date();
+			Cursor c=this.getReadableDatabase().rawQuery("select count(*) from "+FTS_VIRTUAL_TABLE , null);
+
+			String count=null;
+			if(c!=null&&c.moveToFirst())
+			{
+				count = GetValue(c,c.getColumnName(0));
+			}
+			return count;
+		}
+
+		public ArrayList<Words> GetWordswithPaging(String id)
+		{
+			Cursor c=this.getReadableDatabase().rawQuery("select * from "+FTS_VIRTUAL_TABLE , null);
+
+			ArrayList<Words> list=new ArrayList<>();
+
+			c.moveToFirst();
+			String column1=c.getColumnName(0);
+			String column2=c.getColumnName(2);
+			while (c.isAfterLast() == false) {
+				String idd = GetValue(c,column1);
+				String idd1 = GetValue(c,column2);
+Words w=new Words();
+w.peyv=idd;
+w.NormalizedWord=idd1;
+				list.add(w);
+				c.moveToNext();
+			}
+
+
+			return list;
+		}
+
+
 		public Words GetFavWord(String word)
 		{
 			
@@ -660,7 +697,7 @@ public class WQFerhengDB {
 			return deAccent(toNormalize);
 		}
 		public static String deAccent(String str) {
-			str=str.replace('ı', 'i').replace('ğ', 'g').replace('I', 'İ');
+			str=str.replace('ı', 'i').replace('ğ', 'g');
 		    String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD); 
 		    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 		    return pattern.matcher(nfdNormalizedString).replaceAll("");

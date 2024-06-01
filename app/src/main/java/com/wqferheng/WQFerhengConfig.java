@@ -69,6 +69,7 @@ public class WQFerhengConfig extends AppCompatActivity {
 		Themes.add("App");
 		Themes.add("Dark");
 		Themes.add("Light");
+		Themes.add("System");
 		//Themes.add("Classic");
 		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
 				this, android.R.layout.simple_spinner_dropdown_item,

@@ -27,6 +27,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.speech.RecognizerIntent;
 import android.util.DisplayMetrics;
@@ -194,8 +196,9 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	@SuppressLint({ "NewApi", "NewApi", "NewApi" })
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		toggleTheme("");
 		mContext=this;
+		toggleTheme("");
+
 		//setTheme(R.style.MyCustomTheme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wqferheng);
@@ -478,7 +481,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 		String pref=WQFerhengConfig. loadUrlPref(this.getBaseContext(),
 				"SpecialKeys");
-		//makeText("SpecialKeys:"+pref);
+
 		if(pref.equalsIgnoreCase("false")) {
 			ShowSpecialKeys = false;
 			ShowHideSpecialKeys(ShowSpecialKeys);
@@ -487,8 +490,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					"HeaderTranslation");
 		if(pref.equalsIgnoreCase("false"))
 			ShowHeaderTranslation=false;
-		//makeText("ShowHeaderTranslation:"+pref);
-		pref=WQFerhengConfig. loadUrlPref(this.getBaseContext(),
+
+			pref=WQFerhengConfig. loadUrlPref(this.getBaseContext(),
 				"LangTranslation");
 		if(pref.equalsIgnoreCase("false"))
 			ShowLanguageTranslation=false;
@@ -505,13 +508,68 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			Log.e(TAG, "Could not get themeResId for activity", e);
 			themeResId = -1;
 		}
-		test();
+		final Handler handler = new Handler(Looper.getMainLooper());
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if(false&&!upgrating)
+					test();
+			}
+		}, 500);
+
 		//AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 	}
 
-	private void test()
-	{
-		
+	private void test()  {
+		String strcountofword=WQFerhengDB.mWQferhengDBOpenHelper.GetCount("FTSdictionary");
+		String strcountofworddefs=WQFerhengDB.mWQferhengDBOpenHelper.GetCount("FTSdictionary_Defs");
+		Integer counofWord=Integer.parseInt(strcountofword);
+		Integer countofdef=Integer.parseInt(strcountofworddefs);
+		if(countofdef!=counofWord)
+			makeText("Problem:"+(counofWord+" "+countofdef) +" missing") ;
+		else
+			makeText("No Problem:"+(counofWord-countofdef) +" missing") ;
+
+		ArrayList<Words> wordswithPaging=WQFerhengDB.mWQferhengDBOpenHelper.GetWordswithPaging("");
+		//makeText(wordswithPaging.size()+"");
+		int count=0;
+
+		for (int i=0; i<wordswithPaging.size(); i++ )
+		{
+			Words word=(wordswithPaging.get(i));
+			String w=word.peyv;
+			//makeText(w);
+			if(word.peyv!=null&&word.peyv.length()>0) {
+
+
+				//autoCmopletetextView.setText(word.peyv);
+				//GO();
+
+				Words resulted = GetSingleExactWord(word.peyv.replace("-",""));
+
+				if (resulted!=null)
+				{
+
+					count++;
+					if(count%10000==0)
+						makeText(count+"  "+word.NormalizedWord);
+				} else if(!word.peyv.contains("-"))
+				{
+					//makeText(word.peyv +"  "+word.NormalizedWord);
+					AddRemoveFromFavList(getBaseContext(),word.peyv, true);
+
+					//makeText(getString(R.string.resultsnotfound, word.peyv +"  "+count));
+				}
+
+			}
+
+			}
+		if(counofWord!=count)
+		{
+			makeText("Not Equal");
+
+		}
+
 	}
 
 	private void ShowHideSpecialKeys(boolean visible)
@@ -580,7 +638,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		{
 			WQFerhengActivity.theme=R.style.MyCustomTheme;
 
-			WQFerhengActivity.linkColor="#950714";
+			WQFerhengActivity.linkColor="#552640";
 		}
 		else if (strtheme.equalsIgnoreCase("Appold"))
 		{
@@ -590,7 +648,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		else if(strtheme.equalsIgnoreCase("Dark"))
 		{
 			WQFerhengActivity.theme=(R.style.AppTheme_Dark);
-			WQFerhengActivity.linkColor="#A36A00";
+			WQFerhengActivity.linkColor="#32db44";
 		}
 		else if(strtheme.equalsIgnoreCase("Light"))
 		{
@@ -601,6 +659,21 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		{
 			WQFerhengActivity.theme=R.style.AppTheme_Classic;
 			WQFerhengActivity.linkColor="#2478B7";
+		}
+		else if(strtheme.equalsIgnoreCase("System"))
+		{
+			switch ( mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+				case Configuration.UI_MODE_NIGHT_YES: {
+					WQFerhengActivity.theme=(R.style.AppTheme_Dark);
+					WQFerhengActivity.linkColor="#A36A00";
+					break;
+				}
+				case Configuration.UI_MODE_NIGHT_NO: {
+					WQFerhengActivity.theme=R.style.AppTheme_Light;
+					WQFerhengActivity.linkColor="#2478B7";
+					break;
+				}
+			}
 		}
 		else
 		{
@@ -716,21 +789,24 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			//MobileAds.initialize(this, "ca-app-pub-4819188859318435/5036961654");
 			mAdView =(AdView) this.findViewById(R.id.adView);
 
-			final RelativeLayout imgFAv =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
+			//final RelativeLayout imgFAv =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
 			AdRequest adRequest = new AdRequest.Builder().build();
 			if(adRequest!=null&&mAdView!=null)
 			{
 
-				mAdView.loadAd(adRequest);
+
+				Log.d(TAG, "Add load");
 				mAdView.setAdListener(new AdListener() {
 					@Override
 					public void onAdLoaded() {
 						super.onAdLoaded();
-
-						RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-						params.addRule(RelativeLayout.ABOVE, R.id.adView);
+						mAdView.setVisibility(View.VISIBLE);
+						Log.d(TAG, "Add loaded");
+						//RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+						//params.addRule(RelativeLayout.ABOVE, R.id.adView);
 					}
 				});
+				mAdView.loadAd(adRequest);
 			}
 		}
 		else
@@ -2398,7 +2474,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			if (dialogshowed)
 				return;
 			dialogshowed = true;
-			AlertDialog.Builder builder = new AlertDialog.Builder(this,  R.style.MyDialogTheme);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 			builder.setTitle("Ferheng bar bû");
 			builder.setMessage(message);

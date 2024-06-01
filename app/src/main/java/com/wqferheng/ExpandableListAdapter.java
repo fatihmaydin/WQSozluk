@@ -227,8 +227,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 				if(!translation.trim().equalsIgnoreCase("")) {
 					lines[0] = lines[0].replace(":", "") + " (" + translation + ")" + ":";
 				}
-				if (wFerhengActivity != null)
-					wFerhengActivity.makeText(line0.replace(":", ""));
+//				if (wFerhengActivity != null)
+//					wFerhengActivity.makeText(line0.replace(":", ""));
 			}
 		}
 		String newtext="";
@@ -1111,8 +1111,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 				@Override
 				public void onClick(View v) {
 					handleClick=false;
-					if(definitionActivity!=null)
-						definitionActivity.makeText("aaa"+WQFerhengActivity.ShowCategoryDialog);
+//					if(definitionActivity!=null)
+//						definitionActivity.makeText("aaa"+WQFerhengActivity.ShowCategoryDialog);
 					Log.d("clc", "cj,"+WQFerhengActivity.ShowCategoryDialog);
 					
 					try {
@@ -1131,9 +1131,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 										dialog.dismiss();
 										String word = strsub.toString().replace(".", "")
 												.replace(",", "").replace(":", "").trim();
-										Log.d("clc", "cj,");
-										if(definitionActivity!=null)
-											definitionActivity.makeText("aaa"+word);
+//										Log.d("clc", "cj,");
+//										if(definitionActivity!=null)
+//											definitionActivity.makeText("aaa"+word);
 										Intent intent = new Intent(mContext, ListViewCursorLoaderActivity.class);
 
 										Bundle b = new Bundle();
@@ -1348,13 +1348,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		groupHolder.title.setText(myEntity.Name);
 		if(WQFerhengActivity.ShowLanguageTranslation) {
 		   String translation=GetTranslation(myEntity.Name.toLowerCase());
-			Toast.makeText(mContext,myEntity.Name.toLowerCase()+"  :"+ translation+";", Toast.LENGTH_LONG).show();
+			//Toast.makeText(mContext,myEntity.Name.toLowerCase()+"  :"+ translation+";", Toast.LENGTH_LONG).show();
 			if(!translation.replace(" ","").trim().equalsIgnoreCase(""));
 			{
-				if(translation.length()>0)
-				groupHolder.titleTranslate.setText("(" + translation + ")");
-				else
+				if(translation.length()>0) {
+					groupHolder.titleTranslate.setText("(" + translation + ")");
+					groupHolder.titleTranslate.setVisibility(View.VISIBLE);
+				}
+				else {
 					groupHolder.titleTranslate.setText("");
+					groupHolder.titleTranslate.setVisibility(View.GONE);
+				}
 
 			}
 		}

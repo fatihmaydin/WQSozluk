@@ -231,7 +231,7 @@ public class DefinitionActivity extends AppCompatActivity implements android.vie
 //			}
 //		});
 		AdRequest adRequest = new AdRequest.Builder().build();
-		if(false)
+
 		InterstitialAd.load(this,"ca-app-pub-4819188859318435/1191877649", adRequest,
 				new InterstitialAdLoadCallback() {
 					@Override
