@@ -42,9 +42,9 @@
     <string name="resultsfound">%1$d Ergebnis hat gefunden.</string>
     <string name="resultsnotfound">Keine Ergebnisse zu \'%1$s\'.</string>
     <string name="resultinstant">Eine zufällige Worte</string>
-     <string name="addedtofav">Das Wort \'%1$s\' wurde zur Favoritenlist hinzugefügt.</string>
-           <string name="notaddedtofav">Das Wort \'%1$s\' konnte nicht zur Favoritenlist hinzugefügt werden.</string>
-                     <string name="favwordexists">Das Wort \'%1$s\' bereits existiert in der Favoritenlist.</string>
+    <string name="addedtofav">Das Wort \'%1$s\' wurde zur Favoritenlist hinzugefügt.</string>
+    <string name="notaddedtofav">Das Wort \'%1$s\' konnte nicht zur Favoritenlist hinzugefügt werden.</string>
+    <string name="favwordexists">Das Wort \'%1$s\' bereits existiert in der Favoritenlist.</string>
                      
     <string name="langchange">Sprache hat geändert zu:</string>
     <string name="DerbarBody1">Es gibt %1$s artikel in dieser Wörterbuch. Bei unerwarteter Fehler in der App bitte informieren Sie mich über Fehler </string>
@@ -89,6 +89,14 @@
     <string name="herwiha">Auch</string>
     <string name="werger">Übersetzungen</string>
     <string name="header">Einträge</string>
+    <string name="showkeys">Sondertasten</string>
+    <string name="strLanguage">Appsprache</string>
+    <string name="langtranslations">Sprachübersetzung</string>
+    <string name="headertranslation">Headerübersetzung</string>
+    <string name="strThema">Theme</string>
+    <string name="strDark">Dunkel</string>
+    <string name="strLight">Hell</string>
+    <string name="strSysem">System</string>
     <string name="jiwejeye">Aus der Literatur</string>
     <string name="derbaraminheader">Di derbara Programçêker de(Darüber Entwickler)</string>
     <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
@@ -101,9 +109,9 @@ Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Y
         als Übersetzer und Schriftsteller leisten Beiträge zu Kurdisch. Bis jetzt, eine Übersetzung, von Deutsch Veguherîn(Die Verwandlung) und Koloniya Tawanê (In der Strafkolonie) von Franz Kafka, und ein Roman, 
         Sefernameya Hezar û Yek Fersengî (Reisebuch der Tausendundein Parasang), von ihn, wurde von Weşanên Lîs-Verlag publiziert. Nun auch noch, er ist tätig über Übersetzung von Kafkas Werken.
         Sie können seinem Blog und seine nachfolgenden Adressen besuchen;\n\n        </string>
-    <string name="Version46">Version 4.6 (10/05/2023) </string>
+    <string name="Version47">Version 4.7 (03/06/2024) </string>
 
-    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    <string name="Version47Body"> * Versiyona Target API hat bilind kirin.\n
     * Navrûyê Ferhengê û rengên piş hatin guhertin
     # Nasandina dengê(Nivîsandina Dengî) hatzêdekirin</string>
 

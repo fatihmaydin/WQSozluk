@@ -16,7 +16,7 @@
              <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Version46"
+            android:text="@string/Version47"
             android:textSize="16dp"
             android:textStyle="bold"
                  android:background="#2f6699"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:background="#2f6699"
             android:textColor="#D6DEE6"
-            android:text="@string/Version46Body" />
+            android:text="@string/Version47Body" />
                 <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"

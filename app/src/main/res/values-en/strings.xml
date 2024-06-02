@@ -89,6 +89,16 @@
     <string name="herwiha">Also</string>
     <string name="werger">Translations</string>
     <string name="header">entries</string>
+    <string name="strLanguage">App Language</string>
+
+    <string name="showkeys">Special Keys</string>
+    <string name="langtranslations">Language Translations</string>
+    <string name="headertranslation">Header Translation</string>
+    <string name="strThema">Theme</string>
+    <string name="strDark">Dark</string>
+    <string name="strLight">Light</string>
+    <string name="strSysem">System</string>
+
     <string name="jiwejeye">From Literature</string>
     <string name="tewandin">Conjugation</string>
      <string name="derbaraminheader">Di derbara Programçêker de(About Developer)</string>
@@ -104,8 +114,8 @@ Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Y
         You can visit his blog and his adresses below;\n\n
         
         </string>
-    <string name="Version46">Version 4.6 (10/05/2023) </string>
-    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    <string name="Version47">Version 4.7 (03/06/2024) </string>
+    <string name="Version47Body"> * Versiyona Target API hat bilind kirin.\n
     * Navrûyê Ferhengê û rengên piş hatin guhertin
     # Nasandina dengê(Nivîsandina Dengî) hatzêdekirin</string>
 

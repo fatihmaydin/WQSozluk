@@ -164,7 +164,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	int intervalForExpand = 100;
 	int TIMEOUTForExpand = 500;
 	private String SelectedWord;
-	String languageToLoad = "ku";
+	public static String languageToLoad = "ku";
 	Boolean CancelRequestedForExpand = false;
 	public Boolean showarabickeyboard = false;
 	// RelativeLayout relativeLayoutKeyboard;
@@ -192,19 +192,20 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
    public static Boolean ShowCategoryDialog=true;
 	private LinearLayout linearLayoutcustomkeys;
 	private boolean isDarkTheme;
+	public static Configuration Config;
 
 	@SuppressLint({ "NewApi", "NewApi", "NewApi" })
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mContext=this;
 		toggleTheme("");
-
+		SetLanguage();
 		//setTheme(R.style.MyCustomTheme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wqferheng);
 		cont = this;
 		init();
-		SetLanguage();
+
 		encoderList=GetDecodeList();
 		headerEndChar = getString(R.string.headerEndChar);
 		newlinebreak = getString(R.string.newlinebreak);
@@ -648,7 +649,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		else if(strtheme.equalsIgnoreCase("Dark"))
 		{
 			WQFerhengActivity.theme=(R.style.AppTheme_Dark);
-			WQFerhengActivity.linkColor="#32db44";
+			WQFerhengActivity.linkColor="#4CAF50";
 		}
 		else if(strtheme.equalsIgnoreCase("Light"))
 		{
@@ -931,7 +932,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 			View view = inflater.inflate(R.layout.dialog_whatsnew, null);
 
-			Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+			Builder builder = new AlertDialog.Builder(this);
 
 			builder.setView(view)
 					.setTitle(getString(R.string.whatsnew))
@@ -960,23 +961,26 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					"Lang", 0);
 
 			languageToLoad = prefs.getString("Lang", "ku");
+			//makeText(languageToLoad);
 			Locale locale = new Locale(languageToLoad);
+			Configuration config = new Configuration();
 			if (languageToLoad == "ku") {
 				Locale.setDefault(locale);
-				Configuration config = new Configuration();
+
 				config.locale = locale;
-				getBaseContext().getResources().updateConfiguration(config,
-						getBaseContext().getResources().getDisplayMetrics());
+
 			} else {
 				Locale locJa = new Locale(languageToLoad);
 				Locale.setDefault(locJa);
 
-				Configuration config = new Configuration();
+
 				config.locale = locJa;
 
-				getBaseContext().getResources().updateConfiguration(config,
-						getBaseContext().getResources().getDisplayMetrics());
+
 			}
+			getBaseContext().getResources().updateConfiguration(config,
+					getBaseContext().getResources().getDisplayMetrics());
+			Config=config;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1037,92 +1041,92 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		startActivityForResult(intent, REQUEST_CODE_CONFIG);
 	}
 
-
-	protected void showLanguageChangeDialog() {
-		try {
-			items[0] = "ku-" + getString(R.string.Langku);
-			items[1] = "en-" + getString(R.string.Langen);
-			items[2] = "de-" + getString(R.string.Langde);
-			items[3] = "tr-" + getString(R.string.Langtr);
-			items[4] = "fa-" + getString(R.string.Langfa);
-			final SharedPreferences prefsLang = getBaseContext()
-					.getSharedPreferences("Lang", 0);
-			final String currentlang = prefsLang.getString("Lang", "ku") + "-";
-			// makeText(currentlang);
-			int selectedItem = 0;
-			for (int xx = 0; xx < items.length; xx++) {
-				if (items[xx].toString().contains(currentlang)) {
-					selectedItem = xx;
-					break;
-				}
-
-			}
-
-			new AlertDialog.Builder(this,   R.style.MyDialogTheme)
-					.setSingleChoiceItems(items, selectedItem, null)
-					.setIcon(R.drawable.refresh)
-					.setTitle(R.string.ziman)
-					.setPositiveButton(R.string.temam,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									dialog.dismiss();
-									int selectedPosition = ((AlertDialog) dialog)
-											.getListView()
-											.getCheckedItemPosition();
-
-									String itemselected = items[selectedPosition]
-											.toString();
-									if (!itemselected.startsWith(currentlang)) {
-
-										SharedPreferences.Editor editor = prefsLang
-												.edit();
-										if (itemselected.contains("ku-")) {
-											editor.putString("Lang", "ku");
-											languageToLoad = "ku";
-
-										} else if (itemselected.contains("en-")) {
-											editor.putString("Lang", "en");
-											languageToLoad = "en";
-										} else if (itemselected.contains("de-")) {
-											editor.putString("Lang", "de");
-											languageToLoad = "de";
-										} else if (itemselected.contains("tr-")) {
-											languageToLoad = "tr";
-											editor.putString("Lang", "tr");
-										}
-										 else if (itemselected.contains("fa-")) {
-												languageToLoad = "fa";
-												editor.putString("Lang", "fa");
-											}
-										editor.commit();
-										SetLanguage();
-										restartActivity();
-										if (itemselected.contains("-"))
-											itemselected = itemselected
-													.substring(itemselected
-															.indexOf("-"));
-										makeText(getText(R.string.langchange)
-												+ " " + itemselected);
-									}
-								}
-							})
-					.setNegativeButton(R.string.betal,
-							new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-
-								}
-							}).show();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-		}
-
-	}
+//
+//	protected void showLanguageChangeDialog() {
+//		try {
+//			items[0] = "ku-" + getString(R.string.Langku);
+//			items[1] = "en-" + getString(R.string.Langen);
+//			items[2] = "de-" + getString(R.string.Langde);
+//			items[3] = "tr-" + getString(R.string.Langtr);
+//			items[4] = "fa-" + getString(R.string.Langfa);
+//			final SharedPreferences prefsLang = getBaseContext()
+//					.getSharedPreferences("Lang", 0);
+//			final String currentlang = prefsLang.getString("Lang", "ku") + "-";
+//			// makeText(currentlang);
+//			int selectedItem = 0;
+//			for (int xx = 0; xx < items.length; xx++) {
+//				if (items[xx].toString().contains(currentlang)) {
+//					selectedItem = xx;
+//					break;
+//				}
+//
+//			}
+//
+//			new AlertDialog.Builder(this)
+//					.setSingleChoiceItems(items, selectedItem, null)
+//					.setIcon(R.drawable.refresh)
+//					.setTitle(R.string.ziman)
+//					.setPositiveButton(R.string.temam,
+//							new DialogInterface.OnClickListener() {
+//								public void onClick(DialogInterface dialog,
+//										int whichButton) {
+//									dialog.dismiss();
+//									int selectedPosition = ((AlertDialog) dialog)
+//											.getListView()
+//											.getCheckedItemPosition();
+//
+//									String itemselected = items[selectedPosition]
+//											.toString();
+//									if (!itemselected.startsWith(currentlang)) {
+//
+//										SharedPreferences.Editor editor = prefsLang
+//												.edit();
+//										if (itemselected.contains("ku-")) {
+//											editor.putString("Lang", "ku");
+//											languageToLoad = "ku";
+//
+//										} else if (itemselected.contains("en-")) {
+//											editor.putString("Lang", "en");
+//											languageToLoad = "en";
+//										} else if (itemselected.contains("de-")) {
+//											editor.putString("Lang", "de");
+//											languageToLoad = "de";
+//										} else if (itemselected.contains("tr-")) {
+//											languageToLoad = "tr";
+//											editor.putString("Lang", "tr");
+//										}
+//										 else if (itemselected.contains("fa-")) {
+//												languageToLoad = "fa";
+//												editor.putString("Lang", "fa");
+//											}
+//										editor.commit();
+//										SetLanguage();
+//										restartActivity();
+//										if (itemselected.contains("-"))
+//											itemselected = itemselected
+//													.substring(itemselected
+//															.indexOf("-"));
+//										makeText(getText(R.string.langchange)
+//												+ " " + itemselected);
+//									}
+//								}
+//							})
+//					.setNegativeButton(R.string.betal,
+//							new DialogInterface.OnClickListener() {
+//
+//								@Override
+//								public void onClick(DialogInterface dialog,
+//										int which) {
+//
+//								}
+//							}).show();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} finally {
+//		}
+//
+//	}
 
 	private void restartActivity() {
 		Intent intent = getIntent();
@@ -3431,12 +3435,12 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-
-		if (R.id.derbar == item.getItemId()) {
-			//showInfo();
-			showInfoActivity();
-			return true;
-		}
+//
+//		if (R.id.derbar == item.getItemId()) {
+//			//showInfo();
+//			showInfoActivity();
+//			return true;
+//		}
 		if (R.id.action_list == item.getItemId()) {
 			//case R.id.action_list:
 			ViewWordList();
@@ -3471,16 +3475,16 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 			return true;
 		}
-		if (R.id.ziman == item.getItemId()) {
-			//case R.id.ziman: {
-			showLanguageChangeDialog();
-			return true;
-		}
-		if( R.id.action_Parveke==item.getItemId()) {
-		//case R.id.action_Parveke: {
-			ShareThisWord();
-			return true;
-		}
+//		if (R.id.ziman == item.getItemId()) {
+//			//case R.id.ziman: {
+//			showLanguageChangeDialog();
+//			return true;
+//		}
+//		if( R.id.action_Parveke==item.getItemId()) {
+//		//case R.id.action_Parveke: {
+//			ShareThisWord();
+//			return true;
+//		}
 		if( R.id.action_eyar==item.getItemId()) {
 			//case R.id.action_Parveke: {
 			GoToSettings();
@@ -3830,8 +3834,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		{
 			cm = (ConnectivityManager) cont
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
-		} else {
-			Toast.makeText(cont, "No Connection", Toast.LENGTH_LONG).show();		
+		} else if(mContext!=null) {
+			Toast.makeText(mContext, "No Connection", Toast.LENGTH_LONG).show();
 		}
 		//if (cm.getActiveNetworkInfo() != null
 		//		&& cm.getActiveNetworkInfo().isConnected())
@@ -3860,6 +3864,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 							.show();
 					return;
 				}
+				if(imageButtonGoToWiki.getTag()==null)
+					return;
 				String url = "https://ku.wiktionary.org/wiki/"
 						+ imageButtonGoToWiki.getTag().toString();
 				if (!url.startsWith("http://") && !url.startsWith("https://"))

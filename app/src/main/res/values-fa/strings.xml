@@ -92,6 +92,16 @@
     <string name="herwiha">مچنین</string>
     <string name="werger">ترجمه</string>
     <string name="header">ماده ها</string>
+    <string name="strLanguage">زبان برنامه</string>
+
+    <string name="showkeys">کلیدهای ویژه</string>
+    <string name="langtranslations">ترجمه های زبان</string>
+    <string name="headertranslation">ترجمه سرصفحه</string>
+    <string name="strThema">تم</string>
+    <string name="strDark">تاریک</string>
+    <string name="strLight">نور</string>
+    <string name="strSysem">سیستم</string>
+
     <string name="jiwejeye">از ادبیات</string>
      <string name="derbaraminheader">درباره نرم افزار (Di derbara Programçêker de) </string>
      <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
@@ -104,8 +114,8 @@ Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Y
                   	  
 
            * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~130 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.</string>
-    <string name="Version46">Version 4.5 (06/05/2023) </string>
-    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    <string name="Version47">Version 4.7 (03/06/2024) </string>
+    <string name="Version47Body"> * Versiyona Target API hat bilind kirin.\n
     * Navrûyê Ferhengê û rengên piş hatin guhertin
     # Nasandina dengê(Nivîsandina Dengî) hatzêdekirin</string>
 

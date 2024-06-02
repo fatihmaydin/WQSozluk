@@ -25,8 +25,8 @@
             android:layout_weight="3"
 
             android:background="?customAndroidlistlistViewBackColor4Attribute"
-
-            android:text="Show Keys: " />
+            android:text="@string/showkeys"
+ />
 
         <CheckBox
             android:id="@+id/chkKeys"
@@ -56,10 +56,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="?customAndroidlistlistViewBackColor4Attribute"
-
-
+            android:text="@string/langtranslations"
             android:layout_weight="3"
-            android:text="Lang. Translation" />
+            />
 
         <CheckBox
             android:id="@+id/chkLangTr"
@@ -93,8 +92,8 @@
               android:layout_weight="3"
 
             android:background="?customAndroidlistlistViewBackColor4Attribute"
-
-            android:text="Header Trans" />
+            android:text="@string/headertranslation"
+            />
 
         <CheckBox
             android:id="@+id/chkHeaderTr"
@@ -125,8 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="20"
             android:background="?customAndroidlistlistViewBackColor4Attribute"
-
-            android:text="Theme" />
+            android:text="@string/strThema" />
 
         <Spinner
             android:id="@+id/spinnerTheme"
@@ -138,9 +136,39 @@
             android:textColor="?customAndroidExpTextViewTextColorAttribute"
             android:background="?customAndroidlistlistViewBackColor2Attribute"
 
-            android:layout_weight="60" />
+            android:layout_weight="30" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearlang"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@xml/border"
+        android:gravity="center"
+        android:layout_marginBottom="13dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textLang"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:background="?customAndroidlistlistViewBackColor4Attribute"
+            android:text="@string/strLanguage" />
+
+        <Spinner
+            android:id="@+id/spinnerLang"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+
+            android:textColor="?customAndroidExpTextViewTextColorAttribute"
+            android:background="?customAndroidlistlistViewBackColor2Attribute"
+
+            android:layout_weight="30" />
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -149,12 +177,22 @@
         <ImageView
             android:id="@+id/buttonOK"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
 
             android:layout_alignParentRight="true"
             android:background="?customAndroidBackAttributeColor"
             android:onClick="onClick"
             android:src="@drawable/okcheck"
+            />
+        <ImageView
+            android:id="@+id/buttonAbout"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+
+            android:layout_alignParentLeft="true"
+            android:background="?customAndroidBackAttributeColor"
+            android:onClick="onClick"
+            android:src="@drawable/info"
             />
     </RelativeLayout>
 

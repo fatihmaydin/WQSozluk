@@ -43,7 +43,7 @@ public class WQFerhengDB {
 	private static final String FTS_VIRTUAL_TABLE = "FTSdictionary";
 	private static final String FTS_VIRTUAL_TABLE2 = "FTSdictionary_Defs";
 	private static final String FTS_VIRTUAL_TABLE_FAV = "FTSdictionary_FAVs";
-	public static final int DATABASE_VERSION = 17;
+	public static final int DATABASE_VERSION = 18;
 	//int Index = 0;
 
 	static WQFerhengDBOpenHelper mWQferhengDBOpenHelper = null;

@@ -55,6 +55,7 @@
     <string name="Langde">Almanî</string>
     <string name="Langtr">Tirkî</string>
     <string name="Langfa">Farsî</string>
+
     <string name="AppRateString">Eger hûn ji bikaranîna %1$sê memnûn in, ji kerema xwe re binirxînin. Spas bo alîkariya we</string>
     <string name="Remind">Paşê bi bîr bîne!</string>
     <string name="Thanks">Na, Spas</string>
@@ -90,6 +91,15 @@
     <string name="bizaravayendin">Bi zaravayên kurdî</string>
     <string name="werger">Werger</string>
     <string name="header">sernav</string>
+    <string name="showkeys">Tîpên Taybet</string>
+    <string name="langtranslations">Werg. Zimanan</string>
+    <string name="headertranslation">Werg. Serenavan</string>
+    <string name="strThema">Tema</string>
+    <string name="strDark">Tarî</string>
+    <string name="strLight">Ronî</string>
+    <string name="strSysem">Sîstem</string>
+    <string name="strLanguage">Zimanê App\'ê</string>
+
     <string name="jiwejeye">Ji Wêjeyê</string>
     <string name="derbaraminheader">Di derbara Programçêker de</string>
     <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
@@ -97,8 +107,8 @@
         Heta niha 4 wergerên wî, ji Almanî; Veguherîn(Die Verwandlung), Koloniya Tawanê(In der Strafkolonie) û Keleh(Das Schloß) ya Franz Kafka,  û Li Çiyayên Kurdistanê - Di Bin Nîveheyvê de(Briefe über die Zustände und Begebenheiten in der
 Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
         Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;\n\n</string>
-    <string name="Version46">Version 4.6 (10/05/2023) </string>
-    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    <string name="Version47">Version 4.7 (03/06/2024) </string>
+    <string name="Version47Body"> * Versiyona Target API hat bilind kirin.\n
     * Navrûyê Ferhengê û rengên piş hatin guhertin
     # Nasandina dengê(Nivîsandina Dengî) lê hat zêdekirin</string>
 

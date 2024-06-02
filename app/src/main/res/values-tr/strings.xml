@@ -90,6 +90,16 @@
     <string name="herwiha">Diğer Yazım</string>
     <string name="werger">Çeviriler</string>
     <string name="header">başlık</string>
+    <string name="strLanguage">Uygulama Dili</string>
+
+    <string name="showkeys">Özel Harfler</string>
+    <string name="langtranslations">Dil Çevirileri</string>
+    <string name="headertranslation">Başlık Çevirileri</string>
+    <string name="strThema">Tema</string>
+    <string name="strDark">Koyu</string>
+    <string name="strLight">Açık</string>
+    <string name="strSysem">Sistem</string>
+
     <string name="jiwejeye">Yazından</string>
     <string name="tewandin">Fiil Çekimi</string>
      <string name="derbaraminheader">Di derbara Programçêker de(Geliştirici Hakkında)  </string>
@@ -105,8 +115,8 @@
         Moltke\'nin Mektupları\'nı Almanca\'dan Kürtçe\'ye çevirdi ve Avesta yayınları tarafından basıldı. Bu arada çeviri ile ilgili çalışmalarını Franz Kafka nın eserleri üzerinden sürdürmekte. WQFerheng, dışında, yine Android için, Kürtçe haberlerini izlenebildiği Nûçexane isimli bir program daha geliştirmiştir.
         Blog ve aşağıdaki adreslerini ziyaret edebilirsiniz;\n\n
         </string>
-    <string name="Version46">Version 4.5 (06/05/2023) </string>
-    <string name="Version46Body"> * Versiyona Target API hat bilind kirin.\n
+    <string name="Version47">Version 4.7 (03/06/2024) </string>
+    <string name="Version47Body"> * Versiyona Target API hat bilind kirin.\n
     * Navrûyê Ferhengê û rengên piş hatin guhertin
     # Nasandina dengê(Nivîsandina Dengî) hatzêdekirin</string>
 

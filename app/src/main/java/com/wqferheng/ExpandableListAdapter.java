@@ -743,25 +743,29 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			
 			Pattern regexendofLink = Pattern.compile(Pattern.quote( endofLink));
 			Matcher regexMatcherendofLink = regexendofLink.matcher(text);
+			int t=0;
 			while(regexMatcherstartofLink.find())
 				{
-				int end=-1;
-				int start=-1;
-				start=regexMatcherstartofLink.start();
-				text=regexMatcherstartofLink.replaceFirst("");
-				
-				regexMatcherendofLink = regexendofLink.matcher(text);
-				if(regexMatcherendofLink.find())
-				{
-					end=regexMatcherendofLink.start();
-					text=regexMatcherendofLink.replaceFirst("");
-					regexMatcherstartofLink = regexstartofLink.matcher(text);
-				}
-				if(start!=-1&&end!=-1)
-				{
-				Pair<Integer, Integer> keyValue = new Pair(start, end);
-				map.add(keyValue);
-				}
+					int end=-1;
+					int start=-1;
+					start=regexMatcherstartofLink.start();
+					text=regexMatcherstartofLink.replaceFirst("");
+
+					regexMatcherendofLink = regexendofLink.matcher(text);
+					if(regexMatcherendofLink.find())
+					{
+						end=regexMatcherendofLink.start();
+						text=regexMatcherendofLink.replaceFirst("");
+						regexMatcherstartofLink = regexstartofLink.matcher(text);
+					}
+					if(start!=-1&&end!=-1)
+					{
+					Pair<Integer, Integer> keyValue = new Pair(start, end);
+					map.add(keyValue);
+					}
+					t++;
+					if(t>1000)
+						break;
 				}			
 		}
 		return map;
