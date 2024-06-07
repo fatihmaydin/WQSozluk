@@ -123,8 +123,10 @@
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+
+        android:layout_above="@id/adView"
         android:background="@android:color/transparent"
-     android:layout_alignParentBottom="true"
+
          >
 
         <ImageButton
@@ -174,6 +176,7 @@
             android:background="?customAndroidButtonDarkBackColorAttribute"
             android:alpha="0.6"
             android:contentDescription="@string/description"
+
             android:src="@drawable/arrowforward" />
     </RelativeLayout>
 
@@ -185,7 +188,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="visible"
+        android:visibility="invisible"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-4819188859318435/5036961654" >
     </com.google.android.gms.ads.AdView>
@@ -193,7 +196,7 @@
         android:id="@+id/keyboardview"
         android:keyBackground="?customAndroidButtonDarkBackColorAttribute"
         android:keyTextColor="?customAndroidTextDarkColorAttribute"
-        android:background="?customAndroidButtonDarkBackColorAttribute"
+        android:background="?customAndroidButtonDarkBackColorKeyboardAttribute"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

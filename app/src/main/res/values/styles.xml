@@ -120,14 +120,15 @@
         <item name="customAndroidlistlistViewBackColor3Attribute">#264055</item>
         <item name="customAndroidlistlistViewBackColor4Attribute">#384751</item>
         <item name="customAndroidlistlistTabBackColorAttribute">#132640</item>
-        <item name="customAndroidButtonDarkBackColorAttribute">#061043</item>
+        <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_blue</item>
+        <item name="customAndroidButtonDarkBackColorKeyboardAttribute">#264055</item>
 
         <item name="customAndroidDrawableAttribute">@drawable/btn_dark_blue</item>
         <item name="customAndroidLinkColorAttribute">#552640</item>
 
         <item name="customAndroidCheckBoxForegroundColorAttribute">#1090CB</item>
         <item name="customAndroidDrawableColorAttribute">#4CAF50</item>
-        <item name="customAndroidTextDarkColorAttribute">@color/colorCustomPrimaryDark</item>
+        <item name="customAndroidTextDarkColorAttribute">#ffffff</item>
         <item name="customAndroidBackButtonColorAttribute">#e6e6e6</item>
 
         <item name="customAndroidBorderColorAttribute">#84BBE4</item>
@@ -169,12 +170,14 @@
         <item name="customAndroidlistExpBackColorAttribute">#1ffff3ff</item>
         <item name="customAndroidlistExpTextColorAttribute">#000011</item>
         <item name="customAndroidlistExpTextColorAttribute1">#000011</item>
+        <item name="customAndroidTextDarkColorAttribute">@color/colorCustomPrimaryDark</item>
 
         <item name="customAndroidlistlistViewBackColor1Attribute">#E5EBF0</item>
         <item name="customAndroidlistlistViewBackColor2Attribute">#FBFBFA</item>
         <item name="customAndroidlistlistViewBackColor3Attribute">#E6EDF2</item>
         <item name="customAndroidlistlistViewBackColor4Attribute">#E6EDF2</item>
         <item name="customAndroidlistlistTabBackColorAttribute">#DAE3EA</item>
+        <item name="customAndroidButtonDarkBackColorKeyboardAttribute">@drawable/btn_white</item>
 
         <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_white</item>
         <item name="customAndroidDrawableAttribute">@drawable/btn_white</item>
@@ -220,12 +223,14 @@
         <item name="customAndroidlistExpBackColorAttribute">#181919</item>
         <item name="customAndroidlistExpTextColorAttribute">#D5D5DA</item>
         <item name="customAndroidlistExpTextColorAttribute1">#ffffff</item>
+        <item name="customAndroidTextDarkColorAttribute">#ffffff</item>
 
         <item name="customAndroidlistlistViewBackColor1Attribute">#181919</item>
         <item name="customAndroidlistlistViewBackColor2Attribute">#252727</item>
         <item name="customAndroidlistlistViewBackColor3Attribute">#181919</item>
         <item name="customAndroidlistlistViewBackColor4Attribute">#0B0A0A</item>
         <item name="customAndroidlistlistTabBackColorAttribute">#000000</item>
+        <item name="customAndroidButtonDarkBackColorKeyboardAttribute">#A3B5C3</item>
 
         <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_black</item>
         <item name="customAndroidDrawableAttribute">@drawable/btn_black</item>
@@ -271,6 +276,8 @@
         <item name="customAndroidlistlistViewBackColor3Attribute">#E6EDF2</item>
         <item name="customAndroidlistlistViewBackColor4Attribute">#E6EDF2</item>
         <item name="customAndroidlistlistTabBackColorAttribute">#DAE3EA</item>
+        <item name="customAndroidButtonDarkBackColorKeyboardAttribute">@drawable/btn_black_classic</item>
+        <item name="customAndroidTextDarkColorAttribute">@color/colorCustomPrimaryDark</item>
 
         <item name="customAndroidButtonDarkBackColorAttribute">@drawable/btn_black_classic</item>
         <item name="customAndroidDrawableAttribute">#000000</item>

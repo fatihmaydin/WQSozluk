@@ -33,7 +33,7 @@ public class SelectableCursorWrapper extends CursorWrapper {
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				int x = 0;
-				while (cursor.isAfterLast() == false) 
+				while (!cursor.isAfterLast())
 				{
 				//	int dIndex = cursor
 						//	.getColumnIndexOrThrow(column);

@@ -35,14 +35,14 @@ public class CurSorWrapperDefinition extends CursorWrapper {
 		try {
 
 			List<Integer> list = new ArrayList<Integer>();
-			String query = "" + WQFerhengActivity.zimanquery +"";
+			String query = WQFerhengActivity.zimanquery;
 			Log.d("CursorWrapper", query);
 			
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				int x = 0;
 				//Log.d("CursorWrapper","letter: "+ letter+", query:"+filter+", Cursor count:"+cursor.getCount());
-				while (cursor.isAfterLast() == false) {
+				while (!cursor.isAfterLast()) {
 					//int dIndex = cursor
 						//	.getColumnIndexOrThrow(WQFerhengDB.KEY_DEFINITION);
 					String ddef = WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_DEFINITION ) ;//cursor.getString(dIndex);
@@ -87,7 +87,7 @@ public class CurSorWrapperDefinition extends CursorWrapper {
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				int x = 0;
-				while (cursor.isAfterLast() == false) {
+				while (!cursor.isAfterLast()) {
 				//	int dIndex = cursor
 					//		.getColumnIndexOrThrow(WQFerhengDB.KEY_DEFINITION);
 					String word =WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_DEFINITION ); //cursor.getString(dIndex);

@@ -290,7 +290,7 @@ public class ListViewCursorLoaderActivity extends AppCompatActivity implements
 		if (letter != null && !letter.replace("-", "").equalsIgnoreCase("")) {
 
 			WQFerhengDB.columntoSearch="both";
-			String query = "" + WQFerhengActivity.zimanquery + "*" + "";
+			String query = WQFerhengActivity.zimanquery + "*";
 			String selection = WQFerhengDB.KEY_WORD_N + " match ? ";
 			Uri uri = WQFerhengDBProvider.CONTENT_URI;
 			query = WQFerhengDBOpenHelper.Normalize(letter) + "*";
@@ -319,7 +319,7 @@ public class ListViewCursorLoaderActivity extends AppCompatActivity implements
 			String query = "";// "'" + WQFerhengActivity.zimanquery + "%*'";
 			if (!type.toLowerCase().contains("hemû")) {
 
-				query += "" + WQFerhengActivity.zimanquery + ":"
+				query += WQFerhengActivity.zimanquery + ":"
 						+ type.replace("*", "") + ";";
 
 			}

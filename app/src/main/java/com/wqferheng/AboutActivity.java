@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -44,14 +45,22 @@ import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.UserMessagingPlatform;
 import com.wqferheng.GroupEntity.GroupItemEntity;
 
 @SuppressLint("NewApi") public class AboutActivity extends AppCompatActivity {
 
 	ExpandableListView expandableListViewdefinition;	
 	ExpandableListAdapter adapter;
+	private ConsentInformation consentInformation;
+	private final AtomicBoolean isMobileAdsInitializeCalled = new AtomicBoolean(false);
+
 	private InterstitialAd mInterstitialAd;
 	private static final String TAG = "AboutActivity";
 	Boolean CancelRequestedForExpand = false;
@@ -132,7 +141,7 @@ import com.wqferheng.GroupEntity.GroupItemEntity;
 		{
 			String d=word.getwate(); // wordd.get(WQFerhengDB.KEY_DEFINITION);
 			
-			 def +="Di derheqa "+""+ d.replace("Ferheng¿|", "Ferhengê de¿|")+"\n\n"+"DB version= "+WQFerhengDB.DATABASE_VERSION +"||";			
+			 def += "Di derheqa "+ d.replace("Ferheng¿|", "Ferhengê de¿|")+"\n\n"+"DB version= "+WQFerhengDB.DATABASE_VERSION +"||";
 		}
 		def+=whatsNew +"("+getString(R.string.Version47)+")"+WQFerhengActivity.headerEndChar+ getString(R.string.Version45Body);
 		
@@ -244,8 +253,77 @@ import com.wqferheng.GroupEntity.GroupItemEntity;
 //							mInterstitialAd = null;
 //						}
 //					});
+		try {
+			consent();
+		}catch(Exception e) {}
+
 
 	}
+
+	private void consent()
+	{
+		// Create a ConsentRequestParameters object.
+		ConsentRequestParameters params = new ConsentRequestParameters
+				.Builder()
+				.build();
+
+
+
+		consentInformation = UserMessagingPlatform.getConsentInformation(this);
+		consentInformation.requestConsentInfoUpdate(
+				this,
+				params,
+				(ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
+					UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+							this,
+							(ConsentForm.OnConsentFormDismissedListener) loadAndShowError -> {
+								if (loadAndShowError != null) {
+									// Consent gathering failed.
+									Log.w(TAG, String.format("%s: %s",
+											loadAndShowError.getErrorCode(),
+											loadAndShowError.getMessage()));
+								}
+
+								// Consent has been gathered.
+								if (consentInformation.canRequestAds()) {
+									initializeMobileAdsSdk();
+								}
+							}
+					);
+				},
+				(ConsentInformation.OnConsentInfoUpdateFailureListener) requestConsentError -> {
+					// Consent gathering failed.
+					Log.w(TAG, String.format("%s: %s",
+							requestConsentError.getErrorCode(),
+							requestConsentError.getMessage()));
+				});
+
+		// Check if you can initialize the Google Mobile Ads SDK in parallel
+		// while checking for new consent information. Consent obtained in
+		// the previous session can be used to request ads.
+		if (consentInformation.canRequestAds()) {
+			initializeMobileAdsSdk();
+		}
+
+	}
+	private void initializeMobileAdsSdk() {
+		if (isMobileAdsInitializeCalled.getAndSet(true)) {
+			return;
+		}
+
+		new Thread(
+				() -> {
+					// Initialize the Google Mobile Ads SDK on a background thread.
+					MobileAds.initialize(this, initializationStatus -> {});
+					runOnUiThread(
+							() -> {
+								// TODO: Request an ad.
+								// InterstitialAd.load(...);
+							});
+				})
+				.start();
+	}
+
 	private void showInfo() {
 		try {
 			Cursor cursor = WQFerhengDB.mWQferhengDBOpenHelper

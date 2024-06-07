@@ -37,7 +37,7 @@ public class FilteredMatrixCursor extends CursorWrapper {
 				int x = 0;
 				int totalCount=cursor.getCount();
 				String filterlower=filter.toLowerCase();
-				while (cursor.isAfterLast() == false) 
+				while (!cursor.isAfterLast())
 				{				
 					String word_n =WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_WORD_N);
 					if(filter.equalsIgnoreCase( "")||word_n.toLowerCase().contains(filterlower))

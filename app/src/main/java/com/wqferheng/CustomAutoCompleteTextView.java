@@ -28,7 +28,7 @@ public class CustomAutoCompleteTextView extends AutoCompleteTextView {
 
     // Interface for resize notifications
     public interface OnTextResizeListener {
-        public void onTextResize(AutoCompleteTextView textView, float oldSize, float newSize);
+        void onTextResize(AutoCompleteTextView textView, float oldSize, float newSize);
     }
 
     // Our ellipse string

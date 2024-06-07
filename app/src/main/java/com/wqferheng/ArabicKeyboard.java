@@ -1,6 +1,7 @@
 package com.wqferheng;
 
 import android.app.Activity;
+import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.Keyboard.Key;
@@ -21,14 +22,14 @@ import android.widget.Toast;
 class ArabicKeyboard {
 
     /** A link to the KeyboardView that is used to render this CustomKeyboard. */ 
-    private KeyboardView mKeyboardView;
+    private final KeyboardView mKeyboardView;
     /** A link to the activity that hosts the {@link #mKeyboardView}. */ 
-    private WQFerhengActivity     mHostActivity;
+    private final WQFerhengActivity     mHostActivity;
     
     private Boolean IsShouldShown;
     CustomAutoCompleteTextView edittext;
     /** The key (code) handler. */
-    private OnKeyboardActionListener mOnKeyboardActionListener = new OnKeyboardActionListener() {
+    private final OnKeyboardActionListener mOnKeyboardActionListener = new OnKeyboardActionListener() {
 
         public final static int CodeDelete   = -5; // Keyboard.KEYCODE_DELETE
         public final static int CodeCancel   = -3; // Keyboard.KEYCODE_CANCEL
@@ -314,7 +315,7 @@ class ArabicKeyboard {
      
     	if(!IsShouldShown)
     	{
-    		 InputMethodManager imm = (InputMethodManager) mHostActivity.getSystemService(mHostActivity.INPUT_METHOD_SERVICE);
+    		 InputMethodManager imm = (InputMethodManager) mHostActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
     			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     		hideCustomKeyboard();
     	}

@@ -254,7 +254,7 @@ public class WordTypeListActivity extends TabActivity {
 		});
 
 		if (android.os.Build.VERSION.SDK_INT >= 11) {
-			androidx.appcompat.app.ActionBar actionBar=WQFerhengActivity.mContext.getSupportActionBar();
+			//androidx.appcompat.app.ActionBar actionBar=WQFerhengActivity.mContext.getSupportActionBar();
 
 //			ActionBar actionBar = getActionBar();
 //			actionBar.show();
@@ -281,8 +281,8 @@ public class WordTypeListActivity extends TabActivity {
 		tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
-				updateTabs();;
-			}
+				updateTabs();
+            }
 		});
 		tabHost.getTabWidget()
 				.getChildAt(0)
@@ -559,10 +559,8 @@ public class WordTypeListActivity extends TabActivity {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
 		}
 
-	}
+    }
 
 }

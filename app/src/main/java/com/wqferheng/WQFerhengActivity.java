@@ -70,6 +70,10 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.UserMessagingPlatform;
 import com.wqferheng.GroupEntity.GroupItemEntity;
 import com.wqferheng.SearchResultAdapter.ViewHolderWords;
 import com.wqferheng.WQFerhengDB.WQFerhengDBOpenHelper;
@@ -86,7 +90,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class WQFerhengActivity extends AppCompatActivity implements OnClickListener {
@@ -193,6 +197,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	private LinearLayout linearLayoutcustomkeys;
 	private boolean isDarkTheme;
 	public static Configuration Config;
+	private ConsentInformation consentInformation;
+	private final AtomicBoolean isMobileAdsInitializeCalled = new AtomicBoolean(false);
 
 	@SuppressLint({ "NewApi", "NewApi", "NewApi" })
 	@Override
@@ -513,12 +519,74 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				if(false&&!upgrating)
+				if(false)
 					test();
 			}
 		}, 500);
-
 		//AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+	}
+//private void consent()
+//{
+//	// Create a ConsentRequestParameters object.
+//	ConsentRequestParameters params = new ConsentRequestParameters
+//			.Builder()
+//			.build();
+//
+//
+//
+//	consentInformation = UserMessagingPlatform.getConsentInformation(this);
+//	consentInformation.requestConsentInfoUpdate(
+//			this,
+//			params,
+//			(ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
+//				UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+//						this,
+//						(ConsentForm.OnConsentFormDismissedListener) loadAndShowError -> {
+//							if (loadAndShowError != null) {
+//								// Consent gathering failed.
+//								Log.w(TAG, String.format("%s: %s",
+//										loadAndShowError.getErrorCode(),
+//										loadAndShowError.getMessage()));
+//							}
+//
+//							// Consent has been gathered.
+//							if (consentInformation.canRequestAds()) {
+//								initializeMobileAdsSdk();
+//							}
+//						}
+//				);
+//			},
+//			(ConsentInformation.OnConsentInfoUpdateFailureListener) requestConsentError -> {
+//				// Consent gathering failed.
+//				Log.w(TAG, String.format("%s: %s",
+//						requestConsentError.getErrorCode(),
+//						requestConsentError.getMessage()));
+//			});
+//
+//	// Check if you can initialize the Google Mobile Ads SDK in parallel
+//	// while checking for new consent information. Consent obtained in
+//	// the previous session can be used to request ads.
+//	if (consentInformation.canRequestAds()) {
+//		initializeMobileAdsSdk();
+//	}
+//
+//}
+	private void initializeMobileAdsSdk() {
+		if (isMobileAdsInitializeCalled.getAndSet(true)) {
+			return;
+		}
+
+		new Thread(
+				() -> {
+					// Initialize the Google Mobile Ads SDK on a background thread.
+					MobileAds.initialize(this, initializationStatus -> {});
+					runOnUiThread(
+							() -> {
+								// TODO: Request an ad.
+								// InterstitialAd.load(...);
+							});
+				})
+				.start();
 	}
 
 	private void test()  {
@@ -591,7 +659,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 				if (heightDiff > 100) { // 99% of the time the height diff will be due to a keyboard.
 
 					isOpened = true;
-				} else if (isOpened == true) {
+				} else if (isOpened) {
 
 					isOpened = false;
 				}
@@ -708,7 +776,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					if(resultCode==RESULT_OK&&data!=null)
 					{
 						ArrayList<String> result=data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-						autoCmopletetextView.setText(result.get(0).toLowerCase().toString());
+						autoCmopletetextView.setText(result.get(0).toLowerCase());
 					}
 					break;
 				case REQUEST_CODE_CONFIG:
@@ -785,12 +853,12 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 	private void showAdmob() throws ClassNotFoundException
 	{
-		if (android.os.Build.VERSION.SDK_INT >= 14) {
+
 
 			//MobileAds.initialize(this, "ca-app-pub-4819188859318435/5036961654");
 			mAdView =(AdView) this.findViewById(R.id.adView);
 
-			//final RelativeLayout imgFAv =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
+			final RelativeLayout imgFAv =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
 			AdRequest adRequest = new AdRequest.Builder().build();
 			if(adRequest!=null&&mAdView!=null)
 			{
@@ -803,25 +871,23 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 						super.onAdLoaded();
 						mAdView.setVisibility(View.VISIBLE);
 						Log.d(TAG, "Add loaded");
-						//RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-						//params.addRule(RelativeLayout.ABOVE, R.id.adView);
 					}
 				});
 				mAdView.loadAd(adRequest);
 			}
-		}
-		else
-		{
-			mAdView =(AdView) this.findViewById(R.id.adView);
-			mAdView.setVisibility(View.GONE);
-			final RelativeLayout rlayout =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
-			RelativeLayout.LayoutParams layoutParams= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-			layoutParams.setMargins(0, 0, 0, 30);
-
-			rlayout.setLayoutParams(layoutParams);
-
-		}
+//		}
+//		else
+//		{
+//			mAdView =(AdView) this.findViewById(R.id.adView);
+//			mAdView.setVisibility(View.GONE);
+//			final RelativeLayout rlayout =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
+//			RelativeLayout.LayoutParams layoutParams= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+//			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//			layoutParams.setMargins(0, 0, 0, 30);
+//
+//			rlayout.setLayoutParams(layoutParams);
+//
+//		}
 
 	}
 //private void showAdmob() throws ClassNotFoundException
@@ -921,10 +987,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
 		}
-	}
+    }
 
 	private void showWhatsNewDialog() {
 		try {
@@ -949,11 +1013,9 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
 		}
 
-	}
+    }
 
 	private void SetLanguage() {
 		try {
@@ -1185,11 +1247,11 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
             }
 				Cursor cursorc = (Cursor) getItem(position);
 
-				String word = provider.GetValue(cursorc, WQFerhengDB.KEY_WORD);
-				String definition = provider.GetValue(cursorc,
+				String word = WQFerhengQueryProvider.GetValue(cursorc, WQFerhengDB.KEY_WORD);
+				String definition = WQFerhengQueryProvider.GetValue(cursorc,
 						WQFerhengDB.KEY_DEFINITION);
 		
-				String word_n = provider.GetValue(cursorc,
+				String word_n = WQFerhengQueryProvider.GetValue(cursorc,
 						WQFerhengDB.KEY_WORD_N);
 				if(word==null||word.equalsIgnoreCase(""))
 				{
@@ -1251,7 +1313,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 					String normalized=WQFerhengDBOpenHelper. Normalize(s);
 					//if(normalized.contains(" "))
-						normalized=""+normalized+"*";
+						normalized= normalized+"*";
 					Cursor cursor2 =provider.  GetCursor(WQFerhengDB.KEY_WORD_N + " match ? ", normalized );
 					if(cursor2!=null)
 					{				
@@ -1297,9 +1359,9 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					SimpleCursorAdapter cadapter=	(SimpleCursorAdapter)autoCmopletetextView.getAdapter();
 					Cursor c=(Cursor)cadapter.getItem(position);
 			
-					String d=provider.GetValue(c,  WQFerhengDB.KEY_WORD);
+					String d= WQFerhengQueryProvider.GetValue(c,  WQFerhengDB.KEY_WORD);
 					if(d==null||d.equalsIgnoreCase(""))
-						d=provider.GetValue(c,  WQFerhengDB.KEY_WORD_N);
+						d= WQFerhengQueryProvider.GetValue(c,  WQFerhengDB.KEY_WORD_N);
 					resulted.peyv=d;
 					autoCmopletetextView.setText(d);
 			
@@ -1326,9 +1388,9 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		} 
 		else {
 			cursor.moveToFirst();
-			String	id = provider.GetValue(cursor, WQFerhengDB.KEY_ID);
-			SelectedWord = provider.GetValue(cursor, WQFerhengDB.KEY_WORD);
-			String selectedWord_n= provider.GetValue(cursor, WQFerhengDB.KEY_WORD_N);
+			String	id = WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_ID);
+			SelectedWord = WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_WORD);
+			String selectedWord_n= WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_WORD_N);
 			if(SelectedWord==null||SelectedWord.equalsIgnoreCase(""))
 			{
 				SelectedWord =selectedWord_n;
@@ -1553,11 +1615,9 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
 		}
 
-	}
+    }
 	public String ResetArabicKeyboard() {
 		showarabickeyboard = !showarabickeyboard;
 		String text = "";
@@ -1767,7 +1827,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	//	Log.d("strToreturn",strToreturn);
 		for (Entry<String, String> entry : decoderList.entrySet()) {
 		    String key = entry.getKey();
-		    String value = entry.getValue().toString();
+		    String value = entry.getValue();
 		   
     		strToreturn=strToreturn.replace(value, key);
     	}
@@ -1782,7 +1842,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		for (Entry<String, String> entry : encoderList.entrySet()) 
 		{
 		    String key = entry.getKey();
-		    String value = entry.getValue().toString();
+		    String value = entry.getValue();
 		   
     		strToreturn=strToreturn.replace(key, value);
 
@@ -2749,8 +2809,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 						for	(int i=1; i<adapter.getGroupCount();i++)
 						{
 							mExpandableListView.expandGroup(1);
-							heightofExpanablelistview+=  adapter.getGroupViewHeight(1);;
-							if(heightofExpanablelistview>height-130)
+							heightofExpanablelistview+=  adapter.getGroupViewHeight(1);
+                            if(heightofExpanablelistview>height-130)
 								break;
 						}
 					}
@@ -2943,12 +3003,12 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
-				String wordd = provider.GetValue(cursor, WQFerhengDB.KEY_WORD);
-				String wordd_n = provider.GetValue(cursor, WQFerhengDB.KEY_WORD_N);
+				String wordd = WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_WORD);
+				String wordd_n = WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_WORD_N);
 				if((wordd==null||wordd.equalsIgnoreCase(""))&&word.equalsIgnoreCase(normalized))
 					wordd=wordd_n;
 				if (wordd.equals(word)) {
-					String id=provider.GetValue(cursor, WQFerhengDB.KEY_ID);
+					String id= WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_ID);
 					Words w =	WQFerhengDB.mWQferhengDBOpenHelper.GetSingleWord(id);
 					if(w!=null)
 					{
@@ -2990,7 +3050,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 					if (cursor != null) {
 						cursor.moveToFirst();
-						while (cursor.isAfterLast() == false) 
+						while (!cursor.isAfterLast())
 						{
 							String peyv=WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_WORD);
 							String id=WQFerhengQueryProvider.GetValue(cursor, WQFerhengDB.KEY_ID);
@@ -3172,8 +3232,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		int vowelcount = 0;
 		for (int i = 0; i < word.length(); i++) {
 			char c = word.charAt(i);
-			Boolean Istwoconstant = ((word.length() - i) > 2 ? (IsVowel(word
-					.charAt(i + 2)) ? false : true) : false);
+			Boolean Istwoconstant = ((word.length() - i) > 2 && (!IsVowel(word
+                    .charAt(i + 2))));
 			if (IsVowel(c)) {
 				vowelcount++;
 				if (!lastWasVowel) {

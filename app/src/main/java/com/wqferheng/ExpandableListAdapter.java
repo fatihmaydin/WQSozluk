@@ -44,11 +44,11 @@ import android.widget.Toast;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-	private Context mContext;
-	private ExpandableListView mExpandableListView;
-	private List<GroupEntity> mGroupCollection;
-	private int[] groupStatus;
-	private AutoCompleteTextView textView;
+	private final Context mContext;
+	private final ExpandableListView mExpandableListView;
+	private final List<GroupEntity> mGroupCollection;
+	private final int[] groupStatus;
+	private final AutoCompleteTextView textView;
 	 OnTouchListener onSwipeListener;
 	 public Boolean handleClick=true;
 	String startofLink = "[";
@@ -682,11 +682,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		catch(Exception e)
 		{
 			return -1;}
-		finally
-		{
-			
-		}
-	}
+    }
 	private void MakeItalic(Spannable span, String[] lines, String text,
 			String line, int offset) {
 		
@@ -787,56 +783,52 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 	private void MakeBold(Spannable span, String line, String[] lines,
 			String text) {
-		try {
-			if (line.endsWith(":")) {
-				span.setSpan(new UnderlineSpan(), 0, line.length(),
-						Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-				span.setSpan(new StyleSpan(
-						android.graphics.Typeface.BOLD_ITALIC), 0, line
-						.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        if (line.endsWith(":")) {
+            span.setSpan(new UnderlineSpan(), 0, line.length(),
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            span.setSpan(new StyleSpan(
+                    android.graphics.Typeface.BOLD_ITALIC), 0, line
+                    .length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 //				span.setSpan(new
 //								ForegroundColorSpan(Color.parseColor(linkcolor)),
 //						0,line.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			} 
-			
-			if (line.startsWith("Werger") || line.startsWith("Wergerr")
-					|| line.toLowerCase().startsWith("bi zaravayên kurd")
-					|| line.toLowerCase().startsWith("bi alfab")
-					|| line.startsWith("Ji")
-					|| line.startsWith("Bikaranîn")) {
-				
-				for (int xx = 1; xx < lines.length; xx++) {
-					String lineToBold = lines[xx];
+        }
 
-					int start = text.indexOf(lineToBold);
+        if (line.startsWith("Werger") || line.startsWith("Wergerr")
+                || line.toLowerCase().startsWith("bi zaravayên kurd")
+                || line.toLowerCase().startsWith("bi alfab")
+                || line.startsWith("Ji")
+                || line.startsWith("Bikaranîn")) {
 
-					int end = start + lineToBold.length();
-					if (start < 0)
-						continue;
+            for (int xx = 1; xx < lines.length; xx++) {
+                String lineToBold = lines[xx];
 
-					if (end < start)
-						continue;
-					if (lineToBold.contains(":")) {
-						end = start + lineToBold.indexOf(":");
+                int start = text.indexOf(lineToBold);
 
-						if (end <= 1)
-							continue;
-						span.setSpan(new StyleSpan(
-								android.graphics.Typeface.BOLD), start, end,
-								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                int end = start + lineToBold.length();
+                if (start < 0)
+                    continue;
+
+                if (end < start)
+                    continue;
+                if (lineToBold.contains(":")) {
+                    end = start + lineToBold.indexOf(":");
+
+                    if (end <= 1)
+                        continue;
+                    span.setSpan(new StyleSpan(
+                            android.graphics.Typeface.BOLD), start, end,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 //						span.setSpan(new
 //										ForegroundColorSpan(Color.parseColor(linkcolor)),
 //								start,end,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-					}
+                }
 
-				}
+            }
 
-			}
-		} finally {
+        }
 
-		}
-
-	}
+    }
 
 	private void SpanLine(Spannable span, String[] lines, String text,
 			String line, int offset) {
@@ -1092,7 +1084,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 				String tocontrol2 = strsubx[0];
 				if (tocontrol2.equalsIgnoreCase("ne")
 						|| tocontrol2.equalsIgnoreCase("to")
-						|| tocontrol2.toLowerCase()
+						|| tocontrol2
 								.equalsIgnoreCase("binihêre"))
 					isspannable = true;
 			}
@@ -1133,7 +1125,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 									public void onClick(DialogInterface dialog, int which) {
 
 										dialog.dismiss();
-										String word = strsub.toString().replace(".", "")
+										String word = strsub.replace(".", "")
 												.replace(",", "").replace(":", "").trim();
 //										Log.d("clc", "cj,");
 //										if(definitionActivity!=null)
@@ -1184,7 +1176,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 						else
 							
 						{
-							String word = strsub.toString().replace(".", "")
+							String word = strsub.replace(".", "")
 									.replace(",", "").replace(":", "").trim();
 							
 							Intent intent = new Intent(mContext, ListViewCursorLoaderActivity.class);
@@ -1239,7 +1231,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					//Log.d("MyClickableSpan clicked", "click");
 					handleClick=false;
 
-					String word = strsub.toString().replace(".", "")
+					String word = strsub.replace(".", "")
 							.replace(":", "").replace("!", "").replace("?", "").trim();
 					if (wFerhengActivity != null) 
 					{

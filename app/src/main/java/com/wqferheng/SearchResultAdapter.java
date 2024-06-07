@@ -17,14 +17,14 @@ import android.widget.TextView;
 
 public class SearchResultAdapter extends SimpleAdapter
 {
- Context mContext;
+ //Context mContext;
  public List<Words> listOfWords=new ArrayList<Words>();
  public List< Map<String, String>> list;
 	public SearchResultAdapter(Context context,
 			List< Map<String, String>> data, int resource, String[] from,
  int[] to) {
 		super(context, data, resource, from, to);
-		mContext = context;
+		//mContext = context;
 		list = data;
 	}
 	
@@ -35,7 +35,8 @@ public class SearchResultAdapter extends SimpleAdapter
         ViewHolderWords holder;			            
         if (v == null) {
             holder = new ViewHolderWords();
-            v =LayoutInflater.from(mContext).inflate(R.layout.result,
+
+            v =LayoutInflater.from( WQFerhengActivity.mContext).inflate(R.layout.result,
 					null);           
             holder.textViewWord = (TextView) v.findViewById(R.id.word);
             holder.textViewdef = (TextView) v.findViewById(R.id.definition); 
@@ -54,7 +55,7 @@ public class SearchResultAdapter extends SimpleAdapter
        	}
        	else
        	{
-       		Drawable img = mContext.getResources().getDrawable( R.drawable.volume );
+       		Drawable img = WQFerhengActivity.mContext.getResources().getDrawable( R.drawable.volume );
        		holder.textViewWord.setCompoundDrawablesWithIntrinsicBounds( null, null, img, null );
        		
        	}

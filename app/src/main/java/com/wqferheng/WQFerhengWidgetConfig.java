@@ -1,6 +1,7 @@
 package com.wqferheng;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -158,9 +159,7 @@ public class WQFerhengWidgetConfig extends Activity {
 			String[] cureArray = def.split(java.util.regex.Pattern.quote("|"));
 
 			cureyenpeyvan.add("Hemû");
-			for (int x = 0; x < cureArray.length; x++) {
-				cureyenpeyvan.add(cureArray[x]);
-			}
+            Collections.addAll(cureyenpeyvan, cureArray);
 
 		}
 

@@ -129,7 +129,7 @@ public class WQFerhengConfig extends AppCompatActivity {
 
 						//if(spinnerTheme.getTag()!=null&&!spinnerTheme.getTag().toString().equalsIgnoreCase(""))
 
-						saveUrlPref(WQFerhengConfig.this,"Theme", str+"");
+						saveUrlPref(WQFerhengConfig.this,"Theme", str);
 						if (isSpinnerTouched)
 						{
 							WQFerhengActivity.SelectTheme();
@@ -173,7 +173,7 @@ public class WQFerhengConfig extends AppCompatActivity {
 		// makeText(currentlang);
 		int selectedItemLangIndex = 0;
 		for (int xx = 0; xx < items2.size(); xx++) {
-			if (items2.get(xx).toString().contains(currentlang)) {
+			if (items2.get(xx).contains(currentlang)) {
 				selectedItemLangIndex = xx;
 				spinnerLanguage.setSelection(xx);
 				break;
@@ -340,9 +340,9 @@ public class WQFerhengConfig extends AppCompatActivity {
 				tag=check.getTag().toString();
 				String pref= loadUrlPref(this.getBaseContext(),
 					 tag);
-				if(pref==null||pref.equalsIgnoreCase( "")||pref.toLowerCase().equalsIgnoreCase("true"))
+				if(pref==null||pref.equalsIgnoreCase( "")|| pref.equalsIgnoreCase("true"))
 					check.setChecked(true);
-				else if(pref.toLowerCase().equalsIgnoreCase( "false"))
+				else if(pref.equalsIgnoreCase( "false"))
 				{
 					check.setChecked(false);
 				}

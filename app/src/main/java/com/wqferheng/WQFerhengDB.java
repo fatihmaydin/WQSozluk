@@ -39,7 +39,7 @@ public class WQFerhengDB {
 	public static final String KEY_WORD_N = "word_N";
 	public static final String KEY_ID= "id";
 
-	private static String DATABASE_NAME = "wqferheng";
+	private static final String DATABASE_NAME = "wqferheng";
 	private static final String FTS_VIRTUAL_TABLE = "FTSdictionary";
 	private static final String FTS_VIRTUAL_TABLE2 = "FTSdictionary_Defs";
 	private static final String FTS_VIRTUAL_TABLE_FAV = "FTSdictionary_FAVs";
@@ -265,36 +265,16 @@ public class WQFerhengDB {
 					db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
 
 				mDatabase = db;
-			}	
-			try
-			{
-			mDatabase.execSQL(FTS_TABLE_CREATE);
 			}
-			finally
-			{				
-			}
-			try
-			{
-			mDatabase.execSQL(FTS_TABLE_CREATE2);
-		//	mDatabase.execSQL("CREATE INDEX id_index "+
-				//	"on "+FTS_VIRTUAL_TABLE2+" ("+KEY_ID+");");
-			}
-			finally
-			{				
-			}
+            mDatabase.execSQL(FTS_TABLE_CREATE);
+            mDatabase.execSQL(FTS_TABLE_CREATE2);
+            //	mDatabase.execSQL("CREATE INDEX id_index "+
+            //	"on "+FTS_VIRTUAL_TABLE2+" ("+KEY_ID+");");
 
-			try 
-			{
-				if(!IsUpgrading)
-					mDatabase.execSQL(FTS_TABLE_CREATE_FAV);
+            if(!IsUpgrading)
+                mDatabase.execSQL(FTS_TABLE_CREATE_FAV);
 
-			} 
-			finally 
-			{
-
-			}
-		
-			loadDictionary();
+            loadDictionary();
 			
 		
 			
@@ -345,18 +325,12 @@ public class WQFerhengDB {
 							loadWords(id);
 							LoadedRawWordFileCount++;
 						}
-						try
-						{
-						Log.d("Index", "creating");
-						mDatabase.execSQL("CREATE INDEX id_index "+
-								"on "+FTS_VIRTUAL_TABLE2+" ("+KEY_ID+");");
-						Log.d("Index", "created");
-						}
-						finally
-						{				
-						}
-						
-						Loading = false;
+                        Log.d("Index", "creating");
+                        mDatabase.execSQL("CREATE INDEX id_index "+
+                                "on "+FTS_VIRTUAL_TABLE2+" ("+KEY_ID+");");
+                        Log.d("Index", "created");
+
+                        Loading = false;
 						Log.d(TAG, "DONE loading words.");
 					} catch (IOException e) {
 						throw new RuntimeException(e);
@@ -414,7 +388,7 @@ public class WQFerhengDB {
 			c.moveToFirst();
 			String column1=c.getColumnName(0);
 			String column2=c.getColumnName(2);
-			while (c.isAfterLast() == false) {
+			while (!c.isAfterLast()) {
 				String idd = GetValue(c,column1);
 				String idd1 = GetValue(c,column2);
 Words w=new Words();
@@ -515,7 +489,7 @@ w.NormalizedWord=idd1;
 				if (c != null) {
 
 					c.moveToFirst();
-					while (c.isAfterLast() == false) {
+					while (!c.isAfterLast()) {
 						Words ww = null;
 						String id2 = GetValue(c, WQFerhengDB.KEY_WORD);
 				
@@ -724,7 +698,7 @@ w.NormalizedWord=idd1;
 			for (int i = 0; i < words.size(); i++) 
 			{
 				Words w=words.get(i);
-				String id= ""+ Integer.toString(Index, 16);
+				String id= Integer.toString(Index, 16);
 //				if(w.getpeyv().length()<id.length())
 //					id=w.getpeyv();
 				if(w.getpeyv()==null&& w.getpeyv().equalsIgnoreCase(""))
@@ -768,23 +742,10 @@ w.NormalizedWord=idd1;
 			IsUpgrading=true;
 			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
 					+ newVersion + ", which will destroy all old data");
-			try
-			{
-			db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
-			}
-			finally
-			{
-				
-			}
-			try {
+            db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
 
-				db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE2);
-			} 
-			finally 
-			{
-
-			}
-			Log.d(TAG, "table dropped for upgrating");
+            db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE2);
+            Log.d(TAG, "table dropped for upgrating");
 			IsTableDropped = true;
 			onCreate(db);
 			IsUpgrading=false;
@@ -796,23 +757,9 @@ w.NormalizedWord=idd1;
 			IsUpgrading=true;
 			Log.w(TAG, "Downgrading database from version " + oldVersion
 					+ " to " + newVersion + ", which will destroy all old data");
-			try
-			{
-			db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
-			}
-			finally
-			{
-				
-			}
-			try
-			{
-			db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE2);
-			}
-			finally
-			{
-				
-			}
-			Log.d(TAG, "table dropped for downgrading");
+            db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE2);
+            Log.d(TAG, "table dropped for downgrading");
 			IsTableDropped = true;
 			
 			onCreate(db);

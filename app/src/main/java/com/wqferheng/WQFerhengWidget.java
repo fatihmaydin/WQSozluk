@@ -119,7 +119,7 @@ else
 		Log.println(Log.ERROR,"d","aa");
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
-		int appWidgetIds[] = appWidgetManager
+		int[] appWidgetIds = appWidgetManager
 				.getAppWidgetIds(new ComponentName(context,
 						WQFerhengWidget.class));
 		System.out.print("enabling");
@@ -137,7 +137,7 @@ else
 		Log.println(Log.ERROR,"d","aa");
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
-		int appWidgetIds[] = appWidgetManager
+		int[] appWidgetIds = appWidgetManager
 				.getAppWidgetIds(new ComponentName(context,
 						WQFerhengWidget.class));
 	
@@ -264,14 +264,14 @@ else
 		if (!type.toLowerCase().contains("hemû"))
 		{
 			
-			query+=""+WQFerhengActivity.zimanquery+":"+
+			query+= WQFerhengActivity.zimanquery+":"+
 					type.replace("*", "")+";";
 			
 	
 		}
 		else
 		{
-			query+=""+WQFerhengActivity.zimanquery+":";
+			query+= WQFerhengActivity.zimanquery+":";
 		}
 			Log.d("query_raw", query);
 		query="'"+query.replace("ı", "i")+"'";		
@@ -293,10 +293,10 @@ else
 				cursor.moveToPosition(i1);
 			
 				
-				word=queryProvider. GetValue(cursor, WQFerhengDB.KEY_WORD);
-				String id=queryProvider. GetValue(cursor, WQFerhengDB.KEY_ID);
+				word= WQFerhengQueryProvider. GetValue(cursor, WQFerhengDB.KEY_WORD);
+				String id= WQFerhengQueryProvider. GetValue(cursor, WQFerhengDB.KEY_ID);
 				if(word==null||word.equals(""))
-					word=queryProvider. GetValue(cursor, WQFerhengDB.KEY_WORD_N);
+					word= WQFerhengQueryProvider. GetValue(cursor, WQFerhengDB.KEY_WORD_N);
 				Words ww=	queryProvider.GetSingleWord(id);
 				definition=WQFerhengActivity.Decode(ww.getwate(),word, word);
 				definition=definition.replace("[","").replace("]", "");

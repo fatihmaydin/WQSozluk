@@ -21,6 +21,7 @@
     <attr name="customAndroidBackButtonColorAttribute" format="color" />
     <attr name="customAndroidClearTintColorAttribute" format="color" />
     <attr name="customAndroidlistExpTextColorAttribute1" format="color" />
+    <attr name="customAndroidButtonDarkBackColorKeyboardAttribute" format="color" />
 
 
     <attr name="customAndroidlistlistTabBackColorAttribute" format="color" />

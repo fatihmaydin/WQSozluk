@@ -41,11 +41,11 @@ public class WQFerhengQueryProvider extends ContentResolver
 	public Words GetSingleExactWord(String word) {
 		Cursor cursor = null;	
 		String normalized=WQFerhengDBOpenHelper. Normalize(word);
-		String nn=""+ DatabaseUtils.sqlEscapeString(normalized.replace("-", "'-'"))+"";
+		String nn= DatabaseUtils.sqlEscapeString(normalized.replace("-", "'-'"));
 		cursor = GetCursor(WQFerhengDB.KEY_WORD_N + " match ? ",nn);
 		if(cursor==null)
 		{
-			 nn=""+ DatabaseUtils.sqlEscapeString(word.replace("-", "'-'"))+"";
+			 nn= DatabaseUtils.sqlEscapeString(word.replace("-", "'-'"));
 			cursor = GetCursor(WQFerhengDB.KEY_WORD + " match ? ",nn);
 		}
 		Words wword=null;
@@ -97,7 +97,7 @@ public class WQFerhengQueryProvider extends ContentResolver
 								//String def = GetValue(cursor, WQFerhengDB.KEY_DEFINITION);
 								String id = GetValue(cursor, WQFerhengDB.KEY_ID);
 								//list.add(putData(wordd, def));
-								Log.d("id", id+"");
+								Log.d("id", id);
 								Words w =	WQFerhengDB.mWQferhengDBOpenHelper.GetSingleWord(id);
 								if(w!=null)
 								{
