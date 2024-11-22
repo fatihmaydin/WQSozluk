@@ -4,6 +4,7 @@
 
     <!-- The name of the application. -->
     <string name="app_name">WQFerheng</string>
+    <string name="facebook_app_id">8771514489630001</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
     <!-- The label for use as a searchable item -->

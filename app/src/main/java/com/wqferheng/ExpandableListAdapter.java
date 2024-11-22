@@ -1365,7 +1365,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	private String GetTranslation(String name)
 	{
 		String translation="";
-		if(WQFerhengActivity.mapLanguages.containsKey(name)&&WQFerhengActivity.LocalisationIndex>-1) {
+		if(WQFerhengActivity.mapLanguages!=null&&WQFerhengActivity.mapLanguages.containsKey(name)&&WQFerhengActivity.LocalisationIndex>-1)
+		{
 			List listtranslation=WQFerhengActivity.mapLanguages.get(name);
 			translation=listtranslation.get(WQFerhengActivity.LocalisationIndex).toString();
 		}

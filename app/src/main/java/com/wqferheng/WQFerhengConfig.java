@@ -22,20 +22,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdError;
+import com.facebook.ads.Ad;
+import com.facebook.ads.InterstitialAdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.facebook.ads.*;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WQFerhengConfig extends AppCompatActivity {
 	ImageView buttonOK;
 
-	private InterstitialAd mInterstitialAd;
+	private com.facebook.ads.InterstitialAd interstitialAd;
 	private static final String TAG = "ConfigActivity";
 	private Spinner spinnerTheme;
 
@@ -255,65 +261,106 @@ public class WQFerhengConfig extends AppCompatActivity {
 			}
 		});
 
+		AdSettings.addTestDevice("7FA4D05EAE25EA144CF59A8726F126C");
+		// Create interstitial ad
+		interstitialAd = new com.facebook.ads.InterstitialAd(WQFerhengActivity.mContext, "1107788330735832_1107834944064504");
+		InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
+			@Override
+			public void onError(Ad ad, AdError adError) {
+				Log.e(TAG, "Interstitial ad onError."+adError.getErrorMessage());
+			}
 
-		AdRequest adRequest = new AdRequest.Builder().build();
+			@Override
+			public void onAdLoaded(Ad ad) {
+				interstitialAd.show();
+				Log.e(TAG, "Interstitial ad onAdLoaded.");
+			}
 
-		InterstitialAd.load(this,"ca-app-pub-4819188859318435/1191877649", adRequest,
-				new InterstitialAdLoadCallback() {
-					@Override
-					public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-						// The mInterstitialAd reference will be null until
-						// an ad is loaded.
-						mInterstitialAd = interstitialAd;
-						Log.i(TAG, "onAdLoaded");
-						if (mInterstitialAd != null) {
-							mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-								@Override
-								public void onAdClicked() {
-									// Called when a click is recorded for an ad.
-									Log.d(TAG, "Ad was clicked.");
-								}
+			@Override
+			public void onAdClicked(Ad ad) {
+				Log.e(TAG, "Interstitial ad onAdClicked.");
+			}
 
-								@Override
-								public void onAdDismissedFullScreenContent() {
-									// Called when ad is dismissed.
-									// Set the ad reference to null so you don't show the ad a second time.
-									Log.d(TAG, "Ad dismissed fullscreen content.");
-									mInterstitialAd = null;
-								}
+			@Override
+			public void onLoggingImpression(Ad ad) {
+				Log.e(TAG, "Interstitial ad onLoggingImpression.");
+			}
 
-								@Override
-								public void onAdFailedToShowFullScreenContent(AdError adError) {
-									// Called when ad fails to show.
-									Log.e(TAG, "Ad failed to show fullscreen content.");
-									mInterstitialAd = null;
-								}
+			@Override
+			public void onInterstitialDisplayed(Ad ad) {
+				Log.e(TAG, "Interstitial ad dismissed.");
+			}
 
-								@Override
-								public void onAdImpression() {
-									// Called when an impression is recorded for an ad.
-									Log.d(TAG, "Ad recorded an impression.");
-								}
+			@Override
+			public void onInterstitialDismissed(Ad ad) {
+				Log.e(TAG, "Interstitial ad dismissed.");
+			}
+		};
 
-								@Override
-								public void onAdShowedFullScreenContent() {
-									// Called when ad is shown.
-									Log.d(TAG, "Ad showed fullscreen content.");
-								}
-							});
-							mInterstitialAd.show(WQFerhengConfig.this);
-						} else {
-							Log.d("TAG", "The interstitial ad wasn't ready yet.");
-						}
-					}
-
-					@Override
-					public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-						// Handle the error
-						Log.d(TAG, loadAdError.toString());
-						mInterstitialAd = null;
-					}
-				});
+		// For auto play video ads, it's recommended to load the ad
+		// at least 30 seconds before it is shown
+		interstitialAd.loadAd(
+				interstitialAd.buildLoadAdConfig()
+						.withAdListener(interstitialAdListener)
+						.build());
+//		AdRequest adRequest = new AdRequest.Builder().build();
+//
+//		InterstitialAd.load(this,"ca-app-pub-4819188859318435/1191877649", adRequest,
+//				new InterstitialAdLoadCallback() {
+//					@Override
+//					public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+//						// The mInterstitialAd reference will be null until
+//						// an ad is loaded.
+//						mInterstitialAd = interstitialAd;
+//						Log.i(TAG, "onAdLoaded");
+//						if (mInterstitialAd != null) {
+//							mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+//								@Override
+//								public void onAdClicked() {
+//									// Called when a click is recorded for an ad.
+//									Log.d(TAG, "Ad was clicked.");
+//								}
+//
+//								@Override
+//								public void onAdDismissedFullScreenContent() {
+//									// Called when ad is dismissed.
+//									// Set the ad reference to null so you don't show the ad a second time.
+//									Log.d(TAG, "Ad dismissed fullscreen content.");
+//									mInterstitialAd = null;
+//								}
+//
+//								@Override
+//								public void onAdFailedToShowFullScreenContent(AdError adError) {
+//									// Called when ad fails to show.
+//									Log.e(TAG, "Ad failed to show fullscreen content.");
+//									mInterstitialAd = null;
+//								}
+//
+//								@Override
+//								public void onAdImpression() {
+//									// Called when an impression is recorded for an ad.
+//									Log.d(TAG, "Ad recorded an impression.");
+//								}
+//
+//								@Override
+//								public void onAdShowedFullScreenContent() {
+//									// Called when ad is shown.
+//									Log.d(TAG, "Ad showed fullscreen content.");
+//								}
+//							});
+//							mInterstitialAd.show(WQFerhengConfig.this);
+//						} else {
+//							Log.d("TAG", "The interstitial ad wasn't ready yet.");
+//						}
+//					}
+//
+//					@Override
+//					public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+//						// Handle the error
+//						Log.d(TAG, loadAdError.toString());
+//						mInterstitialAd = null;
+//					}
+//				});
 	}
 
 	private void toggletheme(String sender)

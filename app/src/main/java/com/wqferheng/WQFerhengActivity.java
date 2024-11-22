@@ -30,6 +30,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -64,6 +65,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdSettings;
+import com.facebook.ads.AdSize;
+import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -78,6 +84,8 @@ import com.wqferheng.GroupEntity.GroupItemEntity;
 import com.wqferheng.SearchResultAdapter.ViewHolderWords;
 import com.wqferheng.WQFerhengDB.WQFerhengDBOpenHelper;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -102,7 +110,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	public static String strtheme;
 	public static String linkColor;
 	public static int theme;
-	AdView mAdView;
+	//AdView mAdView;
+	com.facebook.ads.AdView adView;
 	private static final int REQUEST_CODE_SPEECH_INPUT=1000;
 	private static final int REQUEST_CODE_CONFIG=1001;
 	//public static int position=-1;
@@ -209,6 +218,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		//setTheme(R.style.MyCustomTheme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wqferheng);
+		// Initialize the Facebook Audience Network SDK
+		AudienceNetworkAds.initialize(this);
 		cont = this;
 		init();
 
@@ -240,17 +251,24 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		{
 			
 		}
-		MobileAds.initialize(this, new OnInitializationCompleteListener() {
-			@Override
-			public void onInitializationComplete(InitializationStatus initializationStatus) {
-				try {
+		AdSettings.addTestDevice("7FA4D05EAE25EA144CF59A8726F126C");
 
-					showAdmob();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		//showAdmob();
+//		String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+//		String deviceId = md5(android_id).toUpperCase();
+//		Log.i("device id=",deviceId);
+//		AdSettings.addTestDevice("6986fd2c-98f0-49fb-a4f0-3935c291fbe0");
+//		MobileAds.initialize(this, new OnInitializationCompleteListener() {
+//			@Override
+//			public void onInitializationComplete(InitializationStatus initializationStatus) {
+//				try {
+//
+//					showAdmob();
+//				} catch (ClassNotFoundException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 
 		mGroupCollection = new ArrayList<GroupEntity>();
 		adapter = new ExpandableListAdapter(this, mExpandableListView,
@@ -405,8 +423,8 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 								if (actionBarIsEnabled) {
 									invalidateOptionsMenu();
-									ActionBar actionBar = getActionBar();
-									actionBar.show();
+									//ActionBar actionBar = getActionBar();
+									//actionBar.show();
 								}
 							}
 						});
@@ -571,6 +589,24 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 //	}
 //
 //}
+public String md5(String s) {
+	try {
+		// Create MD5 Hash
+		MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+		digest.update(s.getBytes());
+		byte messageDigest[] = digest.digest();
+
+		// Create Hex String
+		StringBuffer hexString = new StringBuffer();
+		for (int i=0; i<messageDigest.length; i++)
+			hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+		return hexString.toString();
+
+	} catch (NoSuchAlgorithmException e) {
+		e.printStackTrace();
+	}
+	return "";
+}
 	private void initializeMobileAdsSdk() {
 		if (isMobileAdsInitializeCalled.getAndSet(true)) {
 			return;
@@ -853,41 +889,49 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 
 	private void showAdmob() throws ClassNotFoundException
 	{
+		adView = new com.facebook.ads.AdView(this, "1107788330735832_1107834944064504", AdSize.BANNER_HEIGHT_50);
 
+// Find the Ad Container
+		//LinearLayout adViewLayout = (LinearLayout) findViewById(R.id.adView);
+		//final RelativeLayout adContainer =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
+		// Find the container where you want to place the ad
+		LinearLayout adContainer = findViewById(R.id.banner_container);
 
-			//MobileAds.initialize(this, "ca-app-pub-4819188859318435/5036961654");
-			mAdView =(AdView) this.findViewById(R.id.adView);
+		// Add the AdView to the container
+		adContainer.addView(adView);
+		com.facebook.ads.AdListener adListener = new com.facebook.ads.AdListener() {
+			@Override
+			public void onError(Ad ad, AdError adError) {
+				// Ad error callback
+				Log.e(TAG,
+								"AdviewError: " + adError.getErrorMessage());
 
-			final RelativeLayout imgFAv =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
-			AdRequest adRequest = new AdRequest.Builder().build();
-			if(adRequest!=null&&mAdView!=null)
-			{
-
-
-				Log.d(TAG, "Add load");
-				mAdView.setAdListener(new AdListener() {
-					@Override
-					public void onAdLoaded() {
-						super.onAdLoaded();
-						mAdView.setVisibility(View.VISIBLE);
-						Log.d(TAG, "Add loaded");
-					}
-				});
-				mAdView.loadAd(adRequest);
 			}
-//		}
-//		else
-//		{
-//			mAdView =(AdView) this.findViewById(R.id.adView);
-//			mAdView.setVisibility(View.GONE);
-//			final RelativeLayout rlayout =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
-//			RelativeLayout.LayoutParams layoutParams= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-//			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//			layoutParams.setMargins(0, 0, 0, 30);
-//
-//			rlayout.setLayoutParams(layoutParams);
-//
-//		}
+
+			@Override
+			public void onAdLoaded(Ad ad) {
+				// Ad loaded callback
+				// This indicates that the ad has been loaded and is ready to be displayed
+				Toast.makeText(WQFerhengActivity.this, "Ad successfully loaded", Toast.LENGTH_SHORT).show();
+
+			}
+
+			@Override
+			public void onAdClicked(Ad ad) {
+				// Ad clicked callback
+			}
+
+			@Override
+			public void onLoggingImpression(Ad ad) {
+				// Ad impression logged callback
+			}
+
+		};
+
+		// Request an ad
+		adView.loadAd(adView.buildLoadAdConfig().withAdListener(adListener).build());
+
+
 
 	}
 //private void showAdmob() throws ClassNotFoundException
