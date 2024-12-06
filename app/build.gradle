@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 34
-    buildToolsVersion '33.0.0'
+    compileSdk 35
 
 
     defaultConfig {
         applicationId "com.wqferheng"
         namespace 'com.wqferheng'
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdk 21
+        targetSdk 34
 
         setProperty("archivesBaseName", applicationId + "-v" + versionCode + "(" + versionName + ")")
         //or so
@@ -28,20 +27,21 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.1'
-    implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.work:work-runtime:2.10.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0'
+    implementation 'com.android.support:support-annotations:28.0.0'
 
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.5.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.cardview:cardview:1.0.0-alpha3'
-    implementation 'com.google.android.gms:play-services-ads:23.1.0'
-    implementation "com.google.android.ump:user-messaging-platform:2.2.0"
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.gms:play-services-ads:23.5.0'
+    implementation "com.google.android.ump:user-messaging-platform:3.1.0"
     implementation("com.google.ads.mediation:facebook:6.18.0.0")
 
    

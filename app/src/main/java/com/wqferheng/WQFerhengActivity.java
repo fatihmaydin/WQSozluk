@@ -1,5 +1,8 @@
 package com.wqferheng;
 
+import static com.facebook.ads.AdSettings.IntegrationErrorMode.INTEGRATION_ERROR_CRASH_DEBUG_MODE;
+import static com.google.android.gms.ads.identifier.AdvertisingIdClient.getAdvertisingIdInfo;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
@@ -24,6 +27,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -70,20 +74,15 @@ import com.facebook.ads.AdError;
 import com.facebook.ads.AdSettings;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AudienceNetworkAds;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.ump.ConsentForm;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.ConsentRequestParameters;
-import com.google.android.ump.UserMessagingPlatform;
 import com.wqferheng.GroupEntity.GroupItemEntity;
 import com.wqferheng.SearchResultAdapter.ViewHolderWords;
 import com.wqferheng.WQFerhengDB.WQFerhengDBOpenHelper;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -235,7 +234,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 			="}";
 		}
 		findWiewsbyID();
-		if (android.os.Build.VERSION.SDK_INT >= 11) 
+		if (android.os.Build.VERSION.SDK_INT >= 11)
 		{
 			actionBarIsEnabled = true;
 			androidx.appcompat.app.ActionBar actionBar=getSupportActionBar();
@@ -251,25 +250,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		{
 			
 		}
-		AdSettings.addTestDevice("7FA4D05EAE25EA144CF59A8726F126C");
-
-		//showAdmob();
-//		String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-//		String deviceId = md5(android_id).toUpperCase();
-//		Log.i("device id=",deviceId);
-//		AdSettings.addTestDevice("6986fd2c-98f0-49fb-a4f0-3935c291fbe0");
-//		MobileAds.initialize(this, new OnInitializationCompleteListener() {
-//			@Override
-//			public void onInitializationComplete(InitializationStatus initializationStatus) {
-//				try {
-//
-//					showAdmob();
-//				} catch (ClassNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-
 		mGroupCollection = new ArrayList<GroupEntity>();
 		adapter = new ExpandableListAdapter(this, mExpandableListView,
 				mGroupCollection, GetOnSwipeListener());
@@ -589,7 +569,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 //	}
 //
 //}
-public String md5(String s) {
+public String GetDeviceID(String s) {
 	try {
 		// Create MD5 Hash
 		MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
@@ -611,18 +591,18 @@ public String md5(String s) {
 		if (isMobileAdsInitializeCalled.getAndSet(true)) {
 			return;
 		}
-
-		new Thread(
-				() -> {
+//
+//		new Thread(
+//				() -> {
 					// Initialize the Google Mobile Ads SDK on a background thread.
-					MobileAds.initialize(this, initializationStatus -> {});
-					runOnUiThread(
-							() -> {
-								// TODO: Request an ad.
-								// InterstitialAd.load(...);
-							});
-				})
-				.start();
+//					MobileAds.initialize(this, initializationStatus -> {});
+//					runOnUiThread(
+//							() -> {
+//								// TODO: Request an ad.
+//								// InterstitialAd.load(...);
+//							});
+//				})
+//				.start();
 	}
 
 	private void test()  {
@@ -877,6 +857,13 @@ public String md5(String s) {
 		
 		AddFooterView();
 		try {
+//			String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+//			String deviceId = GetDeviceID(android_id).toUpperCase();
+//			Log.i("device id=",deviceId);
+			AudienceNetworkAds.initialize(this);
+			//AdSettings.setTestMode(true);
+			//AdSettings.setIntegrationErrorMode(INTEGRATION_ERROR_CRASH_DEBUG_MODE);
+
 			showAdmob();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -886,25 +873,73 @@ public String md5(String s) {
 
 		
 	}
+	public String getHashedDeviceId(String deviceId) {
+		try {
+			MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+			byte[] hashBytes = messageDigest.digest(deviceId.getBytes());
+			StringBuilder stringBuilder = new StringBuilder();
+			for (byte b : hashBytes) {
+				stringBuilder.append(String.format("%02X", b));
+			}
+			return stringBuilder.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	private void showAdmob() throws ClassNotFoundException
 	{
-		adView = new com.facebook.ads.AdView(this, "1107788330735832_1107834944064504", AdSize.BANNER_HEIGHT_50);
+		//String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+//		Log.d("Device ANDROID_ID", androidId);
+	//com.facebook.ads.AdSettings.setTestMode(true);
+	//	com.facebook.ads.AdSettings.setIntegrationErrorMode(INTEGRATION_ERROR_CRASH_DEBUG_MODE);
+		//com.facebook.ads.AdSettings.addTestDevice("7FA4D05EAE25EA144CF59A8726F126C");
+	//String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+	//	Log.d("ANDROID_ID", androidId);
+//
+//		// Step 2: Hash the device ID using SHA-1
+		//String hashedDeviceId = getHashedDeviceId(androidId);
+//		Log.d("Hashed Device ID", hashedDeviceId);
+//		AsyncTask.execute(new Runnable() {
+//			@Override
+//			public void run() {
+//				try {
+//					AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(mContext);
+//					String adId = adInfo != null ? adInfo.getId() : null;
+//					Log.d("ADD_ID", adId);
+//					// Use the advertising id
+//				} catch (IOException | GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException exception) {
+//					// Error handling if needed
+//				}
+//			}
+//		});
+////
+////		// Step 3: Add the hashed device ID to Facebook's test devices
+	/*	if (hashedDeviceId != null) {
+			AdSettings.addTestDevice(hashedDeviceId);
+		}*/
+		adView = new com.facebook.ads.AdView(this,  "1281695262866543_1281708692865200", AdSize.BANNER_HEIGHT_50);
 
 // Find the Ad Container
-		//LinearLayout adViewLayout = (LinearLayout) findViewById(R.id.adView);
-		//final RelativeLayout adContainer =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
-		// Find the container where you want to place the ad
-		LinearLayout adContainer = findViewById(R.id.banner_container);
+		LinearLayout adContainer = (LinearLayout) findViewById(R.id.banner_container);
+
+// Add the ad view to your activity layout
+		adContainer.addView(adView);
+		RelativeLayout adContainerRelLayout = (RelativeLayout) findViewById(R.id.banner_ad_layout);
+
+// Request an ad
 
 		// Add the AdView to the container
-		adContainer.addView(adView);
+		//adContainer.addView(adView);
 		com.facebook.ads.AdListener adListener = new com.facebook.ads.AdListener() {
 			@Override
 			public void onError(Ad ad, AdError adError) {
 				// Ad error callback
 				Log.e(TAG,
-								"AdviewError: " + adError.getErrorMessage());
+								"AdviewError: " + adError.getErrorMessage()+" Error Code"+ adError.getErrorCode());
+
+				//Toast.makeText(WQFerhengActivity.this, "Ad Error "+adError.getErrorCode(), Toast.LENGTH_SHORT).show();
 
 			}
 
@@ -912,12 +947,13 @@ public String md5(String s) {
 			public void onAdLoaded(Ad ad) {
 				// Ad loaded callback
 				// This indicates that the ad has been loaded and is ready to be displayed
-				Toast.makeText(WQFerhengActivity.this, "Ad successfully loaded", Toast.LENGTH_SHORT).show();
-
+				//Toast.makeText(WQFerhengActivity.this, "Ad successfully loaded", Toast.LENGTH_SHORT).show();
+				adContainerRelLayout.setVisibility(View.VISIBLE);
 			}
 
 			@Override
 			public void onAdClicked(Ad ad) {
+				adContainerRelLayout.setVisibility(View.GONE);
 				// Ad clicked callback
 			}
 
@@ -926,13 +962,14 @@ public String md5(String s) {
 				// Ad impression logged callback
 			}
 
+
 		};
+
+		Log.e(TAG,
+				"Requesting: " );
 
 		// Request an ad
 		adView.loadAd(adView.buildLoadAdConfig().withAdListener(adListener).build());
-
-
-
 	}
 //private void showAdmob() throws ClassNotFoundException
 //{
@@ -1134,7 +1171,13 @@ public String md5(String s) {
 		});
 	}
 
-
+	@Override
+	protected void onDestroy() {
+		if (adView != null) {
+			adView.destroy();
+		}
+		super.onDestroy();
+	}
 
 	private void ViewWordList() {
 		

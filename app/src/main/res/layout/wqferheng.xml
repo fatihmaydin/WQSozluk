@@ -124,7 +124,7 @@
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-
+        android:layout_alignParentBottom="true"
         android:layout_above="@id/banner_ad_layout"
         android:background="@android:color/transparent">
 
@@ -185,14 +185,16 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:visibility="gone"
         android:id="@+id/banner_ad_layout"
-        android:padding="16dp">
+        >
         <LinearLayout
             android:id="@+id/banner_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
+
             />
     </RelativeLayout>
     <android.inputmethodservice.KeyboardView
