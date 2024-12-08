@@ -43,7 +43,7 @@ public class WQFerhengDB {
 	private static final String FTS_VIRTUAL_TABLE = "FTSdictionary";
 	private static final String FTS_VIRTUAL_TABLE2 = "FTSdictionary_Defs";
 	private static final String FTS_VIRTUAL_TABLE_FAV = "FTSdictionary_FAVs";
-	public static final int DATABASE_VERSION = 18;
+	public static int DATABASE_VERSION = 20;
 	//int Index = 0;
 
 	static WQFerhengDBOpenHelper mWQferhengDBOpenHelper = null;
@@ -255,29 +255,19 @@ public class WQFerhengDB {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) 
-		{	
-			
+		{
 			mDatabase = db;
 			if (InstallToExternal) 
 			{
-				
 				if (!IsTableDropped)
 					db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
-
 				mDatabase = db;
 			}
             mDatabase.execSQL(FTS_TABLE_CREATE);
             mDatabase.execSQL(FTS_TABLE_CREATE2);
-            //	mDatabase.execSQL("CREATE INDEX id_index "+
-            //	"on "+FTS_VIRTUAL_TABLE2+" ("+KEY_ID+");");
-
             if(!IsUpgrading)
                 mDatabase.execSQL(FTS_TABLE_CREATE_FAV);
-
             loadDictionary();
-			
-		
-			
 		}
 		public boolean isTableExists(String tableName, boolean openDb) {
 		    if(openDb) {
@@ -740,30 +730,36 @@ w.NormalizedWord=idd1;
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) 
 		{
 			IsUpgrading=true;
+			Loading=true;
 			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
 					+ newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
 
             db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE2);
+			db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
             Log.d(TAG, "table dropped for upgrating");
 			IsTableDropped = true;
 			onCreate(db);
 			IsUpgrading=false;
+			Loading=false;
 		}
 
 		@Override
 		public void onDowngrade(SQLiteDatabase db, int oldVersion,
 				int newVersion) {
 			IsUpgrading=true;
+			Loading=true;
 			Log.w(TAG, "Downgrading database from version " + oldVersion
 					+ " to " + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE2);
+			db.execSQL("DROP TABLE IF EXISTS " + FTS_VIRTUAL_TABLE);
             Log.d(TAG, "table dropped for downgrading");
 			IsTableDropped = true;
 			
 			onCreate(db);
 			IsUpgrading=false;
+			Loading=false;
 		}
 	}
 

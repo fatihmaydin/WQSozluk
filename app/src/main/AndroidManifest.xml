@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wqferheng"
     android:installLocation="auto"
-    android:versionCode="30"
+    android:versionCode="33"
     android:versionName="4.8"
     android:usesCleartextTraffic="true">
 
@@ -154,6 +154,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4819188859318435~9436329520"/>
     </application>
-
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
 </manifest>

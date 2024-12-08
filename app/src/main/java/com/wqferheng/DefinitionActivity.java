@@ -316,8 +316,6 @@ public class DefinitionActivity extends AppCompatActivity implements android.vie
 				@Override
 				public void onAdLoaded() {
 					super.onAdLoaded();
-					// LinearLayout adContainer = (LinearLayout) findViewById(R.id.adContainer);
-					//mAdView.setVisibility(View.VISIBLE);
 					mAdView.setVisibility(View.VISIBLE);
 				}
 

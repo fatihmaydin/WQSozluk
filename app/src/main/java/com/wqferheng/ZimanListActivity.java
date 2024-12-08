@@ -53,7 +53,6 @@ public class ZimanListActivity extends AppCompatActivity {
 	//AdView mAdView;
 	private InterstitialAd mInterstitialAd;
 	private static final String TAG = "ZimanListActivity";
-	//AdView   mAdView;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

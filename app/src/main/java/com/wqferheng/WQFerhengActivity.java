@@ -1,10 +1,6 @@
 package com.wqferheng;
 
-import static com.facebook.ads.AdSettings.IntegrationErrorMode.INTEGRATION_ERROR_CRASH_DEBUG_MODE;
-import static com.google.android.gms.ads.identifier.AdvertisingIdClient.getAdvertisingIdInfo;
-
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -71,18 +67,13 @@ import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
-import com.facebook.ads.AdSettings;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AudienceNetworkAds;
-import com.google.android.gms.ads.identifier.AdvertisingIdClient;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.ump.ConsentInformation;
 import com.wqferheng.GroupEntity.GroupItemEntity;
 import com.wqferheng.SearchResultAdapter.ViewHolderWords;
 import com.wqferheng.WQFerhengDB.WQFerhengDBOpenHelper;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -109,7 +100,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	public static String strtheme;
 	public static String linkColor;
 	public static int theme;
-	//AdView mAdView;
 	com.facebook.ads.AdView adView;
 	private static final int REQUEST_CODE_SPEECH_INPUT=1000;
 	private static final int REQUEST_CODE_CONFIG=1001;
@@ -129,8 +119,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	private static final String ITEM_POSITION_KEY = "itemPosition";
 	public static SQLiteDatabase mDatabase;
 	ImageView imgvoicebutton;
-	//View footerView ;
-	//Button footerButton;
 	public static AppCompatActivity mContext=null;
 	private List<GroupEntity> mGroupCollection;
 	ExpandableListAdapter adapter;
@@ -179,7 +167,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 	public static String languageToLoad = "ku";
 	Boolean CancelRequestedForExpand = false;
 	public Boolean showarabickeyboard = false;
-	// RelativeLayout relativeLayoutKeyboard;
 	String[] columnsDB = new String[] {WQFerhengDB.KEY_WORD,
 			WQFerhengDB.KEY_DEFINITION};
 	static Boolean dialogshowed = false;
@@ -198,9 +185,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
     long lastClickTime = 0;
     public static Boolean raisetextChanged=true;
     private static Map<String, String> encoderList; 
-    private static Map<String, String> decoderList; 
-
-   
+    private static Map<String, String> decoderList;
    public static Boolean ShowCategoryDialog=true;
 	private LinearLayout linearLayoutcustomkeys;
 	private boolean isDarkTheme;
@@ -217,21 +202,16 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		//setTheme(R.style.MyCustomTheme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wqferheng);
-		// Initialize the Facebook Audience Network SDK
-		AudienceNetworkAds.initialize(this);
 		cont = this;
 		init();
 
 		encoderList=GetDecodeList();
 		headerEndChar = getString(R.string.headerEndChar);
 		newlinebreak = getString(R.string.newlinebreak);
-
-
 		if(currentVersionNumber>20)
 		{
 			headerEndChar="{";
-			newlinebreak
-			="}";
+			newlinebreak="}";
 		}
 		findWiewsbyID();
 		if (android.os.Build.VERSION.SDK_INT >= 11)
@@ -244,11 +224,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 				// Set the icon
 				actionBar.setIcon(R.drawable.wqferheng); // Your icon resource
 			}
-			//actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11315E")));
-		}
-		else
-		{
-			
 		}
 		mGroupCollection = new ArrayList<GroupEntity>();
 		adapter = new ExpandableListAdapter(this, mExpandableListView,
@@ -261,48 +236,35 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 				speak();
 			}
 		});
-
 		listviewresult.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
 				ShouldBreakSearches=true;
-			
 				Words w=null;
 					if(listviewresult.getAdapter() instanceof  SimpleAdapter)
 					{
-						
 						SimpleAdapter sadapter=(SimpleAdapter)listviewresult.getAdapter();
 						Map<String, String> data=( Map<String, String>)sadapter.getItem(position);
-						//w=GetSingleExactWord(data.get(WQFerhengDB.KEY_WORD));
 						String word=data.get(WQFerhengDB.KEY_WORD);
-//						Words ww =	WQFerhengDB.mWQferhengDBOpenHelper.GetSingleWord(w.id);
-//						Log.d("ww.id", w.id);
-//						if(ww!=null)
-//						{
-						//Log.d("SimpleAdapter","SimpleAdapter");
+
 						Intent intent = new Intent(cont, DefinitionActivity.class);
 
 						Bundle b = new Bundle();
-						
-						//String word=w.peyv;
-						
-						if(word!=null)
-						b.putString("word", word.replace("\"", ""));
+
+						if(word!=null) {
+							b.putString("word", word.replace("\"", ""));
+						}
 						else
 						{
 							word=w.NormalizedWord;
 							b.putString("word", word);
 						}
-						//Log.d("ww.peyuv", word);
 						b.putInt("position", position);
 						intent.putExtras(b);
 
 						cont.startActivity(intent);
 						overridePendingTransition(android. R.anim.fade_in,android. R.anim.fade_out);
-						//}
-											
 					}
 					else 	if(listviewresult.getAdapter() instanceof  SearchResultAdapter)
 					{
@@ -355,9 +317,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					EnableLayoutChildrens(mainLayout, false);
 				}
 			});
-
 		}
-
 		TimerTask task2 = new TimerTask() {
 
 			@Override
@@ -367,9 +327,7 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 				Log.d("TAG", "getReadableDatabase()");
 				mDatabase =WQFerhengDB.mWQferhengDBOpenHelper.getReadableDatabase();
 				if (!upgrating) {
-					
 				}
-				
 				task = new TimerTask() {
 					@Override
 					public void run() {
@@ -382,7 +340,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 						setprogressbar();
 						if (CancelRequest) {
 							this.cancel();
-
 						}
 					}
 				};
@@ -501,18 +458,6 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 		if(pref.equalsIgnoreCase("false"))
 			ShowLanguageTranslation=false;
 		setListenerToRootView();
-		int themeResId;
-		try {
-			PackageManager packageManager = getPackageManager();
-			//ActivityInfo activityInfo = packageManager.getActivityInfo(getCallingActivity(), PackageManager.GET_META_DATA);
-			ActivityInfo activityInfo = packageManager.getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
-			themeResId = activityInfo.theme;
-
-		}
-		catch(PackageManager.NameNotFoundException e) {
-			Log.e(TAG, "Could not get themeResId for activity", e);
-			themeResId = -1;
-		}
 		final Handler handler = new Handler(Looper.getMainLooper());
 		handler.postDelayed(new Runnable() {
 			@Override
@@ -521,90 +466,29 @@ public class WQFerhengActivity extends AppCompatActivity implements OnClickListe
 					test();
 			}
 		}, 500);
-		//AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-	}
-//private void consent()
-//{
-//	// Create a ConsentRequestParameters object.
-//	ConsentRequestParameters params = new ConsentRequestParameters
-//			.Builder()
-//			.build();
-//
-//
-//
-//	consentInformation = UserMessagingPlatform.getConsentInformation(this);
-//	consentInformation.requestConsentInfoUpdate(
-//			this,
-//			params,
-//			(ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
-//				UserMessagingPlatform.loadAndShowConsentFormIfRequired(
-//						this,
-//						(ConsentForm.OnConsentFormDismissedListener) loadAndShowError -> {
-//							if (loadAndShowError != null) {
-//								// Consent gathering failed.
-//								Log.w(TAG, String.format("%s: %s",
-//										loadAndShowError.getErrorCode(),
-//										loadAndShowError.getMessage()));
-//							}
-//
-//							// Consent has been gathered.
-//							if (consentInformation.canRequestAds()) {
-//								initializeMobileAdsSdk();
-//							}
-//						}
-//				);
-//			},
-//			(ConsentInformation.OnConsentInfoUpdateFailureListener) requestConsentError -> {
-//				// Consent gathering failed.
-//				Log.w(TAG, String.format("%s: %s",
-//						requestConsentError.getErrorCode(),
-//						requestConsentError.getMessage()));
-//			});
-//
-//	// Check if you can initialize the Google Mobile Ads SDK in parallel
-//	// while checking for new consent information. Consent obtained in
-//	// the previous session can be used to request ads.
-//	if (consentInformation.canRequestAds()) {
-//		initializeMobileAdsSdk();
-//	}
-//
-//}
-public String GetDeviceID(String s) {
-	try {
-		// Create MD5 Hash
-		MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-		digest.update(s.getBytes());
-		byte messageDigest[] = digest.digest();
+			if(!upgrating) {
+				try {
+					String word = "lllistCureKurdi";
+					String normalized = WQFerhengDBOpenHelper.Normalize(word);
+					Cursor cursor = provider.GetCursor(WQFerhengDB.KEY_WORD_N + " match ? ", normalized);
+					Boolean find = false;
+					if (cursor != null && cursor.getCount() > 0) {
+						Log.d("TAG", "Cursor found = true");
+					} else {
+						initSavedVersionNumber(0);
+						Log.d("TAG", "Cursor found  = false");
+					}
+				} catch (Exception e) {
 
-		// Create Hex String
-		StringBuffer hexString = new StringBuffer();
-		for (int i=0; i<messageDigest.length; i++)
-			hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-		return hexString.toString();
-
-	} catch (NoSuchAlgorithmException e) {
-		e.printStackTrace();
+				}
+			}
 	}
-	return "";
-}
+
 	private void initializeMobileAdsSdk() {
 		if (isMobileAdsInitializeCalled.getAndSet(true)) {
 			return;
 		}
-//
-//		new Thread(
-//				() -> {
-					// Initialize the Google Mobile Ads SDK on a background thread.
-//					MobileAds.initialize(this, initializationStatus -> {});
-//					runOnUiThread(
-//							() -> {
-//								// TODO: Request an ad.
-//								// InterstitialAd.load(...);
-//							});
-//				})
-//				.start();
 	}
-
 	private void test()  {
 		String strcountofword=WQFerhengDB.mWQferhengDBOpenHelper.GetCount("FTSdictionary");
 		String strcountofworddefs=WQFerhengDB.mWQferhengDBOpenHelper.GetCount("FTSdictionary_Defs");
@@ -625,29 +509,18 @@ public String GetDeviceID(String s) {
 			String w=word.peyv;
 			//makeText(w);
 			if(word.peyv!=null&&word.peyv.length()>0) {
-
-
-				//autoCmopletetextView.setText(word.peyv);
-				//GO();
-
 				Words resulted = GetSingleExactWord(word.peyv.replace("-",""));
 
 				if (resulted!=null)
 				{
-
 					count++;
 					if(count%10000==0)
 						makeText(count+"  "+word.NormalizedWord);
 				} else if(!word.peyv.contains("-"))
 				{
-					//makeText(word.peyv +"  "+word.NormalizedWord);
 					AddRemoveFromFavList(getBaseContext(),word.peyv, true);
-
-					//makeText(getString(R.string.resultsnotfound, word.peyv +"  "+count));
 				}
-
 			}
-
 			}
 		if(counofWord!=count)
 		{
@@ -714,7 +587,6 @@ public String GetDeviceID(String s) {
 		{
 			makeText(e.getMessage());
 		}
-
 	}
 	public static void SelectTheme()
 	{
@@ -779,9 +651,8 @@ public String GetDeviceID(String s) {
 		else
 		{
 
-					}
-		//isDarkTheme = !isDarkTheme // Toggle the strtheme flag
-        return true;
+		}
+		return true;
     }
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -800,7 +671,6 @@ public String GetDeviceID(String s) {
 						ShowHideSpecialKeys(ShowSpecialKeys);
 						toggleTheme("Config");
 						break;
-
 			}
 	}
 
@@ -830,8 +700,6 @@ public String GetDeviceID(String s) {
 		buttonhere.setOnClickListener(this);
 
 		autoCmopletetextView = (CustomAutoCompleteTextView) findViewById(R.id.autocomplete_search);
-	
-
 		listviewresult = (ListView) findViewById(R.id.list_result);
 		mExpandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
@@ -846,108 +714,38 @@ public String GetDeviceID(String s) {
 		imageButtonForward = (ImageButton) findViewById(R.id.imageButtonForward);
 		imageButtonForward.setOnClickListener(this);
 		imageButtonForward.setVisibility(View.GONE);
-
 		textHistory = (TextView) findViewById(R.id.textHistory);
-
 		custkeys = (CustomKeys) findViewById(R.id.customkeys);
 		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		layoutListViewContents = (LinearLayout) findViewById(R.id.layoutListViewContents);
-		//nativeAd = new NativeAd(this, "YOUR_PLACEMENT_ID");
 		linearLayoutcustomkeys = (LinearLayout) findViewById(R.id.linearLayoutcustomkeys);
 		
 		AddFooterView();
-		try {
-//			String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-//			String deviceId = GetDeviceID(android_id).toUpperCase();
-//			Log.i("device id=",deviceId);
-			AudienceNetworkAds.initialize(this);
-			//AdSettings.setTestMode(true);
-			//AdSettings.setIntegrationErrorMode(INTEGRATION_ERROR_CRASH_DEBUG_MODE);
-
-			showAdmob();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-
-		
-	}
-	public String getHashedDeviceId(String deviceId) {
-		try {
-			MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-			byte[] hashBytes = messageDigest.digest(deviceId.getBytes());
-			StringBuilder stringBuilder = new StringBuilder();
-			for (byte b : hashBytes) {
-				stringBuilder.append(String.format("%02X", b));
+			if(!upgrating) {
+				try {
+					AudienceNetworkAds.initialize(this);
+					showAdmob();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			return stringBuilder.toString();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
-
 	private void showAdmob() throws ClassNotFoundException
 	{
-		//String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-//		Log.d("Device ANDROID_ID", androidId);
-	//com.facebook.ads.AdSettings.setTestMode(true);
-	//	com.facebook.ads.AdSettings.setIntegrationErrorMode(INTEGRATION_ERROR_CRASH_DEBUG_MODE);
-		//com.facebook.ads.AdSettings.addTestDevice("7FA4D05EAE25EA144CF59A8726F126C");
-	//String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-	//	Log.d("ANDROID_ID", androidId);
-//
-//		// Step 2: Hash the device ID using SHA-1
-		//String hashedDeviceId = getHashedDeviceId(androidId);
-//		Log.d("Hashed Device ID", hashedDeviceId);
-//		AsyncTask.execute(new Runnable() {
-//			@Override
-//			public void run() {
-//				try {
-//					AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(mContext);
-//					String adId = adInfo != null ? adInfo.getId() : null;
-//					Log.d("ADD_ID", adId);
-//					// Use the advertising id
-//				} catch (IOException | GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException exception) {
-//					// Error handling if needed
-//				}
-//			}
-//		});
-////
-////		// Step 3: Add the hashed device ID to Facebook's test devices
-	/*	if (hashedDeviceId != null) {
-			AdSettings.addTestDevice(hashedDeviceId);
-		}*/
+		try {
 		adView = new com.facebook.ads.AdView(this,  "1281695262866543_1281708692865200", AdSize.BANNER_HEIGHT_50);
-
-// Find the Ad Container
 		LinearLayout adContainer = (LinearLayout) findViewById(R.id.banner_container);
-
-// Add the ad view to your activity layout
 		adContainer.addView(adView);
 		RelativeLayout adContainerRelLayout = (RelativeLayout) findViewById(R.id.banner_ad_layout);
-
-// Request an ad
-
-		// Add the AdView to the container
-		//adContainer.addView(adView);
 		com.facebook.ads.AdListener adListener = new com.facebook.ads.AdListener() {
 			@Override
 			public void onError(Ad ad, AdError adError) {
-				// Ad error callback
-				Log.e(TAG,
-								"AdviewError: " + adError.getErrorMessage()+" Error Code"+ adError.getErrorCode());
-
-				//Toast.makeText(WQFerhengActivity.this, "Ad Error "+adError.getErrorCode(), Toast.LENGTH_SHORT).show();
 
 			}
 
 			@Override
 			public void onAdLoaded(Ad ad) {
-				// Ad loaded callback
-				// This indicates that the ad has been loaded and is ready to be displayed
-				//Toast.makeText(WQFerhengActivity.this, "Ad successfully loaded", Toast.LENGTH_SHORT).show();
 				adContainerRelLayout.setVisibility(View.VISIBLE);
 			}
 
@@ -961,91 +759,19 @@ public String GetDeviceID(String s) {
 			public void onLoggingImpression(Ad ad) {
 				// Ad impression logged callback
 			}
-
-
 		};
-
-		Log.e(TAG,
-				"Requesting: " );
-
-		// Request an ad
+		Log.e(TAG,				"Requesting: " );
 		adView.loadAd(adView.buildLoadAdConfig().withAdListener(adListener).build());
+		}
+		catch (Exception e)
+		{
+		}
 	}
-//private void showAdmob() throws ClassNotFoundException
-//{
-//	if (android.os.Build.VERSION.SDK_INT >= 14) {
-//		AdSettings.setTestMode(BuildConfig.DEBUG);
-//		AdSettings.addTestDevice("793935032354183");
-//		AudienceNetworkAds.initialize(this);
-//		if(interstitialAd==null)
-//			interstitialAd = new InterstitialAd(this, "793935032354183") {
-//			};
-//		 //MobileAds.initialize(this, "ca-app-pub-4819188859318435/5036961654");
-//			    //mAdView =(AdView) this.findViewById(R.id.adView);
-//		// Initialize the Audience Network SDK
-//
-//		// Create listeners for the Interstitial Ad
-//		InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
-//			@Override
-//			public void onInterstitialDisplayed(Ad ad) {
-//				// Interstitial ad displayed callback
-//				Log.e(TAG, "Interstitial ad displayed.");
-//			}
-//
-//			@Override
-//			public void onInterstitialDismissed(Ad ad) {
-//				// Interstitial dismissed callback
-//				Log.e(TAG, "Interstitial ad dismissed.");
-//			}
-//
-//			@Override
-//			public void onError(Ad ad, AdError adError) {
-//				// Ad error callback
-//				Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
-//			}
-//
-//			@Override
-//			public void onAdLoaded(Ad ad) {
-//				// Interstitial ad is loaded and ready to be displayed
-//				Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
-//				// Show the ad
-//				interstitialAd.show();
-//			}
-//
-//			@Override
-//			public void onAdClicked(Ad ad) {
-//				// Ad clicked callback
-//				Log.d(TAG, "Interstitial ad clicked!");
-//			}
-//
-//			@Override
-//			public void onLoggingImpression(Ad ad) {
-//				// Ad impression logged callback
-//				Log.d(TAG, "Interstitial ad impression logged!");
-//			}
-//		};
-//		Log.d(TAG, "interstitialAd:!"+interstitialAd);
-//		interstitialAd.loadAd(
-//				interstitialAd.buildLoadAdConfig()
-//						.withAdListener(interstitialAdListener)
-//						.build());
-//
-//		}
-//		else
-//		{
-//
-//		}
-//
-//}
-
 	private void init() {
 		try {
 			SharedPreferences sharedPref = getSharedPreferences(PRIVATE_PREF,
 					Context.MODE_PRIVATE);
-		
-
 		int	savedVersionNumber = sharedPref.getInt(VERSION_KEY, 0);
-
 			try {
 				PackageInfo pi = getPackageManager().getPackageInfo(
 						getPackageName(), 0);
@@ -1063,22 +789,35 @@ public String GetDeviceID(String s) {
 				editor.putInt(VERSION_KEY, currentVersionNumber);
 				editor.commit();
 			}
-			
 			ShowCategoryDialog=sharedPref.getBoolean("ShowCategoryDialog", true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
+	private void initSavedVersionNumber(Integer nNumber) {
+		try {
+			SharedPreferences sharedPref = getSharedPreferences(PRIVATE_PREF,
+					Context.MODE_PRIVATE);
+			int	savedVersionNumber = sharedPref.getInt(VERSION_KEY, 0);
+			try {
+				Editor editor = sharedPref.edit();
+
+				editor.putInt(VERSION_KEY, currentVersionNumber);
+				editor.commit();
+			} catch (Exception e) {
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	private void showWhatsNewDialog() {
 		try {
 			LayoutInflater inflater = LayoutInflater.from(this);
-
 			View view = inflater.inflate(R.layout.dialog_whatsnew, null);
-
 			Builder builder = new AlertDialog.Builder(this);
-
 			builder.setView(view)
 					.setTitle(getString(R.string.whatsnew))
 					.setPositiveButton("Temam",
@@ -1095,7 +834,6 @@ public String GetDeviceID(String s) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
     }
 
 	private void SetLanguage() {
@@ -1104,22 +842,15 @@ public String GetDeviceID(String s) {
 					"Lang", 0);
 
 			languageToLoad = prefs.getString("Lang", "ku");
-			//makeText(languageToLoad);
 			Locale locale = new Locale(languageToLoad);
 			Configuration config = new Configuration();
 			if (languageToLoad == "ku") {
 				Locale.setDefault(locale);
-
 				config.locale = locale;
-
 			} else {
 				Locale locJa = new Locale(languageToLoad);
 				Locale.setDefault(locJa);
-
-
 				config.locale = locJa;
-
-
 			}
 			getBaseContext().getResources().updateConfiguration(config,
 					getBaseContext().getResources().getDisplayMetrics());
@@ -1128,45 +859,50 @@ public String GetDeviceID(String s) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	private void setprogressbar() {
 		this.runOnUiThread(new Runnable() {
 			@SuppressLint("NewApi")
 			@Override
-			public void run() {
-				int count = WQFerhengDBOpenHelper.WordList;
-				progressbar2.setVisibility(View.VISIBLE);
-				totalccount = WQFerhengDBOpenHelper.totalFileCount;
-				int value = ((WQFerhengDBOpenHelper.LoadedRawWordFileCount * 100) / totalccount);
+			public void run()
+			{
+				try {
+					int count = WQFerhengDBOpenHelper.WordList;
+					progressbar2.setVisibility(View.VISIBLE);
+					totalccount = WQFerhengDBOpenHelper.totalFileCount;
 
-				if (!WQFerhengDBOpenHelper.Loading) 
-				{
+					int value =0;
+					if(totalccount>0) {
+						value = ((WQFerhengDBOpenHelper.LoadedRawWordFileCount * 100) / totalccount);
+					}
+					if (!WQFerhengDBOpenHelper.Loading) {
 
-					if (task != null)
-						task.cancel();
-					CancelRequest = true;
-					progressbar2.setVisibility(View.GONE);
+						if (task != null)
+							task.cancel();
+						CancelRequest = true;
+						progressbar2.setVisibility(View.GONE);
 
-					disablemenu = false;
-					EnableLayoutChildrens(mainLayout, true);
-					if (actionBarIsEnabled)
-						invalidateOptionsMenu();
+						disablemenu = false;
+						EnableLayoutChildrens(mainLayout, true);
+						if (actionBarIsEnabled)
+							invalidateOptionsMenu();
 
-					if (!dialogshowed) 
-					{
-						upgrating = false;
-						showDialog(count
-								+ " peyv lê hat(in) bar kirin. \nBo çalakbûna hin taybetiyan, gerek Ferheng ji nû ve"
-								+ " bê dan dest pê kirin. Niha ji nû ve bide dest pê kirin?.");	}
-					 addNotification("WQFerheng bar bû", count+ " peyv ji bo ferhengê hatin çêkirin") ;
+						if (!dialogshowed) {
+							upgrating = false;
+							showDialog(count
+									+ " peyv lê hat(in) bar kirin. \nBo çalakbûna hin taybetiyan, gerek Ferheng ji nû ve"
+									+ " bê dan dest pê kirin. Niha ji nû ve bide dest pê kirin?.");
+						}
+						addNotification("WQFerheng bar bû", count + " peyv ji bo ferhengê hatin çêkirin");
+					}
+
+					progressbar2.setProgress(value);
+					progressbar2.setText("Peyv têne bar kirin...: %" + value + ", Heta niha: "
+							+ count + " sernav");
 				}
-
-				progressbar2.setProgress(value);
-				progressbar2.setText("Peyv têne bar kirin...: %" + value + ", Heta niha: "
-						+ count +" sernav");
-
+				catch (Exception e)
+				{}
 			}
 		});
 	}
@@ -1189,94 +925,6 @@ public String GetDeviceID(String s) {
 		Intent intent = new Intent(this, WQFerhengConfig.class);
 		startActivityForResult(intent, REQUEST_CODE_CONFIG);
 	}
-
-//
-//	protected void showLanguageChangeDialog() {
-//		try {
-//			items[0] = "ku-" + getString(R.string.Langku);
-//			items[1] = "en-" + getString(R.string.Langen);
-//			items[2] = "de-" + getString(R.string.Langde);
-//			items[3] = "tr-" + getString(R.string.Langtr);
-//			items[4] = "fa-" + getString(R.string.Langfa);
-//			final SharedPreferences prefsLang = getBaseContext()
-//					.getSharedPreferences("Lang", 0);
-//			final String currentlang = prefsLang.getString("Lang", "ku") + "-";
-//			// makeText(currentlang);
-//			int selectedItem = 0;
-//			for (int xx = 0; xx < items.length; xx++) {
-//				if (items[xx].toString().contains(currentlang)) {
-//					selectedItem = xx;
-//					break;
-//				}
-//
-//			}
-//
-//			new AlertDialog.Builder(this)
-//					.setSingleChoiceItems(items, selectedItem, null)
-//					.setIcon(R.drawable.refresh)
-//					.setTitle(R.string.ziman)
-//					.setPositiveButton(R.string.temam,
-//							new DialogInterface.OnClickListener() {
-//								public void onClick(DialogInterface dialog,
-//										int whichButton) {
-//									dialog.dismiss();
-//									int selectedPosition = ((AlertDialog) dialog)
-//											.getListView()
-//											.getCheckedItemPosition();
-//
-//									String itemselected = items[selectedPosition]
-//											.toString();
-//									if (!itemselected.startsWith(currentlang)) {
-//
-//										SharedPreferences.Editor editor = prefsLang
-//												.edit();
-//										if (itemselected.contains("ku-")) {
-//											editor.putString("Lang", "ku");
-//											languageToLoad = "ku";
-//
-//										} else if (itemselected.contains("en-")) {
-//											editor.putString("Lang", "en");
-//											languageToLoad = "en";
-//										} else if (itemselected.contains("de-")) {
-//											editor.putString("Lang", "de");
-//											languageToLoad = "de";
-//										} else if (itemselected.contains("tr-")) {
-//											languageToLoad = "tr";
-//											editor.putString("Lang", "tr");
-//										}
-//										 else if (itemselected.contains("fa-")) {
-//												languageToLoad = "fa";
-//												editor.putString("Lang", "fa");
-//											}
-//										editor.commit();
-//										SetLanguage();
-//										restartActivity();
-//										if (itemselected.contains("-"))
-//											itemselected = itemselected
-//													.substring(itemselected
-//															.indexOf("-"));
-//										makeText(getText(R.string.langchange)
-//												+ " " + itemselected);
-//									}
-//								}
-//							})
-//					.setNegativeButton(R.string.betal,
-//							new DialogInterface.OnClickListener() {
-//
-//								@Override
-//								public void onClick(DialogInterface dialog,
-//										int which) {
-//
-//								}
-//							}).show();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} finally {
-//		}
-//
-//	}
-
 	private void restartActivity() {
 		Intent intent = getIntent();
 		Bundle b = new Bundle();
@@ -1301,9 +949,6 @@ public String GetDeviceID(String s) {
 
 		context.getResources().updateConfiguration(config,
 				context.getResources().getDisplayMetrics());
-
-		locJa = null;
-		config = null;
 	}
 
 	private void SetCursorAdapter() {
@@ -1363,10 +1008,7 @@ public String GetDeviceID(String s) {
 
 				return v;
         }
-
-       
     };
-		
 		 runOnUiThread(new Runnable()
 		    {
 		        @Override
@@ -1395,11 +1037,7 @@ public String GetDeviceID(String s) {
 				{
 					return null;
 				}				
-//				String column=WQFerhengDB.KEY_WORD_N;
-//				String spaceds=s;
-
 					String normalized=WQFerhengDBOpenHelper. Normalize(s);
-					//if(normalized.contains(" "))
 						normalized= normalized+"*";
 					Cursor cursor2 =provider.  GetCursor(WQFerhengDB.KEY_WORD_N + " match ? ", normalized );
 					if(cursor2!=null)
@@ -1460,8 +1098,6 @@ public String GetDeviceID(String s) {
 				raisetextChanged=true;
 			}
 		});
-
-
 	}
 
 	private Words PutResults(Uri data) 
@@ -1490,9 +1126,6 @@ public String GetDeviceID(String s) {
 		{
 			worddef=Decode(w.getwate(), SelectedWord, selectedWord_n);
 			worddef=worddef.replace(",", ", ");
-		//	Date currentDate2 = new Date();
-			//long diffInMs = currentDate2.getTime() -currentDate1.getTime();
-			
 			rword=new Words();
 			rword.id=id;
 			rword.wate=worddef;
@@ -1552,7 +1185,6 @@ public String GetDeviceID(String s) {
 						{
 							GetSingleExactWord(autoCmopletetextView.getText()
 									.toString());
-
 						} else 
 						{
 							Search(WQFerhengDB.KEY_WORD_N + " match ? ",autoCmopletetextView.getText().toString());
@@ -1588,10 +1220,7 @@ public String GetDeviceID(String s) {
 
 						} else 
 						{
-							
 							Search(WQFerhengDB.KEY_WORD_N + " match ? ",autoCmopletetextView.getText().toString());
-							
-							// listviewresult.onRestoreInstanceState(item.State);
 							autoCmopletetextView.dismissDropDown();
 							UpdateAnimatedButtonVisibilities(true);
 						}
@@ -1619,9 +1248,6 @@ public String GetDeviceID(String s) {
 
 	}
 	private void addNotification( String title, String message) {
-
-
-
 	    NotificationCompat.Builder builder =
 	            new NotificationCompat.Builder(this
 				)
@@ -1642,9 +1268,6 @@ public String GetDeviceID(String s) {
 					PendingIntent.FLAG_UPDATE_CURRENT);
 			builder.setContentIntent(contentIntent);
 		}
-
-
-	    // Add as notification  
 	    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);  
 	    manager.notify(1, builder.build());  
 	}
@@ -1674,9 +1297,7 @@ public String GetDeviceID(String s) {
 					new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int which) {
-
 							dialog.dismiss();
-
 						}
 
 					});
@@ -1703,7 +1324,6 @@ public String GetDeviceID(String s) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
     }
 	public String ResetArabicKeyboard() {
 		showarabickeyboard = !showarabickeyboard;
@@ -1760,8 +1380,6 @@ public String GetDeviceID(String s) {
 		String start=text.substring(0, split);
 		String end=text.substring( split);
 		autoCmopletetextView.setText( start+ unicode+end);
-		
-		
 		autoCmopletetextView.setSelection(split+1);
 
 	}
@@ -1787,7 +1405,6 @@ public String GetDeviceID(String s) {
 		if (ItemCount != WQFerhengDBOpenHelper.WordList) {
 			}
 		String spaced=query;
-		//if(spaced.contains("" ))
 			spaced=spaced+"*";
 		Cursor cursor =provider.  GetCursor(selection, spaced);
 		if (cursor != null) 
@@ -1875,7 +1492,6 @@ public String GetDeviceID(String s) {
 					resulted = false;
 					makeText(getString(R.string.resultsnotfound, SelectedWord));
 				}
-				//HideLoadingProgressBar();
 			}
 		} else {
 			resulted = false;
@@ -1902,7 +1518,6 @@ public String GetDeviceID(String s) {
 
 		if(word!=null)
 		{
-			//Log.d("wordddd",word);
 			strToreturn=strToreturn.replace("^@", word);
 			//Log.d("wordddd",word);
 		}
@@ -3071,12 +2686,9 @@ public String GetDeviceID(String s) {
 		SaveScrollPosition();
 		if (word.equalsIgnoreCase("")) 
 		{
-
 		} 
 		else
 		{
-			//word = word.replaceAll("\\p{Punct}|\\d", "");
-	
 			normalized=WQFerhengDBOpenHelper. Normalize(word);
 			cursor =provider. GetCursor(WQFerhengDB.KEY_WORD_N + " match ? ", normalized);
 		}
@@ -3099,17 +2711,13 @@ public String GetDeviceID(String s) {
 					Words w =	WQFerhengDB.mWQferhengDBOpenHelper.GetSingleWord(id);
 					if(w!=null)
 					{
-				//	String def = GetValue(cursor, WQFerhengDB.KEY_DEFINITION);
-					//def=WQFerhengActivity.Decode(def);
 					String def=Decode(w.getwate(), wordd, wordd_n);
 					def=def.replace(",", ", ");
 					listviewresult.setVisibility(View.GONE);
 					mExpandableListView.setVisibility(View.VISIBLE);
 					
 					SetExpanderCollection(word, def);
-					// System.out.println(word);
 					defaultWordedSplashed = true;
-				//	rid=id;
 					wreturn=new Words();
 					wreturn.id=id;
 					wreturn.peyv=word;

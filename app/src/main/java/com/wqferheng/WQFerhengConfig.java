@@ -24,17 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.ads.Ad;
 import com.facebook.ads.InterstitialAdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.identifier.AdvertisingIdClient;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.facebook.ads.*;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 
-import java.io.IOException;
+import com.facebook.ads.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -261,7 +253,6 @@ public class WQFerhengConfig extends AppCompatActivity {
 			}
 		});
 
-		//AdSettings.addTestDevice("7FA4D05EAE25EA144CF59A8726F126C");
 		// Create interstitial ad
 		interstitialAd = new com.facebook.ads.InterstitialAd(WQFerhengActivity.mContext, "1281695262866543_1281709846198418");
 		InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {

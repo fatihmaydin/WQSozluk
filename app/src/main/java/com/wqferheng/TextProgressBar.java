@@ -53,6 +53,9 @@ private void setAttrs(AttributeSet attrs) {
 @Override
 
 protected synchronized void onDraw(Canvas canvas) {
+    try {
+
+
     super.onDraw(canvas);
     Paint textPaint = new Paint();
     textPaint.setAntiAlias(true);
@@ -63,6 +66,9 @@ protected synchronized void onDraw(Canvas canvas) {
     int x = getWidth() / 2 - bounds.centerX();
     int y = getHeight() / 2 - bounds.centerY();
     canvas.drawText(text, x, y, textPaint);
+    }
+    catch(Exception e)
+    {}
 }
 public String getText() {
     return text;
