@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import java.util.Random;
 
@@ -22,7 +22,7 @@ public class WQDictionaryWidget extends AppWidgetProvider {
 	public static String ACTION_WIDGET_RECEIVER = "com.wqsozluk.ACTION_WIDGET_RECEIVER";
 	public static final String OPEN_URL_ACTION = "com.wqsozluk.OPEN_URL_ACTION";
 	public static final String Refresh = "com.wqsozluk.Refresh";
-	public static final String LAUNCH_WQDictionary = "com.wqsozluk.LAUNCH_WQDictionary";
+	public static final String LAUNCH_WQDictionary = "com.wqsozluk.LAUNCH_WQSozluk";
 	public static final String Web_Link = "com.wqsozluk.Web_Link";
 	public static final String Zareva = "com.wqsozluk.Zareva";
 	public static String UPDATE_LIST = "UPDATE_LIST";

@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 public class Words {
 	public String id;

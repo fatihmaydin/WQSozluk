@@ -1,6 +1,6 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
-import com.wqdictionary.WQDictionaryDB.WQDictionaryDBOpenHelper;
+import com.wqsozluk.WQDictionaryDB.WQDictionaryDBOpenHelper;
 
 import android.content.ContentResolver;
 import android.content.Context;

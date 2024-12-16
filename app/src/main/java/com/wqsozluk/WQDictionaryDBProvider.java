@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import android.app.SearchManager;
 import android.content.ContentProvider;
@@ -14,14 +14,14 @@ import android.provider.BaseColumns;
 public class WQDictionaryDBProvider extends ContentProvider {
     String TAG = "WQDictionaryDBProvider";
 
-    public static String AUTHORITY = "com.wqdictionary.WQDictionaryDBProvider";
+    public static String AUTHORITY = "com.wqsozluk.WQDictionaryDBProvider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/WQDictionary");
 
     // MIME types used for searching words or looking up a single definition
     public static final String WORDS_MIME_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE +
-                                                  "/vnd.com.wqdictionary";
+                                                  "/vnd.com.wqsozluk";
     public static final String DEFINITION_MIME_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE +
-                                                       "/vnd.com.wqdictionary";
+                                                       "/vnd.com.wqsozluk";
 
     private WQDictionaryDB mDictionary;
 

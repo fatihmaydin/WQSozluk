@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

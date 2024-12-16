@@ -5,8 +5,8 @@ android {
 
 
     defaultConfig {
-        applicationId "com.wqdictionary"
-        namespace 'com.wqdictionary'
+        applicationId "com.wqsozluk"
+        namespace 'com.wqsozluk'
         minSdk 21
         targetSdk 34
 

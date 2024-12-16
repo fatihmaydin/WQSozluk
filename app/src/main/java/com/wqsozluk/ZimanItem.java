@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 /**
  * This code encapsulates RSS item data.

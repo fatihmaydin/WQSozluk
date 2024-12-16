@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

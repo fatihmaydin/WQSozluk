@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
@@ -82,9 +82,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.wqdictionary.GroupEntity.GroupItemEntity;
-import com.wqdictionary.SearchResultAdapter.ViewHolderWords;
-import com.wqdictionary.WQDictionaryDB.WQDictionaryDBOpenHelper;
+import com.wqsozluk.GroupEntity.GroupItemEntity;
+import com.wqsozluk.SearchResultAdapter.ViewHolderWords;
+import com.wqsozluk.WQDictionaryDB.WQDictionaryDBOpenHelper;
 
 
 public class WQDictionaryActivity extends AppCompatActivity implements OnClickListener {

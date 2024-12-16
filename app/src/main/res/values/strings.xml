@@ -3,7 +3,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">WQDictionary</string>
+    <string name="app_name">WQSozluk</string>
     <string name="facebook_app_id">1281695262866543</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
@@ -83,7 +83,7 @@
     <string name="Admob_Intersitital">ca-app-pub-4819188859318435/6576518813</string>
     <string name="Admob_homeBanner">ca-app-pub-4819188859318435/5669588309</string>
     <string name="strJimar">Başlık Sayısı</string>
-    <string name="strNameSpace">com.wqdictionary</string>
+    <string name="strNameSpace">com.wqsozluk</string>
     <string name="AppRateString">Eger hûn ji bikaranîna %1$sê memnûn in, ji kerema xwe re binirxînin. Spas bo alîkariya we</string>
     <string name="Remind">Paşê bi bîr bîne!</string>
     <string name="Thanks">Na, Spas</string>

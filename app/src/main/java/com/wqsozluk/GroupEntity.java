@@ -1,9 +1,9 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wqdictionary.ExpandableListAdapter.ChildHolder;
+import com.wqsozluk.ExpandableListAdapter.ChildHolder;
 
 
 public class GroupEntity {

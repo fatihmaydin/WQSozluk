@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class AppRater {
-    private final static String APP_TITLE = "WQDictionary";
-    private final static String APP_PNAME = "com.wqdictionary";
+    private final static String APP_TITLE = "WQSozluk";
+    private final static String APP_PNAME = "com.wqsozluk";
     
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 2;

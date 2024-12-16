@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -286,7 +286,7 @@ public class ListViewCursorLoaderActivity extends AppCompatActivity implements
 			String query = WQDictionaryActivity.zimanquery + "*";
 			String selection = WQDictionaryDB.KEY_WORD_N + " match ? ";
 			Uri uri = WQDictionaryDBProvider.CONTENT_URI;
-			query =com.wqdictionary.WQDictionaryDB. WQDictionaryDBOpenHelper.Normalize(letter) + "*";
+			query =com.wqsozluk.WQDictionaryDB. WQDictionaryDBOpenHelper.Normalize(letter) + "*";
 			Log.d("query", query);
 			WQDictionaryActivity.letterx = letter;
 			CursorLoader loader = new CursorLoader(this, uri, columnsDB,

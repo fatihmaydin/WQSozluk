@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +30,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 public class WQDictionaryDB {
-	private static final String TAG = "WQDictionaryDB";
+	private static final String TAG = "WQSozlukDB";
 
 	// The columns we'll include in the dictionary table
 	public static final String KEY_WORD = "word";	
@@ -38,7 +38,7 @@ public class WQDictionaryDB {
 	public static final String KEY_WORD_N = "word_N";
 	public static final String KEY_ID= "id";
 
-	private static final String DATABASE_NAME = "WQDictionary";
+	private static final String DATABASE_NAME = "WQSozlukDB";
 	private static final String FTS_VIRTUAL_TABLE = "FTSdictionary";
 	private static final String FTS_VIRTUAL_TABLE2 = "FTSdictionary_Defs";
 	private static final String FTS_VIRTUAL_TABLE_FAV = "FTSdictionary_FAVs";

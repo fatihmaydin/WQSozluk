@@ -15,7 +15,7 @@
         android:orientation="vertical"
         >
 
-        <com.wqdictionary.TextProgressBar
+        <com.wqsozluk.TextProgressBar
             android:id="@+id/progressBarWithText"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:orientation="horizontal"
             android:background="?customAndroidlistlistViewBackColor3Attribute">
 
-            <com.wqdictionary.CustomKeys
+            <com.wqsozluk.CustomKeys
                 android:id="@+id/customkeys"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 android:layout_weight="8"
                 android:src="@drawable/search"/>
 
-            <com.wqdictionary.CustomAutoCompleteTextView
+            <com.wqsozluk.CustomAutoCompleteTextView
                 android:id="@+id/autocomplete_search"
                 android:layout_width="0px"
 

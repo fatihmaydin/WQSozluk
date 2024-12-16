@@ -3,7 +3,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">WQDictionary</string>
+    <string name="app_name">WQSozluk</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
     <!-- The label for use as a searchable item -->

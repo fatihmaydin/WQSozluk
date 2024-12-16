@@ -1,6 +1,6 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
-import static com.wqdictionary.R.id.action_Parveke_Peyv;
+import static com.wqsozluk.R.id.action_Parveke_Peyv;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +46,7 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.wqdictionary.GroupEntity.GroupItemEntity;
+import com.wqsozluk.GroupEntity.GroupItemEntity;
 
 
 public class DefinitionActivity extends AppCompatActivity implements android.view.View.OnClickListener  {

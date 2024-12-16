@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

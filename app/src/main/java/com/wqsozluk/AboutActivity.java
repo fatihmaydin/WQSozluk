@@ -1,4 +1,4 @@
-package com.wqdictionary;
+package com.wqsozluk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ import com.google.android.ump.ConsentForm;
 import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
-import com.wqdictionary.GroupEntity.GroupItemEntity;
+import com.wqsozluk.GroupEntity.GroupItemEntity;
 
 @SuppressLint("NewApi") public class AboutActivity extends AppCompatActivity {
 
