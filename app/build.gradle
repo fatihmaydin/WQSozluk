@@ -5,8 +5,8 @@ android {
 
 
     defaultConfig {
-        applicationId "com.wqferheng"
-        namespace 'com.wqferheng'
+        applicationId "com.wqdictionary"
+        namespace 'com.wqdictionary'
         minSdk 21
         targetSdk 34
 
@@ -40,7 +40,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.gms:play-services-ads:23.5.0'
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
     implementation "com.google.android.ump:user-messaging-platform:3.1.0"
     implementation("com.google.ads.mediation:facebook:6.18.0.0")
 

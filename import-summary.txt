@@ -15,9 +15,9 @@ so manually move them:
 * .idea\misc.xml
 * .idea\modules.xml
 * .idea\workspace.xml
-* WQFerheng.iml
+* WQDictionary.iml
 * proguard-project.txt
-* wqferheng-web.png
+* WQDictionary-web.png
 
 Replaced Jars with Dependencies:
 --------------------------------

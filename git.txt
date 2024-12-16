@@ -95,13 +95,13 @@ aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects (master)
 $ git config --global user.password "14123642Qq."
 
 aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects (master)
-$ cd wqferheng
+$ cd WQDictionary
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git init
-Initialized empty Git repository in C:/Users/aydin/AndroidStudioProjects/WQFerheng/.git/
+Initialized empty Git repository in C:/Users/aydin/AndroidStudioProjects/WQDictionary/.git/
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push
 fatal: No configured push destination.
 Either specify the URL from the command-line or configure a remote repository using
@@ -113,31 +113,31 @@ and then push using the remote name
     git push <name>
 
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git init
-Reinitialized existing Git repository in C:/Users/aydin/AndroidStudioProjects/WQFerheng/.git/
+Reinitialized existing Git repository in C:/Users/aydin/AndroidStudioProjects/WQDictionary/.git/
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git add README.md
 fatal: pathspec 'README.md' did not match any files
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
-$ git remote add origin git@github.com:fatihmaydin/WQFerheng.git
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
+$ git remote add origin git@github.com:fatihmaydin/WQDictionary.git
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push -u origin main
 error: src refspec main does not match any
-error: failed to push some refs to 'github.com:fatihmaydin/WQFerheng.git'
+error: failed to push some refs to 'github.com:fatihmaydin/WQDictionary.git'
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git braNCH -M main
 git: 'braNCH' is not a git command. See 'git --help'.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
-$ git remote add origin git@github.com:fatihmaydin/WQFerheng.git
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
+$ git remote add origin git@github.com:fatihmaydin/WQDictionary.git
 error: remote origin already exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push
 fatal: The current branch master has no upstream branch.
 To push the current branch and set the remote as upstream, use
@@ -148,24 +148,24 @@ To have this happen automatically for branches without a tracking
 upstream, see 'push.autoSetupRemote' in 'git help config'.
 
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 error: src refspec master does not match any
-error: failed to push some refs to 'github.com:fatihmaydin/WQFerheng.git'
+error: failed to push some refs to 'github.com:fatihmaydin/WQDictionary.git'
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ^C
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git gui
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ touch .gitignore
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git gui
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push
 fatal: The current branch master has no upstream branch.
 To push the current branch and set the remote as upstream, use
@@ -176,7 +176,7 @@ To have this happen automatically for branches without a tracking
 upstream, see 'push.autoSetupRemote' in 'git help config'.
 
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 The authenticity of host 'github.com (140.82.121.4)' can't be established.
 ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
@@ -189,10 +189,10 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ^C
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -200,13 +200,13 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keygen -R github.com
 # Host github.com found: line 1
 /c/Users/aydin/.ssh/known_hosts updated.
 Original contents retained as /c/Users/aydin/.ssh/known_hosts.old
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 The authenticity of host 'github.com (140.82.121.3)' can't be established.
 ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
@@ -219,13 +219,13 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keygen -R github.com
 # Host github.com found: line 1
 /c/Users/aydin/.ssh/known_hosts updated.
 Original contents retained as /c/Users/aydin/.ssh/known_hosts.old
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git status
 On branch master
 Untracked files:
@@ -235,7 +235,7 @@ Untracked files:
 
 nothing added to commit but untracked files present (use "git add" to track)
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push
 fatal: The current branch master has no upstream branch.
 To push the current branch and set the remote as upstream, use
@@ -246,7 +246,7 @@ To have this happen automatically for branches without a tracking
 upstream, see 'push.autoSetupRemote' in 'git help config'.
 
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 The authenticity of host 'github.com (140.82.121.3)' can't be established.
 ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
@@ -258,7 +258,7 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 The authenticity of host 'github.com (140.82.121.3)' can't be established.
 ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
@@ -271,7 +271,7 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keyscan github.com >> ~/.ssh/known_hosts
 # github.com:22 SSH-2.0-babeld-33961236
 # github.com:22 SSH-2.0-babeld-33961236
@@ -279,7 +279,7 @@ $ ssh-keyscan github.com >> ~/.ssh/known_hosts
 # github.com:22 SSH-2.0-babeld-33961236
 # github.com:22 SSH-2.0-babeld-33961236
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -287,10 +287,10 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ^C
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keygen -t rsa -C "aydinfatih@yahoo.com"
 Generating public/private rsa key pair.
 Enter file in which to save the key (/c/Users/aydin/.ssh/id_rsa): rsakeys
@@ -316,7 +316,7 @@ The key's randomart image is:
 |           .     |
 +----[SHA256]-----+
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -324,7 +324,7 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keygen -t rsa -C "aydinfatih@yahoo.com"
 Generating public/private rsa key pair.
 Enter file in which to save the key (/c/Users/aydin/.ssh/id_rsa): rsakeys
@@ -349,7 +349,7 @@ The key's randomart image is:
 |  ... o .        |
 +----[SHA256]-----+
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -357,11 +357,11 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
-$ git remote add origin https://github.com:fatihmaydin/WQFerheng.git
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
+$ git remote add origin https://github.com:fatihmaydin/WQDictionary.git
 error: remote origin already exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -369,10 +369,10 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
-$ git remote set-url origin git@github.com:fatihmaydin/WQFerheng.git
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
+$ git remote set-url origin git@github.com:fatihmaydin/WQDictionary.git
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -380,11 +380,11 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git config --global user.name="fatihmaydin"
 error: invalid key: user.name=fatihmaydin
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -392,20 +392,20 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ^C
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ eval `ssh-agent -s`
 ssh-add ~/.ssh/id_rsa
 Agent pid 2327
 /c/Users/aydin/.ssh/id_rsa: No such file or directory
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-add ~/.ssh/rsakeys
 /c/Users/aydin/.ssh/rsakeys: No such file or directory
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keygen -t rsa -C "aydinfatih@yahoo.com"
 Generating public/private rsa key pair.
 Enter file in which to save the key (/c/Users/aydin/.ssh/id_rsa):
@@ -428,11 +428,11 @@ The key's randomart image is:
 |                 |
 +----[SHA256]-----+
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-add ~/.ssh/id_rsa
 Identity added: /c/Users/aydin/.ssh/id_rsa (aydinfatih@yahoo.com)
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -440,11 +440,11 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-add ~/.ssh/id_rsa/rsakeys
 /c/Users/aydin/.ssh/id_rsa/rsakeys: Not a directory
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keygen -t ed25519 -C "aydinfatih@yahoo.com"
 Generating public/private ed25519 key pair.
 Enter file in which to save the key (/c/Users/aydin/.ssh/id_ed25519):
@@ -467,7 +467,7 @@ The key's randomart image is:
 |     =.          |
 +----[SHA256]-----+
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
@@ -475,13 +475,13 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ^C
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ clip < ~/.ssh/id_rsa
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ ssh-keygen -t ed25519 -C "aydinfatih@yahoo.com"
 Generating public/private ed25519 key pair.
 Enter file in which to save the key (/c/Users/aydin/.ssh/id_ed25519): rsakeys
@@ -506,7 +506,7 @@ The key's randomart image is:
 |          .ooo   |
 +----[SHA256]-----+
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $ git push --set-upstream origin master
 Enumerating objects: 202, done.
 Counting objects: 100% (202/202), done.
@@ -515,9 +515,9 @@ Compressing objects: 100% (183/183), done.
 Writing objects: 100% (202/202), 19.26 MiB | 2.50 MiB/s, done.
 Total 202 (delta 35), reused 0 (delta 0), pack-reused 0 (from 0)
 remote: Resolving deltas: 100% (35/35), done.
-To github.com:fatihmaydin/WQFerheng.git
+To github.com:fatihmaydin/WQDictionary.git
  * [new branch]      master -> master
 branch 'master' set up to track 'origin/master'.
 
-aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/wqferheng (master)
+aydin@LAPTOP-QTJN05L5 MINGW64 /c/users/aydin/AndroidStudioProjects/WQDictionary (master)
 $

@@ -3,7 +3,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">WQFerheng</string>
+    <string name="app_name">WQDictionary</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
     <!-- The label for use as a searchable item -->
@@ -106,13 +106,13 @@
   <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
         Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
         Heta niha wergereka wî, ji Almanî Veguherîn(Die Verwandlung) û Koloniya Tawanê(In der Strafkolonie) ya Franz Kafka, û romaneka wî, Sefernameya Hezar û Yek Fersengî, ji Weşanên Lîsê derketiye û 
-        di wara wergerrê de xebatên xwe li ser berhemên Kafka didomîne. Wergera Nmaeyên Moltke ji Almanî bo Kurdî kir û ew ji nav Weşanên Avesta derket. Ji xeynî WQFerhengê, bernameyeka din, Nûçexane, ya ku li ser Google Playê li berdest jî ji hêla wî hatiye çêkirin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+        di wara wergerrê de xebatên xwe li ser berhemên Kafka didomîne. Wergera Nmaeyên Moltke ji Almanî bo Kurdî kir û ew ji nav Weşanên Avesta derket. Ji xeynî WQDictionaryê, bernameyeka din, Nûçexane, ya ku li ser Google Playê li berdest jî ji hêla wî hatiye çêkirin. WQDictionary herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
         Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;\n\n
         
         Bu sözlük Fatîh Aydin tarafından, Wîkîferheng in verileri ve katkı yapanların emeği sayesinde, geliştirildi.
         Fatîh Aydin, yazılımcılığın dışında, Wîkîferhenge yaptığı katkılar, çevirmenlik ve yazarlık üzerinden yaptığı çalışmalar ile Kürtçe\'ye katkı yapmaya çalışıyor.
         Şimdiye kadar bir çevirisi, Almanca dan Franz Kafka nın Veguherîn(Die Verwandlung, Dönüşüm)ve Koloniya Tawanê (In der Strafkolonie, Ceza Kolonisi) eseri, ve bir romanı, Sefernameya Hezar û Yek Fersengî(Binbir Fersah Seyahatnamesi), Lis yayınlarından çıktı. 
-        Moltke\'nin Mektupları\'nı Almanca\'dan Kürtçe\'ye çevirdi ve Avesta yayınları tarafından basıldı. Bu arada çeviri ile ilgili çalışmalarını Franz Kafka nın eserleri üzerinden sürdürmekte. WQFerheng, dışında, yine Android için, Kürtçe haberlerini izlenebildiği Nûçexane isimli bir program daha geliştirmiştir.
+        Moltke\'nin Mektupları\'nı Almanca\'dan Kürtçe\'ye çevirdi ve Avesta yayınları tarafından basıldı. Bu arada çeviri ile ilgili çalışmalarını Franz Kafka nın eserleri üzerinden sürdürmekte. WQDictionary, dışında, yine Android için, Kürtçe haberlerini izlenebildiği Nûçexane isimli bir program daha geliştirmiştir.
         Blog ve aşağıdaki adreslerini ziyaret edebilirsiniz;\n\n
         </string>
     <string name="Version47">Version 4.7 (03/06/2024) </string>
@@ -127,7 +127,7 @@
 
            * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~130 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
            
-           * Veritabanı senkronize edildi ve şu anda WQFerheng de yaklaşık 475 000 başlık mevcut..\n
+           * Veritabanı senkronize edildi ve şu anda WQDictionary de yaklaşık 475 000 başlık mevcut..\n
           
 
            * Uyarı: Artan kelime sayısı ile uygulamanın diskte kapladığı alanda büyümekte (~130 MB) . Lütfen cihazınızda yeterli yer olup olmadığını kontrol ediniz.
@@ -143,7 +143,7 @@
            
            * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~115 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
            
-           * Veritabanı senkronize edildi ve şu anda WQFerheng de yaklaşık 500 000 başlık mevcut..\n
+           * Veritabanı senkronize edildi ve şu anda WQDictionary de yaklaşık 500 000 başlık mevcut..\n
            * Kaydırma hareketi ile arama listeleri arasında gezinme özelliği eklendi. Bu ekranın sağ ve solundaki butonlar ile de gerçekleştirilebilir.
            * Favorilere ekleme özelliği eklendi.
            * Başlık sayısındaki artışa rağmen, bir kaç algoritma ile sözlüğün disk üzerindeki hacmi düşürüldü. 

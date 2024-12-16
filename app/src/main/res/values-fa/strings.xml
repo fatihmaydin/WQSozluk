@@ -3,7 +3,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">WQFerheng ()</string>
+    <string name="app_name">WQDictionary ()</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
     <!-- The label for use as a searchable item -->
@@ -107,7 +107,7 @@
      <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
         Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
         Heta niha 4 wergerên wî, ji Almanî; Veguherîn(Die Verwandlung), Koloniya Tawanê(In der Strafkolonie) û Keleh(Das Schloß) ya Franz Kafka,  û Li Çiyayên Kurdistanê - Di Bin Nîveheyvê de(Briefe über die Zustände und Begebenheiten in der
-Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQDictionary herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
         Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;;\n\n</string>
       <string name="Version45">Version 4.6 (10/05/2023) </string>
     <string name="Version45Body"> * Danegeh bi Wîkîferhengê ve hat wekhevkirin û niha di Ferhengê de nêzî 500 000\'an peyv hene.\n   

@@ -29,7 +29,7 @@
                     android:layout_weight="30"
                     android:background="@drawable/btn_red"
                     android:contentDescription="@string/description"
-                    android:src="@drawable/wqferheng" >
+                    android:src="@drawable/wqsozluk" >
                 </ImageButton>
 
                 <Button

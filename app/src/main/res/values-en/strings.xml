@@ -3,7 +3,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">WQFerheng</string>
+    <string name="app_name">WQDictionary</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
     <!-- The label for use as a searchable item -->
@@ -105,12 +105,12 @@
     <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
         Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
         Heta niha 4 wergerên wî, ji Almanî; Veguherîn(Die Verwandlung), Koloniya Tawanê(In der Strafkolonie) û Keleh(Das Schloß) ya Franz Kafka,  û Li Çiyayên Kurdistanê - Di Bin Nîveheyvê de(Briefe über die Zustände und Begebenheiten in der
-Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQDictionary herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
         Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;;\n\n
         
         This App, based on Wîkîferheng resources and thanks to its contributors, developed by Fatîh Aydin. Except software developing, with contributions to Wîkîferheng, Fatîh Aydin is also making contributions with translations and novel writing,
         to the Kurdish. Since now, a translation, from German Veguherîn (Die Verwandlung, The Methamorphosis) and Koloniya Tawanê(In der Strafkolonie, In Penal Colony), a novel, Sefernameya Hezar û yek Fersengî (Travel Book of one Thousand and one Parasang),
-        of him published by Weşanên Lîs publications. He is still continuing his contributions by working on Kafka\'s works. Except WQFerheng, He also developed another App with name Nûçexane, which is useful for following Kurdish news.
+        of him published by Weşanên Lîs publications. He is still continuing his contributions by working on Kafka\'s works. Except WQDictionary, He also developed another App with name Nûçexane, which is useful for following Kurdish news.
         You can visit his blog and his adresses below;\n\n
         
         </string>
@@ -126,7 +126,7 @@ Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Y
 
            * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~130 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
            
-           * Database was synchronized and now there are 475 000 articles in the WQFerheng.\n
+           * Database was synchronized and now there are 475 000 articles in the WQDictionary.\n
           
     
           * Caution: With increasing count of words, also capacity of App on disk(~130 MB) is increasing, because of that please check it if there is enough space on your disk.\n\n
@@ -141,7 +141,7 @@ Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Y
            
            * Hişyarî: Bi zêdebûna peyvan re mezinahiya App\'ê ya li ser dîskê jî (~115 MB) zêde dibe, ji kerema xwe re kontrol bikin ka jê re şûn heye an na.\n\n
            
-           * Database was synchronized and now there are 475 000 articles in the WQFerheng.\n
+           * Database was synchronized and now there are 475 000 articles in the WQDictionary.\n
            * With swiping with finger you can go through searched words. This can be done also with buttons on the left and right of screen.\n
            * Words and articles can be taken to favourite list.
            * With a few tricks, even though number of articles were increased, size of dictionary has been reduced to 115 MB

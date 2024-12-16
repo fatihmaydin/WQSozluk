@@ -1,0 +1,8 @@
+.gradle/8.4/*
+.gradle/buildOutputCleanup
+.gradle/checksums
+app/build/intermediates
+app/build/tmp
+app/build/*
+app/debug/*
+app/release/*

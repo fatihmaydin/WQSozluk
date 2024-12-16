@@ -3,7 +3,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">WQFerheng</string>
+    <string name="app_name">WQDictionary</string>
     <string name="facebook_app_id">1281695262866543</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
@@ -14,49 +14,76 @@
     <string name="menu_settings">Bibîne</string>
     <string name="buttonc">ç</string>
     <string name="buttoni">î</string>
+    <string name="typeToSearch">Hepsi</string>
+    <string name="dialogNa">Hayır</string>
+    <string name="dialogEre">Evet</string>
+    <string name="zimanquery">Kurdî</string>
+    <string name="toomanyresults">"'%s' şeklinde kısa bir arama bir çok sonuç bulmakta ve cihazınızın performansına öre uzun sürebilir?"</string>
+    <string name="prgressbarText"> "Yükleiniyor...: %%1$d , Yüklendi: "
+							%i başlık"</string>
+    <string name="ferhengbarbudialogtext">%1$d kelime oluşturuldu </string>
+    <string name="ferhengbarbudialogheader">Yüklendi</string>
+    <string name="ferhengbarbu">%1$s %1$d  Kelimler yüklendi?.</string>
+    <string name="zimantemp">Türkçe</string>
+    <string name="listwordtypes">_lllistTür</string>
     <string name="buttons">ş</string>
+    <string name="hayjehebin">Dikkat</string>
+    <string name="wiki">tr</string>
     <string name="buttonu">û</string>
     <string name="buttone">ê</string>
     <string name="buttonii">ı</string>
+    <string name="cureyepeyvan">Kelime Türleri</string>
+    <string name="strAbout">Bu sözlüğün oluşturulmasında Wiktionary verileri kaynak olarak kullanılmıştır</string>
+    <string name="linavbigere">Ara</string>
+    <string name="hemuherf">Hemû Herf</string>
     <string name="buttonue">ü</string>
+    <string name="strsort">Tür</string>
+    <string name="strbinihere">Bknz.,Bakınız</string>
+    <string name="translations">Çeviriler,çeviriler,Çeviri,Köken,Türk Dilleri,Türk lehçe,türk lehçeleri,Türk Dilleri</string>
+    <string name="linkedSections">Anlam,Ad,özel ad,Belirteç,Rakam,Eylem,Ünlem,Edat,Ön Ad,Zamir,İsim,Bağlaç, İsim,isim, Alt kavramlar,Deyimler, Köken</string>
+    <string name="translatedLangs">Almanca,İngilizce,Fransızca,Kürtçe</string>
+    <string name="headers">Deyimler,Atasözler,Eş Anlamlılar,Zıt Anlamlılar,Karşıt Anlamlılar,Kavramlar,Alt Kavramlar,Yan Kavramlar,karşıt anlamlılar, türetilmiş kavramlar,Üst Kavramlar,Benzer Kavramlar,Sözcük Birliktelikleri,Benzer Sözcükler,Örnekler	,Söyleniş,Kaynakça,Kavramlar,Türetilmiş Kavramlar,Yazılışlar,Anlamlar,Açıklamalar,Bilimsel Adı ,Heceleme,Örnek ,çoğul,Çoğul,Benzer Sözcükler,Heceleme</string>
     <string name="buttonoe">ö</string>
     <string name="buttong">ğ</string>
     <string name="buttonarabic">ابت</string>
     <string name="buttonlatin">abc</string>
-    <string name="buttonreset">Jêbibe</string>
-    <string name="derbar">Derbar</string>
+    <string name="buttonreset">Sil</string>
+    <string name="derbar">Hakkında</string>
     <string name="buttonhere">Here!</string>
     <string name="buttonarAlph">Er.</string>
-    <string name="Lêbigere">Lêbigere</string>
-    <string name="legerrinenbere">Lêgerrînên Berê</string>
-       <string name="herekategoriye">Here Kategoriyê</string>
-          <string name="herekategoriyemesaj">Gelo, bi rastî tu dixwazî herî ser kategoriya \'%s\'?\n Dibe ku ew hinekî dem bigire</string>
+    <string name="hejmaraSernavan">Başlık sayısı</string>
+    <string name="Lêbigere">Ara</string>
+    <string name="legerrinenbere">Eski aramalar</string>
+       <string name="herekategoriye">Kategoriiye git</string>
+          <string name="herekategoriyemesaj">Bu kategorideki kelimleri görmek istediğinizden emin misiniz \'%s\'? yüklenmesi zaman alabilir</string>
     <!-- The hint text that appears in the search box. -->
     <string name="search_hint">Search the dictionary</string>
-    <string name="helpbody">Bona lêgerîna peyvan li qutiya lêgerrînê ya peyvan, peyva mebestkirî binivîsinin û ji pêşniyarên 
-          ji lîsteya dadileqe peyvan hilbijêrin. Bi pişkoja \"Here!\" hûn dikarin herine ser sernava bi nivîskê re rasterast eynî. Bona lêgerrîna peyvên nêzik ên nivîska mebestkirî li pişkoja bigere 
-				bitikînin.</string>
-    <string name="whatsnew">Çi hat Nûkirin</string>
-    <string name="loading">Peyv têne bar kirin &#8230;</string>
-    <string name="loaded"> peyv lê hat(in) bar kirin. Bo şixulîna hin taybetiyên ferhengê,\n gerek ew ji nû ve bê dest pê kirin.</string>
+    <string name="helpbody">Arama yapmak için arama kutucuğuna kelime yazıp arayabilirsiniz.</string>
+    <string name="whatsnew">Yenilikler</string>
+    <string name="loading">Kelimler yükleniyor  &#8230;</string>
+    <string name="loaded"> Kelimeler yüklendi. Yeniden başlatmanız tavsiye edilir</string>
     <string name="processingwords">Li peyvan digere&#8230;</string>
     <string name="temam">Temam</string>
     <string name="betal">Betal</string>
-    <string name="resultsfound">%1$d encam hat(in) dîtin.</string>
-    <string name="resultsnotfound">Tu encam bo \'%1$s\' nehatin dîtin.</string>
+    <string name="peyvtenjebirin">"Eski kelimeler siliniyor.."</string>
+    <string name="resultsfound">%1$d sonuç buludu.</string>
+    <string name="resultsnotfound"> \'%1$s\' için herhangi bir sonuç bulunamadı.</string>
         <string name="addedtofav">Peyva \'%1$s\' li ser favoriyan hat zêde kirin.</string>
-           <string name="notaddedtofav">Peyva \'%1$s\' nekarî li ser favoriyan bê zêde kirin.</string>
-                     <string name="favwordexists">Peyva \'%1$s\' jixwe ji berê de di nav favoriyan de heye.</string>
-    <string name="resultinstant">peyveka rasthatî</string>
-    <string name="langchange">Ziman hat guherîn:</string>
-    <string name="DerbarBody1">Di ferhengê de %1$s sernav hene. Bona rûdanên nepayî yên li bernameyê hûn dikarin ji min re ji navnîşana </string>
-    <string name="DerbarBody2"> re e-nameyê bişînin. Agahiyên zêdetir hûn dikarin li jêr bibînin. </string>
-    <string name="Langku">Kurdî</string>
-    <string name="Langen">Înglîzî</string>
-    <string name="Langde">Almanî</string>
-    <string name="Langtr">Tirkî</string>
-    <string name="Langfa">Farsî</string>
-
+           <string name="notaddedtofav">\'%1$s\' başlığı Favori listesine eklenemedi.</string>
+                     <string name="favwordexists"> \'%1$s\' başlığı Favor ilistesinde zaten mevcut.</string>
+    <string name="resultinstant">Rastgele kelime</string>
+    <string name="langchange">Dil değiştirildi:</string>
+    <string name="DerbarBody1">Sözlükte %1$s başlık mevcut </string>
+    <string name="DerbarBody2"> . </string>
+    <string name="Langku">Kürtçe</string>
+    <string name="Langen">İngilizce</string>
+    <string name="Langde">Almanca</string>
+    <string name="Langtr">Türkçe</string>
+    <string name="Langfa">Farsça</string>
+    <string name="Admob_Intersitital">ca-app-pub-4819188859318435/6576518813</string>
+    <string name="Admob_homeBanner">ca-app-pub-4819188859318435/5669588309</string>
+    <string name="strJimar">Başlık Sayısı</string>
+    <string name="strNameSpace">com.wqdictionary</string>
     <string name="AppRateString">Eger hûn ji bikaranîna %1$sê memnûn in, ji kerema xwe re binirxînin. Spas bo alîkariya we</string>
     <string name="Remind">Paşê bi bîr bîne!</string>
     <string name="Thanks">Na, Spas</string>
@@ -99,6 +126,7 @@
     <string name="strDark">Tarî</string>
     <string name="strLight">Ronî</string>
     <string name="strSysem">Sîstem</string>
+    <string name="AllLangs">"Tüm Diller"</string>
     <string name="strLanguage">Zimanê App\'ê</string>
 
     <string name="jiwejeye">Ji Wêjeyê</string>
@@ -106,7 +134,7 @@
     <string name="DerbaraMin">Ew ferhenga ji hêla Fatîh Aydin ve, bi bingehgirtina daneyên(çavkaniyên) Wîkîferhengê û xêra kedkar û zehmetkêşên wê, hatiye çêkirin.
         Fatîh Aydin, ji xeynî programçêkerî ya kompîtûrê, bi tevkariya Wîkîferhengê, bi wergêrî û nivîskariyê hewl dide ku bo zimanê Kurdî tiştinan bike.
         Heta niha 4 wergerên wî, ji Almanî; Veguherîn(Die Verwandlung), Koloniya Tawanê(In der Strafkolonie) û Keleh(Das Schloß) ya Franz Kafka,  û Li Çiyayên Kurdistanê - Di Bin Nîveheyvê de(Briefe über die Zustände und Begebenheiten in der
-Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQFerheng herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
+Türkei 1835–39) ya Helmuth von Moltke û romaneka wî, Sefernameya Hezar û Yek Fersengî, hatiye weşandin. WQDictionary herwiha li ser IOS û Windows\'ê jî dikare bê bi kar anîn.
         Hûn dikarin ser li bloga wî û navnîşanên wî yên li jêr bidin;\n\n</string>
     <string name="Version47">Version 4.7 (03/06/2024) </string>
     <string name="Version47Body"> * Versiyona Target API hat bilind kirin.\n
