@@ -124,7 +124,7 @@ import com.wqsozluk.GroupEntity.GroupItemEntity;
 				mGroupCollection);
 		expandableListViewdefinition.setAdapter(adapter);	
 		Words word = queryProvider
-				.GetSingleExactWord("WQDictionary");
+				.GetSingleExactWord("WQSozluk");
 		String def ="";
 		
 		String whatsNew=getString(R.string.whatsnew);

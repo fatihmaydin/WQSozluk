@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
 import android.speech.RecognizerIntent;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -811,17 +812,22 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 
 			//MobileAds.initialize(this, "ca-app-pub-4819188859318435/5036961654");
 			mAdView =(com.google.android.gms.ads.AdView) this.findViewById(R.id.mAdView);
-//			final RelativeLayout imgFAv =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
-		com.google.android.gms.ads.	AdRequest adRequest = new com.google.android.gms.ads.AdRequest.Builder().build();
+			final RelativeLayout relativeLayout1 =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
+			com.google.android.gms.ads.	AdRequest adRequest = new com.google.android.gms.ads.AdRequest.Builder().build();
 			if(adRequest!=null&&mAdView!=null)
 			{
 				//makeText(mAdView.toString());
+				Log.d(TAG, "Admob request");
 				mAdView.loadAd(adRequest);
+				mAdView.setVisibility(View.VISIBLE);
+				RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout1.getLayoutParams();
+				params.removeRule(RelativeLayout.ABOVE);
+				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				relativeLayout1.setLayoutParams(params);
 				mAdView.setAdListener(new AdListener() {
 					@Override
 					public void onAdLoaded() {
 						super.onAdLoaded();
-
 						RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
 						params.addRule(RelativeLayout.ABOVE, R.id.mAdView);
 						mAdView.setVisibility(View.VISIBLE);

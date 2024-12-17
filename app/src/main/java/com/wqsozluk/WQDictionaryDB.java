@@ -42,7 +42,7 @@ public class WQDictionaryDB {
 	private static final String FTS_VIRTUAL_TABLE = "FTSdictionary";
 	private static final String FTS_VIRTUAL_TABLE2 = "FTSdictionary_Defs";
 	private static final String FTS_VIRTUAL_TABLE_FAV = "FTSdictionary_FAVs";
-	public static int DATABASE_VERSION = 20;
+	public static int DATABASE_VERSION = 10;
 	//int Index = 0;
 
 	static WQDictionaryDBOpenHelper mWQDictionaryDBOpenHelper = null;

@@ -185,8 +185,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="gone"
-        android:id="@+id/banner_ad_layout"
-        >
+        android:id="@+id/banner_ad_layout" >
         <LinearLayout
             android:id="@+id/banner_container"
             android:layout_width="match_parent"
@@ -204,7 +203,7 @@
         android:visibility="visible"
 
         ads:adSize="BANNER"
-        ads:adUnitId="@string/Admob_homeBanner" >
+        ads:adUnitId="@string/Admob_homehomeBanner" >
     </com.google.android.gms.ads.AdView>
     <android.inputmethodservice.KeyboardView
         android:id="@+id/keyboardview"

@@ -40,7 +40,7 @@
     <string name="strsort">Tür</string>
     <string name="strbinihere">Bknz.,Bakınız</string>
     <string name="translations">Çeviriler,çeviriler,Çeviri,Köken,Türk Dilleri,Türk lehçe,türk lehçeleri,Türk Dilleri</string>
-    <string name="linkedSections">Anlam,Ad,özel ad,Belirteç,Rakam,Eylem,Ünlem,Edat,Ön Ad,Zamir,İsim,Bağlaç, İsim,isim, Alt kavramlar,Deyimler, Köken</string>
+    <string name="linkedSections">Anlam,Ad,Zarf,özel ad,Belirteç,Rakam,Eylem,Ünlem,Edat,Ön Ad,Zamir,İsim,Bağlaç, İsim,isim, Alt kavramlar,Deyimler, Köken</string>
     <string name="translatedLangs">Almanca,İngilizce,Fransızca,Kürtçe</string>
     <string name="headers">Deyimler,Atasözler,Eş Anlamlılar,Zıt Anlamlılar,Karşıt Anlamlılar,Kavramlar,Alt Kavramlar,Yan Kavramlar,karşıt anlamlılar, türetilmiş kavramlar,Üst Kavramlar,Benzer Kavramlar,Sözcük Birliktelikleri,Benzer Sözcükler,Örnekler	,Söyleniş,Kaynakça,Kavramlar,Türetilmiş Kavramlar,Yazılışlar,Anlamlar,Açıklamalar,Bilimsel Adı ,Heceleme,Örnek ,çoğul,Çoğul,Benzer Sözcükler,Heceleme</string>
     <string name="buttonoe">ö</string>
@@ -82,6 +82,7 @@
     <string name="Langfa">Farsça</string>
     <string name="Admob_Intersitital">ca-app-pub-4819188859318435/6576518813</string>
     <string name="Admob_homeBanner">ca-app-pub-4819188859318435/5669588309</string>
+    <string name="Admob_homehomeBanner">ca-app-pub-4819188859318435/8762655500</string>
     <string name="strJimar">Başlık Sayısı</string>
     <string name="strNameSpace">com.wqsozluk</string>
     <string name="AppRateString">Eger hûn ji bikaranîna %1$sê memnûn in, ji kerema xwe re binirxînin. Spas bo alîkariya we</string>
