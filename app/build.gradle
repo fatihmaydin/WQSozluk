@@ -5,8 +5,8 @@ android {
 
 
     defaultConfig {
-        applicationId "com.wqsozluk"
-        namespace 'com.wqsozluk'
+        applicationId "com.wqworterbuch"
+        namespace 'com.wqworterbuch'
         minSdk 21
         targetSdk 34
 

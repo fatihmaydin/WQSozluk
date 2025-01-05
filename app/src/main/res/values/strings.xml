@@ -17,6 +17,7 @@
     <string name="typeToSearch">Hepsi</string>
     <string name="dialogNa">Hayır</string>
     <string name="dialogEre">Evet</string>
+    <string name="dialogNeprise">Never Ask</string>
     <string name="zimanquery">Kurdî</string>
     <string name="toomanyresults">"'%s' şeklinde kısa bir arama bir çok sonuç bulmakta ve cihazınızın performansına öre uzun sürebilir?"</string>
     <string name="prgressbarText"> "Yükleiniyor...: %%1$d , Yüklendi: "
@@ -25,10 +26,10 @@
     <string name="ferhengbarbudialogheader">Yüklendi</string>
     <string name="ferhengbarbu">%1$s %1$d  Kelimler yüklendi?.</string>
     <string name="zimantemp">Türkçe</string>
-    <string name="listwordtypes">_lllistTür</string>
+    <string name="listwordtypes">_lllistCûre</string>
     <string name="buttons">ş</string>
     <string name="hayjehebin">Dikkat</string>
-    <string name="wiki">tr</string>
+    <string name="wiki">de</string>
     <string name="buttonu">û</string>
     <string name="buttone">ê</string>
     <string name="buttonii">ı</string>
@@ -42,7 +43,7 @@
     <string name="translations">Çeviriler,çeviriler,Çeviri,Köken,Türk Dilleri,Türk lehçe,türk lehçeleri,Türk Dilleri</string>
     <string name="linkedSections">Anlam,Ad,Zarf,özel ad,Belirteç,Rakam,Eylem,Ünlem,Edat,Ön Ad,Zamir,İsim,Bağlaç, İsim,isim, Alt kavramlar,Deyimler, Köken</string>
     <string name="translatedLangs">Almanca,İngilizce,Fransızca,Kürtçe</string>
-    <string name="headers">Deyimler,Atasözler,Eş Anlamlılar,Zıt Anlamlılar,Karşıt Anlamlılar,Kavramlar,Alt Kavramlar,Yan Kavramlar,karşıt anlamlılar, türetilmiş kavramlar,Üst Kavramlar,Benzer Kavramlar,Sözcük Birliktelikleri,Benzer Sözcükler,Örnekler	,Söyleniş,Kaynakça,Kavramlar,Türetilmiş Kavramlar,Yazılışlar,Anlamlar,Açıklamalar,Bilimsel Adı ,Heceleme,Örnek ,çoğul,Çoğul,Benzer Sözcükler,Heceleme</string>
+    <string name="headers">Etymology,Pronunciation,Prefix,Derived terms,Further reading,Letter,See also,Etymology 1,Noun,Declension,Related terms,Etymology 2,References,Proper noun,Particle,Preposition,Descendants,Adjective,Usage notes,Antonyms,Hyponyms,Verb,Alternative forms,Adverb,Determiner,Conjunction,Interjection,Synonyms,Conjugation,Inflection,Coordinate terms,Article,Pronoun,Numeral,Contraction,Etymology 3,Symbol,Hypernyms,Anagrams,Participle,Number,Meronyms,Compounds,Etymology 4,Phrase,Holonyms,Suffix,Punctuation mark,Prepositional phrase,Usage,Abbreviations,Postposition,Interfix,Derived,Circumfix,Paronyms,Proverb,Pronunciation 1,Pronunciation 2,Infix,Quotations,Hyponym,Trivia,Notes,Related items,Inflected form,Circumposition,Etymology 5,Etymology 6,Idiom,Collocations,Hypünyms,Gallery,Diacritical mark,Entclension,Simile,External links,Hyperynms,Henunciation</string>
     <string name="buttonoe">ö</string>
     <string name="buttong">ğ</string>
     <string name="buttonarabic">ابت</string>
@@ -101,10 +102,12 @@
     <string name="select">Hilbijêre</string>
     <string name="parvekirin">Bişîne</string>
     <string name="liwikiferheng"> Wîkîferheng</string>
-  
 
+    <string name="bilevkirin">bilêvkirin</string>
+    <string name="Xwendin">xwendin</string>
     <string name="na">Na</string>
-    <string name="Wate">Wate</string>
+    <string name="Gotin">pronunciation</string>
+    <string name="Wate">wate</string>
     <string name="Bideber">Bide ber</string>
     <string name="Binihere">Binihêre</string>
     <string name="Dijwate">Dijwate</string>
