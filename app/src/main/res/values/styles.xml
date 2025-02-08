@@ -297,7 +297,9 @@
 
     <style name="MyActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="displayOptions">useLogo|showHome</item>
-        <item name="android:background">#5E809B</item>
+        <item name="android:background">#181819</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">30dp</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 </resources>

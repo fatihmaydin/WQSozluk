@@ -3,7 +3,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">WQSozluk</string>
+    <string name="app_name">WQWörterbuch</string>
     <string name="headerEndChar">¿</string>
     <string name="newlinebreak">¡</string>
     <!-- The label for use as a searchable item -->
@@ -60,7 +60,7 @@
     <string name="Thanks">No, Thanks</string>
     <string name="Rate">Rate %1$s</string>
        <string name="herekategoriye">To Category</string>
-          <string name="herekategoriyemesaj">Do you really want to navigate \'%s\' category?\n It can take some time.</string>
+          <string name="herekategoriyemesaj">Do you really want to load \'%s\' elements?\n It can take some time.</string>
     <!-- The menu entry that invokes search. -->
     <string name="menu_search">Search</string>
     <string name="help">Help</string>

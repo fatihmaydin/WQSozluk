@@ -163,7 +163,7 @@ public class ListViewCursorLoaderActivity extends AppCompatActivity implements
 			androidx.appcompat.app.ActionBar actionBar=getSupportActionBar();
 			actionBar.setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_HOME | androidx.appcompat.app.ActionBar.DISPLAY_USE_LOGO);
 			// Set the icon
-			actionBar.setIcon(R.drawable.wqqoerterbuch); // Your icon resource
+			actionBar.setIcon(R.drawable.wqwoerterbuch); // Your icon resource
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -384,9 +384,13 @@ public class ListViewCursorLoaderActivity extends AppCompatActivity implements
 
 					String w_n = WQDictionaryQueryProvider.GetValue(c,		WQDictionaryDB.KEY_WORD_N);
 
+					if(wordd  !=null&&wordd.contains("^")&&wordd.length()!=wordd.length())
+						wordd=WQDictionaryActivity. ReplaceEncodedChars(wordd,w_n);
 					if (wordd == null || wordd.equalsIgnoreCase("")) {
 						wordd = w_n;
 					}
+
+
 
 					Words w = new Words();
 					w.id = WQDictionaryQueryProvider.GetValue(c,

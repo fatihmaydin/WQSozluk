@@ -159,6 +159,10 @@ public class WordTypeListActivity extends TabActivity {
 			//	listmapalfabe.size() <= 0
 				)
 			wordAlfabe = queryProvider.GetSingleExactWord((String) getText(R.string.hemuherf));
+		if(wordAlfabe==null)
+		{
+
+		}
 
 		if (wordAlfabe!=null) 
 		{

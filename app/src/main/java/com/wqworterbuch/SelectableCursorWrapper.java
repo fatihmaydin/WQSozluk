@@ -49,6 +49,10 @@ public class SelectableCursorWrapper extends CursorWrapper {
 						{
 							wordd= w_n;
 						}
+						if(wordd.contains("^")&&w_n.length()>wordd.length())
+						{
+							wordd=WQDictionaryActivity. ReplaceEncodedChars(wordd, w_n);
+						}
 						
 							item.put(WQDictionaryDB.KEY_WORD, wordd);
 						item.put(WQDictionaryDB.KEY_DEFINITION, def);

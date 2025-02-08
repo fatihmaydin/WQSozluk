@@ -30,7 +30,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 public class WQDictionaryDB {
-	private static final String TAG = "WQSozlukDB";
+	private static final String TAG = "WQWoerterbuchDB";
 
 	// The columns we'll include in the dictionary table
 	public static final String KEY_WORD = "word";	
@@ -38,11 +38,11 @@ public class WQDictionaryDB {
 	public static final String KEY_WORD_N = "word_N";
 	public static final String KEY_ID= "id";
 
-	private static final String DATABASE_NAME = "WQSozlukDB";
+	private static final String DATABASE_NAME = "WQWoerterbuchDB";
 	private static final String FTS_VIRTUAL_TABLE = "FTSdictionary";
 	private static final String FTS_VIRTUAL_TABLE2 = "FTSdictionary_Defs";
 	private static final String FTS_VIRTUAL_TABLE_FAV = "FTSdictionary_FAVs";
-	public static int DATABASE_VERSION = 10;
+	public static int DATABASE_VERSION = 1;
 	//int Index = 0;
 
 	static WQDictionaryDBOpenHelper mWQDictionaryDBOpenHelper = null;
@@ -411,11 +411,11 @@ w.NormalizedWord=idd1;
 			
 			try {
 				this.getReadableDatabase().execSQL("delete from "+FTS_VIRTUAL_TABLE_FAV+" where "+KEY_WORD+"='"+word+"'");
-				return "'"+word+ "' hat jê birin"; 
+				return "'"+word+ "' removed from list";
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return "'"+word+ "' nekarî bê jê birin."; 
+				return "'"+word+ "' could'nt be deleted.";
 			}
 		
 		}
@@ -582,6 +582,21 @@ w.NormalizedWord=idd1;
 		    String tags="";
 		    String normalized="";
 		    String[] splitS = input.split(DELIM);
+			if(splitS.length<2)
+				return null;
+			else if(splitS.length==2)
+			{
+				wordd=normalized=splitS[0];
+				def=splitS[1];
+			}
+			else if(splitS.length==3)
+			{
+				wordd=splitS[0];
+				normalized=splitS[1];
+				def=splitS[2];
+			}
+			else
+			{
 		
 		    for(int i =0; i < splitS.length; i++)
 		    {
@@ -593,10 +608,11 @@ w.NormalizedWord=idd1;
 		        else if(i==2)
 		        	def=next;	
 		        else
-		        	tags=next;	
-		        //i++;
-		        
+		        	tags=next;
 		    }
+
+
+			}
 		    Words word=new Words(wordd, normalized, def, tags);
 		    return word;
 		}

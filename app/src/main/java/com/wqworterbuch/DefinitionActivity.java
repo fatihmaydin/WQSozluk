@@ -149,7 +149,7 @@ public class DefinitionActivity extends AppCompatActivity implements android.vie
 					return;
 				}
 
-				String url = "https://"+WQDictionaryActivity.wiki+".wiktionary.org/wiki/"
+				String url = "https://"+"en"+".wiktionary.org/wiki/"
 						+ imageButtonGoToWiki.getTag().toString();
 				if (!url.startsWith("http://") && !url.startsWith("https://"))
 					url = "http://" + url;
@@ -191,7 +191,7 @@ public class DefinitionActivity extends AppCompatActivity implements android.vie
 		if (android.os.Build.VERSION.SDK_INT >= 11) {
 			actionBar.setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_HOME | androidx.appcompat.app.ActionBar.DISPLAY_USE_LOGO);
 			// Set the icon
-			actionBar.setIcon(R.drawable.wqqoerterbuch); // Your icon resource
+			actionBar.setIcon(R.drawable.wqwoerterbuch); // Your icon resource
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -202,7 +202,7 @@ public class DefinitionActivity extends AppCompatActivity implements android.vie
 		String title="("+(position+1)+"/"+size+") "+wordtoSearch;
 		setTitle(title);
 
-		if(true) {
+		if(false) {
 			AdRequest adRequest = new AdRequest.Builder().build();
 			String interstitial= (String) getText(R.string.Admob_Intersitital);
 			//Toast.makeText(getBaseContext(),interstitial+" ",Toast.LENGTH_LONG ).show();

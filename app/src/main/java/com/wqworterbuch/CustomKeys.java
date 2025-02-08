@@ -111,10 +111,17 @@ public class CustomKeys extends LinearLayout {
 					String s=WQDictionaryActivity.getString( R.string.buttonc);
 					buttonc.setText(s);
 					buttonc.setTag(s);
+					if(lang.equalsIgnoreCase("de")) {
+						buttonc.setVisibility(View.GONE);
+					}
+
 					
 					s=WQDictionaryActivity.getString( R.string.buttone);
 					if(lang.equalsIgnoreCase("tr")) {
 						s = "x";
+					}
+					else if(lang.equalsIgnoreCase("de")) {
+						s = "ä";
 					}
 					buttone.setText(s);
 					buttone.setTag(s);
@@ -123,10 +130,16 @@ public class CustomKeys extends LinearLayout {
 					if(lang.equalsIgnoreCase("tr")) {
 						s = "İ";
 					}
+					else if(lang.equalsIgnoreCase("de")) {
+						s = "ß";
+					}
 					buttoni.setText(s);
 					buttoni.setTag(s);						
 					
 					s=WQDictionaryActivity.getString( R.string.buttonu);
+					if(lang.equalsIgnoreCase("de")) {
+						s = "ü";
+					}
 					buttonu.setText(s);
 					buttonu.setTag(s);
 					buttonu.setVisibility(View.GONE);
@@ -141,9 +154,15 @@ public class CustomKeys extends LinearLayout {
 					s=WQDictionaryActivity.getString( R.string.buttong);
 					buttong.setText(s);
 					buttong.setTag(s);
+					if(lang.equalsIgnoreCase("de")) {
+						buttong.setVisibility(View.GONE);
+					}
 					
 					buttonue.setVisibility(View.VISIBLE);
 					buttons.setVisibility(View.VISIBLE);
+					if(lang.equalsIgnoreCase("de")) {
+						buttons.setVisibility(View.GONE);
+					}
 					
 				}
 				else

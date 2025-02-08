@@ -32,6 +32,7 @@ public class WQDictionaryQueryProvider extends ContentResolver
 	{
 		return  WQDictionaryDB.mWQDictionaryDBOpenHelper.GetSingleWord(id);
 	}
+
 	public Words GetSingleExactWord(String word) {
 		Cursor cursor = null;	
 		String normalized=WQDictionaryDBOpenHelper. Normalize(word);
@@ -56,6 +57,10 @@ public class WQDictionaryQueryProvider extends ContentResolver
 				if((wordd==null||wordd.equalsIgnoreCase(""))&&word.equals(normalized))
 				{
 					wordd=wordd_n;
+				}
+				if(wordd.contains("^")&&wordd_n.length()>wordd.length())
+				{
+					wordd=WQDictionaryActivity. ReplaceEncodedChars(wordd, wordd_n);
 				}
 				if (wordd.equals(word)) 
 				{

@@ -52,10 +52,15 @@ public class ListViewGotinAdapter extends BaseAdapter implements OnTouchListener
 				if (line.toLowerCase().contains(".ogg") || line.toLowerCase().contains(".oga")
 						|| line.toLowerCase().contains(".ogv") || line.toLowerCase().contains(".ogx")
 						|| line.toLowerCase().contains(".wav"))
+				{
+					if(line.startsWith("^")) {
+						line = ReplaceSpecialChars(line);
+					}
 					sounds.add(line);
+				}
 				
 			}
-			Log.d("sounds count",sounds.size()+"" );
+			//Log.d("sounds count",sounds.size()+"" );
 			this.items = sounds;
 		}
 		else
@@ -63,6 +68,40 @@ public class ListViewGotinAdapter extends BaseAdapter implements OnTouchListener
 			this.items=new ArrayList<String>();
 		}
 			
+	}
+	private String ReplaceSpecialChars(String line)
+	{
+		String newline=line;
+		if (newline.contains("ä\""))
+		{
+			newline = newline.replace("ä","%C3%A4");
+		}
+		if (newline.contains("ü"))
+		{
+			newline = newline.replace( "ü","%C3%BC");
+		}
+		if (newline.contains("ö"))
+		{
+			newline = newline.replace( "ö","%C3%B6");
+		}
+		if (newline.contains("ü"))
+		{
+			newline = newline.replace( "ü","%C3%BC");
+		}
+		if (newline.contains("ß"))
+		{
+			newline = newline.replace( "ß","%C3%9F");
+		}
+		if (newline.contains("Ü"))
+		{
+			newline = newline.replace( "Ü","%C3%9C");
+		}
+		if (newline.contains("Ö"))
+		{
+			newline = newline.replace( "Ö","%C3%96");
+		}
+		Log.d("ReplaceSpecialChars","line:" +line+", newline:"+newline);
+		return newline;
 	}
 
 	@Override
@@ -117,7 +156,7 @@ public class ListViewGotinAdapter extends BaseAdapter implements OnTouchListener
 		}
 		else
 		{
-			container.txtTile.setText("Deng");
+			container.txtTile.setText("Audio");
 		}
 	
 		container.button.setTag(link);

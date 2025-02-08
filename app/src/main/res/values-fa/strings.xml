@@ -66,7 +66,7 @@
     <string name="help">کمک</string>
     <string name="ziman">تغییر زبان</string>
        <string name="herekategoriye">To Category</string>
-          <string name="herekategoriyemesaj">Do you really want to navigate \'%s\' category?\n It kan take some time.</string>
+          <string name="herekategoriyemesaj">Do you really want to load \'%s\' elements\n It kan take some time.</string>
 
     <string name="Useful">برنامه سودمند برای اندروید.</string>
      <string name="peyvebisine">Vê gotinê di Wikiferhengê de bibîne: </string>

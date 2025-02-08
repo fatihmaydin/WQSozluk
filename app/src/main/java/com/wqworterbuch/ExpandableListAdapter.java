@@ -261,7 +261,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		ChildHolder childHolder;	
 		String text = mGroupCollection.get(arg0).GroupItemCollection.get(arg1).Name;
 		text=text.replace("\n:","\n").replace("Þ","•");
-		//Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();;
+
 		Pattern regexberalrelace = Pattern.compile("[0-9]\\s*\\.\\s*\\:");
 		Matcher regexMatcherberalreplace = regexberalrelace.matcher(text);
 		if(regexMatcherberalreplace.find())
@@ -272,11 +272,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		//wFerhengActivity.makeText(text);
 		Pattern regexberal = Pattern.compile("[0-9]\\s*\\.\\s*BERALÎKIRIN");
 		Matcher regexMatcherberal = regexberal.matcher(text);
-		if(regexMatcherberal.find())
-		{
-			text=regexMatcherberal.replaceFirst("Binihêre:");
-		}
-		
+
+		//Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();;
+		//text=WQDictionaryActivity. ReplaceEncoding(text, Word);
 		String[] lines = text.split(java.util.regex.Pattern.quote("\n"));
 		String line0=lines[0].toLowerCase();
 		if(WQDictionaryActivity.ShowHeaderTranslation) {
@@ -456,9 +454,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 							ziman, true);
 
 				}
+				//Toast.makeText(mContext, line+" link", Toast.LENGTH_LONG).show();
 				Pattern regex = Pattern.compile("[0-9]+\\s*\\.\\s*");
 				Matcher regexMatcher = regex.matcher(line);
-
+				String strOffset="";
 				if (regexMatcher.find()) //if line startswith indexer do linkifying
 				{
 					SpanLine(span, lines, text, line, offset);
@@ -469,14 +468,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 				{
 					SpanLine(span, lines, text, line, offset);
 				}
-				else if(IsListContaining(WQDictionaryActivity.listBinihere,line.trim())
-						//line.trim().toLowerCase().startsWith("#binihêre")
+				else if(IsListContaining(WQDictionaryActivity.listlinkedSections,line0)
+					//line.trim().toLowerCase().startsWith((String) mContext.getText( R.string.strbinihere))
 				)
 				{
 					SpanLine(span, lines, text, line, offset);
 				}
 				else
 				{
+
 					MakeItalic(span, lines, text, line, offset);
 				}
 
@@ -789,7 +789,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		//span.setSpan(new BulletSpan(15), start, end, 0);
 	}
 	private ArrayList< Pair<Integer, Integer>> GetCategoryLinks(String text) {
-		Toast.makeText(mContext,"CatLinks: "+text,Toast.LENGTH_LONG).show();
+		//Toast.makeText(mContext,"CatLinks: "+text,Toast.LENGTH_LONG).show();
 		ArrayList< Pair<Integer, Integer>> map=new ArrayList< Pair<Integer, Integer>>();
 		if(text.contains(startofCategoryLink)||text.contains(endofCategoryLink))
 		{
@@ -875,22 +875,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	@RequiresApi(api = Build.VERSION_CODES.N)
 	private void MakeBold(Spannable span, String line, String[] lines,
 						  String text) {
-        if (line.endsWith(":")) {
+        if (line.endsWith(":")||IsListContaining(WQDictionaryActivity.headerList,line )) {
             span.setSpan(new UnderlineSpan(), 0, line.length(),
                     Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             span.setSpan(new StyleSpan(
                     android.graphics.Typeface.BOLD_ITALIC), 0, line
                     .length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-//				span.setSpan(new
-//								ForegroundColorSpan(Color.parseColor(linkcolor)),
-//						0,line.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-//        if (line.startsWith("Werger") || line.startsWith("Wergerr")
-//                || line.toLowerCase().startsWith("bi zaravayên kurd")
-//                || line.toLowerCase().startsWith("bi alfab")
-//                || line.startsWith("Ji")
-//                || line.startsWith("Bikaranîn"))
+
 		if( WQDictionaryActivity.headerTranslations.stream()
 				.anyMatch(item -> item.equalsIgnoreCase(line)))
 		{
@@ -914,9 +907,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     span.setSpan(new StyleSpan(
                             android.graphics.Typeface.BOLD), start, end,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//						span.setSpan(new
-//										ForegroundColorSpan(Color.parseColor(linkcolor)),
-//								start,end,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
             }
@@ -951,7 +941,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			}
 			else
 			{
-				str = line.split(",|:|;");
+				str = line.split(",|:|;+");
 		//	str = line.split(",|:|\\(|\\)");
 			}
 			if (str == null)
@@ -961,7 +951,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 //			if (lines[0].toLowerCase().startsWith((String) mContext.getText(R.string.werger)))
 			boolean b = false;
 
-
+			//Toast.makeText(mContext, str+"found", Toast.LENGTH_LONG).show();
 			if(IsListContainingStartWit(WQDictionaryActivity.headerTranslations,lines[0]))
 			{
 				//Toast.makeText(mContext, lines[0]+" "+lines+" IswergerSection", Toast.LENGTH_LONG).show();
@@ -1078,9 +1068,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 				{
 					SetSpan(span, strsubspan, offSetLine + offSetInline + offSetinDef+offSetSpace,
 							offSetLine + offSetInline +offSetSpace+ lengthtoSPan);
-				} 
+				}
 
-				
+
 				offSetInline += str[x].length() + 1;
 			}
 			

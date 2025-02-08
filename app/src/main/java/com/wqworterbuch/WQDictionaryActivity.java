@@ -28,7 +28,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
 import android.speech.RecognizerIntent;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -82,6 +81,8 @@ import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.wqworterbuch.GroupEntity.GroupItemEntity;
 import com.wqworterbuch.SearchResultAdapter.ViewHolderWords;
@@ -106,6 +107,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 	private static final int REQUEST_CODE_CONFIG=1001;
 	//public static int position=-1;
 	Boolean IsButtonsVisible = true;
+	RelativeLayout relativeLayoutBottom;
 	public static Map<String, List<String>> mapLanguages;
 	public static int LocalisationIndex=-1;
 	 //AdView   mAdView;
@@ -165,7 +167,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 	int intervalForExpand = 100;
 	int TIMEOUTForExpand = 500;
 	private String SelectedWord;
-	public static String languageToLoad = "ku";
+	public static String languageToLoad = "de";
 	Boolean CancelRequestedForExpand = false;
 	public Boolean showarabickeyboard = false;
 	String[] columnsDB = new String[] {WQDictionaryDB.KEY_WORD,
@@ -218,7 +220,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 
 		headerEndChar = getString(R.string.headerEndChar);
 		newlinebreak = getString(R.string.newlinebreak);
-		if(currentVersionNumber>20)
+		if(currentVersionNumber>0)
 		{
 			headerEndChar="{";
 			newlinebreak="}";
@@ -232,7 +234,8 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 				// Set the display options
 				actionBar.setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_HOME | androidx.appcompat.app.ActionBar.DISPLAY_USE_LOGO);
 				// Set the icon
-				actionBar.setIcon(R.drawable.wqqoerterbuch); // Your icon resource
+				actionBar.setIcon(R.drawable.wqwoerterbuch); // Your icon resource
+
 			}
 		}
 		mGroupCollection = new ArrayList<GroupEntity>();
@@ -285,28 +288,32 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 						
 						if(w==null)
 							return;
-					SaveScrollPosition();
-				
-					Words ww =	WQDictionaryDB.mWQDictionaryDBOpenHelper.GetSingleWord(w.id);
-					if(ww!=null)
-					{
-						SelectedWord =w.peyv;				
-					
-						worddef=Decode(ww.getwate(), SelectedWord,SelectedWord);
-						worddef=worddef.replace(",", ", ");		
-					SelectedWord = SelectedWord.replace(".", "").replace(",", "")
-							.trim();
-					autoCmopletetextView.setText(SelectedWord);
+						SaveScrollPosition();
 
-					HideKeyboard();
-					listviewresult.setAdapter(null);
+						Words ww =	WQDictionaryDB.mWQDictionaryDBOpenHelper.GetSingleWord(w.id);
+						if(ww!=null)
+						{
+							SelectedWord =w.peyv;
 
-					mExpandableListView.setVisibility(View.VISIBLE);
-					worddef = ReplaceTempChars(worddef);
-					SetExpanderCollection(SelectedWord, worddef);
-					w.wate=worddef;
-					AddSearchItem(SelectedWord, w.id, "Exact", w);
-					ReOrderHistory();
+						SelectedWord = SelectedWord.replace(".", "").replace(",", "")
+								.trim();
+						String wordDecoded=SelectedWord;
+						if(SelectedWord.contains("^")&&w.NormalizedWord.length()!=SelectedWord.length())
+							wordDecoded=ReplaceEncodedChars(wordDecoded,ww.NormalizedWord);
+						worddef=Decode(ww.getwate(), wordDecoded,ww.NormalizedWord);
+						worddef=worddef.replace(",", ", ");
+						autoCmopletetextView.setText(wordDecoded);
+
+						HideKeyboard();
+						listviewresult.setAdapter(null);
+
+						mExpandableListView.setVisibility(View.VISIBLE);
+						worddef = ReplaceTempChars(worddef);
+
+						SetExpanderCollection(wordDecoded, worddef);
+						w.wate=worddef;
+						AddSearchItem(SelectedWord, w.id, "Exact", w);
+						ReOrderHistory();
 				}
 					}
 				
@@ -776,6 +783,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		layoutListViewContents = (LinearLayout) findViewById(R.id.layoutListViewContents);
 		linearLayoutcustomkeys = (LinearLayout) findViewById(R.id.linearLayoutcustomkeys);
+		relativeLayoutBottom=(RelativeLayout) findViewById(R.id.relativeLayoutBottom);
 		
 		AddFooterView();
 			if(!upgrating) {
@@ -812,7 +820,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 
 			//MobileAds.initialize(this, "ca-app-pub-4819188859318435/5036961654");
 			mAdView =(com.google.android.gms.ads.AdView) this.findViewById(R.id.mAdView);
-			final RelativeLayout relativeLayout1 =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
+			//final RelativeLayout relativeLayout1 =(RelativeLayout) this.findViewById(R.id.relativeLayout1);
 			com.google.android.gms.ads.	AdRequest adRequest = new com.google.android.gms.ads.AdRequest.Builder().build();
 			if(adRequest!=null&&mAdView!=null)
 			{
@@ -820,16 +828,19 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 				Log.d(TAG, "Admob request");
 				mAdView.loadAd(adRequest);
 				mAdView.setVisibility(View.VISIBLE);
-				RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout1.getLayoutParams();
-				params.removeRule(RelativeLayout.ABOVE);
-				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-				relativeLayout1.setLayoutParams(params);
+//				RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) relativeLayout1.getLayoutParams();
+//				params.removeRule(RelativeLayout.ABOVE);
+//				params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//				relativeLayout1.setLayoutParams(params);
+				//relativeLayoutBottom.getLayoutParams().height=1;
+				//mAdView.setVisibility(View.GONE);
 				mAdView.setAdListener(new AdListener() {
 					@Override
 					public void onAdLoaded() {
 						super.onAdLoaded();
-						RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-						params.addRule(RelativeLayout.ABOVE, R.id.mAdView);
+//						RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+//						params.addRule(RelativeLayout.ABOVE, R.id.mAdView);
+						//relativeLayoutBottom.getLayoutParams().height=50;
 						mAdView.setVisibility(View.VISIBLE);
 						mAdView.setAdSize(com.google.android.gms.ads.AdSize.BANNER);
 						Log.d(TAG, "Admob loaded");
@@ -838,7 +849,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 					@Override
 					public void onAdClosed() {
 						super.onAdClosed();
-
+						//relativeLayoutBottom.getLayoutParams().height=1;
 					}
 				});
 
@@ -979,7 +990,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 			SharedPreferences prefs = getBaseContext().getSharedPreferences(
 					"Lang", 0);
 
-			languageToLoad = prefs.getString("Lang", "tr");
+			languageToLoad = prefs.getString("Lang", "de");
 			Locale locale = new Locale(languageToLoad);
 			Configuration config = new Configuration();
 			if (languageToLoad == "ku") {
@@ -1121,12 +1132,16 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 		
 				String word_n = WQDictionaryQueryProvider.GetValue(cursorc,
 						WQDictionaryDB.KEY_WORD_N);
+			Log.d("word","word_n:"+word_n +"  "+"word:"+word );
 				if(word==null||word.equalsIgnoreCase(""))
 				{
 					word=word_n;
 					//Log.d("word","word null" );
 				}
-
+				if(word.contains("^")&&word_n.length()>word.length())
+				{
+					word=WQDictionaryActivity. ReplaceEncodedChars(word, word_n);
+				}
 				if (!(definition.toLowerCase().contains(".ogg") || definition
 						.toLowerCase().contains(".oga"))) {
 					holder.textViewWord
@@ -1214,19 +1229,24 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 				listviewresult.setVisibility(View.GONE);
 				mExpandableListView.setVisibility(View.VISIBLE);
 				Words resulted =  PutResults(data);
-				
+
 				if (resulted!=null) {
 					HideKeyboard();
 					SimpleCursorAdapter cadapter=	(SimpleCursorAdapter)autoCmopletetextView.getAdapter();
 					Cursor c=(Cursor)cadapter.getItem(position);
 			
 					String d= WQDictionaryQueryProvider.GetValue(c,  WQDictionaryDB.KEY_WORD);
+					String d_N=WQDictionaryQueryProvider.GetValue(c,  WQDictionaryDB.KEY_WORD_N);;
 					if(d==null||d.equalsIgnoreCase(""))
 						d= WQDictionaryQueryProvider.GetValue(c,  WQDictionaryDB.KEY_WORD_N);
-					resulted.peyv=d;
-					autoCmopletetextView.setText(d);
+
+					String wordDecoded=d;
+					wordDecoded=ReplaceEncodedChars(d,d_N);
+					resulted.peyv=wordDecoded;
+					//makeText(d+",  "+d_N+" dec:"+wordDecoded);
+					autoCmopletetextView.setText(wordDecoded);
 			
-					AddSearchItem(d, resulted.id
+					AddSearchItem(wordDecoded, resulted.id
 							, "Exact", resulted);
 					ReOrderHistory();
 				}
@@ -1255,20 +1275,26 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 				SelectedWord =selectedWord_n;
 			 //makeText(SelectedWord+ " : sss");
 			}
-			//Date currentDate1 = new Date();
+			if(SelectedWord.contains("^")&&selectedWord_n.length()!=SelectedWord.length()) {
+				SelectedWord=ReplaceEncodedChars(SelectedWord,selectedWord_n);
+				//makeText("Clicked:" + SelectedWord + "," + selectedWord_n);
+			}
+				//Date currentDate1 = new Date();
 
 		Words w =	WQDictionaryDB.mWQDictionaryDBOpenHelper.GetSingleWord(id);
 		if(w!=null)
 		{
-			worddef=Decode(w.getwate(), SelectedWord, selectedWord_n);
-			worddef=worddef.replace(",", ", ");
+
 			rword=new Words();
 			rword.id=id;
 			rword.wate=worddef;
-	
+			String wordDecoded=SelectedWord;
+
+			worddef=Decode(w.getwate(), wordDecoded, selectedWord_n);
+			worddef=worddef.replace(",", ", ");
 			//Log.d("Loaded", diffInMs +" msec");
 			worddef = ReplaceTempChars(worddef);
-			SetExpanderCollection(SelectedWord, worddef);
+			SetExpanderCollection(wordDecoded, worddef);
 			
 			return rword;
 		}
@@ -1387,7 +1413,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 	    NotificationCompat.Builder builder =
 	            new NotificationCompat.Builder(this
 				)
-	            .setSmallIcon(R.drawable.wqqoerterbuch)
+	            .setSmallIcon(R.drawable.wqwoerterbuch)
 	            .setContentTitle(title)  
 	            .setContentText(message);  
 
@@ -1570,13 +1596,49 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 		textHistory.setVisibility(View.GONE);
 		return cursor;
 	}
+	public static String ReplaceEncodedChars(String wordd, String word_n)
+	{
 
+		String toreplace=wordd.replace("^","");
+		//Toast.makeText(mContext.getBaseContext(), toreplace,Toast.LENGTH_LONG).show();
+		if(toreplace.equals("ß")) {
+			wordd = word_n.replace("ß","ss");
+		}
+		else if(toreplace.equals("ö")) {
+			wordd = word_n.replace("o","ö");
+		}
+		else if(toreplace.equals("Ö")) {
+			wordd = word_n.replace("O","Ö");
+		}
+		else if(toreplace.equals("ü")) {
+			wordd = word_n.replace("u","ü");
+		}
+		else if(toreplace.equals("Ü")) {
+			wordd = word_n.replace("U","Ü");
+		}
+		else if(toreplace.equals("Ä")) {
+			wordd = word_n.replace("A","Ä");
+		}
+		else if(toreplace.equals("ä")) {
+			wordd = word_n.replace("a","ä");
+		}
+		else if(toreplace.equals("ää")) {
+			wordd = word_n.replace("a","ä");
+		}
+		else if (wordd.contains("★")||word_n.contains("★"))
+		{
+			wordd=word_n.replace("★","*");
+			word_n=word_n.replace("★","*");
+		}
+		return wordd;
+	}
 	private Boolean PutCursorResult(Cursor cursor) {
 		Boolean resulted = false;
 		
 		if (cursor != null) {
 			if (cursor.getCount() > 0) 
 			{
+
 				resulted = true;
 				mExpandableListView.setVisibility(View.GONE);
 				imageButtonFav.setVisibility(View.GONE);
@@ -1596,6 +1658,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 					adapter.listOfWords=bb.listOfWords;
 					listviewresult.setAdapter(adapter);	
 					listofWords=adapter.listOfWords;
+					//makeText("SetListaadapter1");
 				}
 				if (cursor.getCount() < 50)
 				{
@@ -1651,27 +1714,132 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 			encoderList=GetDecodeList();
 		
 
-		if(word!=null)
-		{
-			strToreturn=strToreturn.replace("^@", word);
-			//Log.d("wordddd",word);
-		}
-		if(normalize!=null)
-		{
-			//Log.d("normalize",normalize);
-			strToreturn=strToreturn.replace("@^", normalize);		
-		}
+//		if(word!=null)
+//		{
+//			strToreturn=strToreturn.replace("^@", word);
+//			//Log.d("wordddd",word);
+//		}
+//		if(normalize!=null)
+//		{
+//			//Log.d("normalize",normalize);
+//			strToreturn=strToreturn.replace("@^", normalize);
+//		}
 	//	Log.d("strToreturn",strToreturn);
 		for (Entry<String, String> entry : decoderList.entrySet()) {
 		    String key = entry.getKey();
 		    String value = entry.getValue();
-		   
+			Log.d("Decoding:"+key, value);
     		strToreturn=strToreturn.replace(value, key);
     	}
+		if(normalize!=null&&!word.equalsIgnoreCase(normalize))
+		{
+			//Log.d("normalize",normalize);
+			strToreturn=strToreturn.replace("^@", word);
+			strToreturn=strToreturn.replace("@^", normalize);
+			if(strToreturn.contains("&_"))
+			{
+				strToreturn=strToreturn.replace("&_",normalize.replace(" ","_"));
+			}
+			if(strToreturn.contains("&~"))
+			{
+				strToreturn=strToreturn.replace("&~",word.replace(" ","_"));
+			}
+		}
+		else
+		{
+			if(word!=null) {
+				strToreturn = strToreturn.replace("@^", word);
+				strToreturn = strToreturn.replace("^@", word);
+			}
+			if(strToreturn.contains("&_"))
+			{
+				strToreturn=strToreturn.replace("&_",normalize.replace(" ","_"));
+			}
+			if(strToreturn.contains("@_"))
+			{
+				strToreturn=strToreturn.replace("@_",normalize.replace(" ","_"));
+			}
+			if(strToreturn.contains("&~"))
+			{
+				strToreturn=strToreturn.replace("&~",word.replace(" ","_"));
+			}
+		}
+		if(word!=null) {
+			strToreturn = ReplaceEncodedHeader(strToreturn, word);
+		}
 		strToreturn=strToreturn.replace(",", ", ")
 				.replace("+", " + ").replace(":", ": ").trim();
 		//Log.d("strtoreturn", strToreturn);
 		return strToreturn;
+	}
+	public static String ReplaceEncodedHeader(String text, String word)
+	{
+		String strNewTex=text;
+		Pattern regexStrSubWord = Pattern.compile("\\@r\\-[0-9]");
+		Matcher regexMatcherstrSub = regexStrSubWord.matcher(text);
+		String reversed="";
+		//Log.d("strtoreturn", text+", "+word);
+		String[] wordsplits=word.split(" ");
+		for(int x=wordsplits.length-1; x>=0;x--)
+		{
+				if(wordsplits[x].trim()=="")
+				{
+					continue;
+				}
+			reversed+=wordsplits[x];
+		}
+		if(reversed!="") {
+			int t=0;
+			while (regexMatcherstrSub.find()) {
+				String textMatc = regexMatcherstrSub.group();
+				int num = 1;
+
+				if (textMatc.contains("-")) {
+					String sub = textMatc.substring(textMatc.indexOf("-") + 1);
+					num = Integer.parseInt(sub);
+				}
+				String strSubToReplace = reversed.substring(0, reversed.length() - num);
+				//Log.d("strtoreturn", strNewTex+", "+strSubToReplace+", "+", "+textMatc);
+				//Toast.makeText(mContext, "textMatc:"+textMatc+" : "+" sub:"+strSubToReplace, Toast.LENGTH_LONG).show();;
+				strNewTex = strNewTex.replaceAll(textMatc, strSubToReplace);
+				regexMatcherstrSub = regexStrSubWord.matcher(strNewTex);
+				t++;
+				if(t>20)
+					break;
+			}
+		}
+		//strNewTex=text;
+		regexStrSubWord = Pattern.compile("@\\-[0-9]");
+		regexMatcherstrSub = regexStrSubWord.matcher(text);
+		while (regexMatcherstrSub.find()) {
+			String textMatc=regexMatcherstrSub.group();
+			int num=1;
+			if(textMatc.contains("-")) {
+				String sub = textMatc.substring(textMatc.indexOf("-")+1);
+				num=Integer.parseInt(sub);
+			}
+			String strSubToReplace=word.substring(0, word.length()-num);
+			//Toast.makeText(mContext, "textMatc:"+textMatc+" : "+" sub:"+strSubToReplace, Toast.LENGTH_LONG).show();;
+			strNewTex=strNewTex.replace(textMatc,strSubToReplace );
+			regexMatcherstrSub = regexStrSubWord.matcher(strNewTex);
+		}
+		regexStrSubWord = Pattern.compile("[0-9]\\-Ĭ");
+		regexMatcherstrSub = regexStrSubWord.matcher(text);
+		while (regexMatcherstrSub.find()) {
+			String textMatc=regexMatcherstrSub.group();
+			int num=1;
+			if(textMatc.contains("-")) {
+				String sub = textMatc.substring(0,textMatc.indexOf("-"));
+				num=Integer.parseInt(sub);
+			}
+			String strSubToReplace=word.substring(num);
+			//Toast.makeText(mContext, "textMatc2:"+textMatc+" : "+" sub2:"+strSubToReplace, Toast.LENGTH_LONG).show();;
+			strNewTex=strNewTex.replace(textMatc,strSubToReplace );
+			regexMatcherstrSub = regexStrSubWord.matcher(strNewTex);
+		}
+
+
+		return strNewTex;
 	}
 	public static String Encode(String definition) 
 	{
@@ -1689,48 +1857,1537 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 	private static Map<String, String> GetDecodeList() 
 	{
 		LinkedHashMap<String, String> mapofdecoders = new LinkedHashMap<String, String>();
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c7/De-@^.ogg|Adjective}#Form of [@-2]", "<I");//127
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/16/De-@^.ogg|Adjective}#Form of [@-2]", "`I");//127
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/65/De-@^.ogg|Adjective}#Form of [@-2]", "=I");//127
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f4/De-@^.ogg|Adjective}#Form of [@-2]", "%I");//126
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/47/De-@^.ogg|Adjective}#Form of [@-2]", "@J");//123
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d1/De-@^.ogg|Adjective}#Form of [@-2]", "~J");//122
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b7/De-@^.ogg|Adjective}#Form of [@-2]", "&J");//121
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2c/De-@^.ogg|Adjective}#Form of [@-2]", "<J");//120
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/91/De-@^.ogg|Adjective}#Form of [@-2]", "`J");//119
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/64/De-@^.ogg|Adjective}#Form of [@-2]", "=J");//118
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/58/De-@^.ogg|Adjective}#Form of [@-2]", "%J");//117
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e6/De-@^.ogg|Adjective}#Form of [@-2]", "{J");//117
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/33/De-@^.ogg|Adjective}#Form of [@-2]", "£J");//117
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/99/De-@^.ogg|Adjective}#Form of [@-2]", "@K");//116
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/72/De-@^.ogg|Adjective}#Form of [@-2]", "~K");//115
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/35/De-@^.ogg|Adjective}#Form of [@-2]", "$K");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9b/De-@^.ogg|Adjective}#Form of [@-2]", "<K");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ca/De-@^.ogg|Adjective}#Form of [@-2]", "`K");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4c/De-@^.ogg|Adjective}#Form of [@-2]", "£K");//113
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/08/De-@^.ogg|Adjective}#Form of [@-2]", "éK");//113
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5c/De-@^.ogg|Adjective}#Form of [@-2]", "@L");//113
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/de/De-@^.ogg|Adjective}#Form of [@-2]", "~L");//113
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cd/De-@^.ogg|Adjective}#Form of [@-2]", "$L");//112
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bd/De-@^.ogg|Adjective}#Form of [@-2]", "<L");//112
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fa/De-@^.ogg|Adjective}#Form of [@-2]", ">L");//112
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e7/De-@^.ogg|Adjective}#Form of [@-2]", "`L");//112
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e8/De-@^.ogg|Adjective}#Form of [@-2]", "=L");//112
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6c/De-@^.ogg|Adjective}#Form of [@-2]", "?L");//112
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/96/De-@^.ogg|Adjective}#Form of [@-2]", "%L");//112
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/54/De-@^.ogg|Adjective}#Form of [@-2]", "{L");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/07/De-@^.ogg|Adjective}#Form of [@-2]", "£L");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e5/De-@^.ogg|Adjective}#Form of [@-2]", "éL");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3e/De-@^.ogg|Adjective}#Form of [@-2]", "~M");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/14/De-@^.ogg|Adjective}#Form of [@-2]", "&M");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/77/De-@^.ogg|Adjective}#Form of [@-2]", "$M");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3a/De-@^.ogg|Adjective}#Form of [@-2]", "<M");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d0/De-@^.ogg|Adjective}#Form of [@-2]", "`M");//110
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1a/De-@^.ogg|Adjective}#Form of [@-2]", "=M");//110
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9e/De-@^.ogg|Adjective}#Form of [@-2]", "%M");//110
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/09/De-@^.ogg|Adjective}#Form of [@-2]", "{M");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/55/De-@^.ogg|Adjective}#Form of [@-2]", "£M");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/71/De-@^.ogg|Adjective}#Form of [@-2]", "éM");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/be/De-@^.ogg|Adjective}#Form of [@-2]", "@N");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bf/De-@^.ogg|Adjective}#Form of [@-2]", "~N");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8f/De-@^.ogg|Adjective}#Form of [@-2]", "`N");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9f/De-@^.ogg|Adjective}#Form of [@-2]", "=N");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/66/De-@^.ogg|Adjective}#Form of [@-2]", "?N");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e2/De-@^.ogg|Adjective}#Form of [@-2]", "%N");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/13/De-@^.ogg|Adjective}#Form of [@-2]", "{N");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a1/De-@^.ogg|Adjective}#Form of [@-2]", "£N");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c6/De-@^.ogg|Adjective}#Form of [@-2]", "éN");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/62/De-@^.ogg|Adjective}#Form of [@-2]", "@O");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8d/De-@^.ogg|Adjective}#Form of [@-2]", "~O");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b4/De-@^.ogg|Adjective}#Form of [@-2]", "$O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/86/De-@^.ogg|Adjective}#Form of [@-2]", "<O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6a/De-@^.ogg|Adjective}#Form of [@-2]", "`O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f7/De-@^.ogg|Adjective}#Form of [@-2]", "=O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/53/De-@^.ogg|Adjective}#Form of [@-2]", "?O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/30/De-@^.ogg|Adjective}#Form of [@-2]", "%O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/52/De-@^.ogg|Adjective}#Form of [@-2]", "{O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/00/De-@^.ogg|Adjective}#Form of [@-2]", "£O");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d8/De-@^.ogg|Adjective}#Form of [@-2]", "éO");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d9/De-@^.ogg|Adjective}#Form of [@-2]", "~P");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/82/De-@^.ogg|Adjective}#Form of [@-2]", "&P");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6e/De-@^.ogg|Adjective}#Form of [@-2]", "$P");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4e/De-@^.ogg|Adjective}#Form of [@-2]", "!P");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4d/De-@^.ogg|Adjective}#Form of [@-2]", "`P");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/29/De-@^.ogg|Adjective}#Form of [@-2]", "=P");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/44/De-@^.ogg|Adjective}#Form of [@-2]", "?P");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0e/De-@^.ogg|Adjective}#Form of [@-2]", "%P");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5f/De-@^.ogg|Adjective}#Form of [@-2]", "{P");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7c/De-@^.ogg|Adjective}#Form of [@-2]", "£P");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8e/De-@^.ogg|Adjective}#Form of [@-2]", "éP");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/dd/De-@^.ogg|Adjective}#Form of [@-2]", "@Q");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/22/De-@^.ogg|Adjective}#Form of [@-2]", "_Q");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8b/De-@^.ogg|Adjective}#Form of [@-2]", "~Q");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8a/De-@^.ogg|Adjective}#Form of [@-2]", "<Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/10/De-@^.ogg|Adjective}#Form of [@-2]", ">Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d5/De-@^.ogg|Adjective}#Form of [@-2]", "!Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b3/De-@^.ogg|Adjective}#Form of [@-2]", "`Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2d/De-@^.ogg|Adjective}#Form of [@-2]", "=Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a2/De-@^.ogg|Adjective}#Form of [@-2]", "?Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/da/De-@^.ogg|Adjective}#Form of [@-2]", ".Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a0/De-@^.ogg|Adjective}#Form of [@-2]", "/Q");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/90/De-@^.ogg|Adjective}#Form of [@-2]", "&R");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c0/De-@^.ogg|Adjective}#Form of [@-2]", "$R");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0d/De-@^.ogg|Adjective}#Form of [@-2]", "<R");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/42/De-@^.ogg|Adjective}#Form of [@-2]", "`R");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7b/De-@^.ogg|Adjective}#Form of [@-2]", "=R");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3b/De-@^.ogg|Adjective}#Form of [@-2]", "?R");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/76/De-@^.ogg|Adjective}#Form of [@-2]", "%R");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/37/De-@^.ogg|Adjective}#Form of [@-2]", "£R");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/41/De-@^.ogg|Adjective}#Form of [@-2]", "éR");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5d/De-@^.ogg|Adjective}#Form of [@-2]", "@S");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2a/De-@^.ogg|Adjective}#Form of [@-2]", "~S");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/73/De-@^.ogg|Adjective}#Form of [@-2]", "&S");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/dc/De-@^.ogg|Adjective}#Form of [@-2]", "$S");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6b/De-@^.ogg|Adjective}#Form of [@-2]", "<S");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5a/De-@^.ogg|Adjective}#Form of [@-2]", "`S");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/26/De-@^.ogg|Adjective}#Form of [@-2]", "=S");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/20/De-@^.ogg|Adjective}#Form of [@-2]", "&T");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/97/De-@^.ogg|Adjective}#Form of [@-2]", "$T");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c8/De-@^.ogg|Adjective}#Form of [@-2]", "<T");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/31/De-@^.ogg|Adjective}#Form of [@-2]", "`T");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1b/De-@^.ogg|Adjective}#Form of [@-2]", "=T");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c2/De-@^.ogg|Adjective}#Form of [@-2]", "?T");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a3/De-@^.ogg|Adjective}#Form of [@-2]", "@U");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b9/De-@^.ogg|Adjective}#Form of [@-2]", "_U");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a7/De-@^.ogg|Adjective}#Form of [@-2]", "~U");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/46/De-@^.ogg|Adjective}#Form of [@-2]", "&U");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cf/De-@^.ogg|Adjective}#Form of [@-2]", "$U");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ec/De-@^.ogg|Adjective}#Form of [@-2]", "<U");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3f/De-@^.ogg|Adjective}#Form of [@-2]", "`U");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9a/De-@^.ogg|Adjective}#Form of [@-2]", "<V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6d/De-@^.ogg|Adjective}#Form of [@-2]", ">V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/27/De-@^.ogg|Adjective}#Form of [@-2]", "`V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d2/De-@^.ogg|Adjective}#Form of [@-2]", "=V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/12/De-@^.ogg|Adjective}#Form of [@-2]", "?V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fd/De-@^.ogg|Adjective}#Form of [@-2]", "%V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ef/De-@^.ogg|Adjective}#Form of [@-2]", "{V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f5/De-@^.ogg|Adjective}#Form of [@-2]", "£V");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c5/De-@^.ogg|Adjective}#Form of [@-2]", "`W");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/36/De-@^.ogg|Adjective}#Form of [@-2]", "=W");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/84/De-@^.ogg|Adjective}#Form of [@-2]", "%W");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d4/De-@^.ogg|Adjective}#Form of [@-2]", "{W");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/81/De-@^.ogg|Adjective}#Form of [@-2]", "£W");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b6/De-@^.ogg|Adjective}#Form of [@-2]", "éW");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7e/De-@^.ogg|Adjective}#Form of [@-2]", "`Y");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/19/De-@^.ogg|Adjective}#Form of [@-2]", ";Y");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/11/De-@^.ogg|Adjective}#Form of [@-2]", "=Y");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f2/De-@^.ogg|Adjective}#Form of [@-2]", ".Y");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/83/De-@^.ogg|Adjective}#Form of [@-2]", "%Y");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e9/De-@^.ogg|Adjective}#Form of [@-2]", "{Y");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f1/De-@^.ogg|Adjective}#Form of [@-2]", "£Y");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/34/De-@^.ogg|Adjective}#Form of [@-2]", "éY");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/79/De-@^.ogg|Adjective}#Form of [@-2]", "@Z");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4f/De-@^.ogg|Adjective}#Form of [@-2]", "&Z");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/18/De-@^.ogg|Adjective}#Form of [@-2]", "$Z");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ae/De-@^.ogg|Adjective}#Form of [@-2]", "<Z");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e3/De-@^.ogg|Adjective}#Form of [@-2]", "!Z");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bc/De-@^.ogg|Adjective}#Form of [@-2]", "`Z");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/ff/De-@^.ogg|Adjective}#Form of [@-2]", "=Z");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b8/De-@^.ogg|Adjective}#Form of [@-2]", "@X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/89/De-@^.ogg|Adjective}#Form of [@-2]", "_X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/28/De-@^.ogg|Adjective}#Form of [@-2]", "^X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/56/De-@^.ogg|Adjective}#Form of [@-2]", "~X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a8/De-@^.ogg|Adjective}#Form of [@-2]", "&X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/02/De-@^.ogg|Adjective}#Form of [@-2]", "$X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d6/De-@^.ogg|Adjective}#Form of [@-2]", "<X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/38/De-@^.ogg|Adjective}#Form of [@-2]", "!X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/63/De-@^.ogg|Adjective}#Form of [@-2]", ")X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2e/De-@^.ogg|Adjective}#Form of [@-2]", "`X");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c9/De-@^.ogg|Adjective}#Form of [@-2]", "%X");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b1/De-@^.ogg|Adjective}#Form of [@-2]", "{X");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ab/De-@^.ogg|Adjective}#Form of [@-2]", "£X");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ad/De-@^.ogg|Adjective}#Form of [@-2]", "éX");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0c/De-@^.ogg|Adjective}#Form of [@-2]", "@ç");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e0/De-@^.ogg|Adjective}#Form of [@-2]", "_ç");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/69/De-@^.ogg|Adjective}#Form of [@-2]", "^ç");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2f/De-@^.ogg|Adjective}#Form of [@-2]", "~ç");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b2/De-@^.ogg|Adjective}#Form of [@-2]", "&ç");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6f/De-@^.ogg|Adjective}#Form of [@-2]", "éç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/49/De-@^.ogg|Adjective}#Form of [@-2]", "@Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/05/De-@^.ogg|Adjective}#Form of [@-2]", "_Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/51/De-@^.ogg|Adjective}#Form of [@-2]", "^Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/43/De-@^.ogg|Adjective}#Form of [@-2]", "~Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7d/De-@^.ogg|Adjective}#Form of [@-2]", "&Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1c/De-@^.ogg|Adjective}#Form of [@-2]", "$Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/78/De-@^.ogg|Adjective}#Form of [@-2]", "<Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0b/De-@^.ogg|Adjective}#Form of [@-2]", ">Ç");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c1/De-@^.ogg|Adjective}#Form of [@-2]", "=Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9d/De-@^.ogg|Adjective}#Form of [@-2]", "-Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a5/De-@^.ogg|Adjective}#Form of [@-2]", "(Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ce/De-@^.ogg|Adjective}#Form of [@-2]", "?Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/eb/De-@^.ogg|Adjective}#Form of [@-2]", "+Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/80/De-@^.ogg|Adjective}#Form of [@-2]", ".Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/db/De-@^.ogg|Adjective}#Form of [@-2]", "/Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0a/De-@^.ogg|Adjective}#Form of [@-2]", "%Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/74/De-@^.ogg|Adjective}#Form of [@-2]", ",Ç");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/04/De-@^.ogg|Adjective}#Form of [@-2]", "=ö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cc/De-@^.ogg|Adjective}#Form of [@-2]", "?ö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/48/De-@^.ogg|Adjective}#Form of [@-2]", "/ö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/df/De-@^.ogg|Adjective}#Form of [@-2]", "%ö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/67/De-@^.ogg|Adjective}#Form of [@-2]", "{ö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0f/De-@^.ogg|Adjective}#Form of [@-2]", "£ö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fe/De-@^.ogg|Adjective}#Form of [@-2]", "éö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ed/De-@^.ogg|Adjective}#Form of [@-2]", "@Ö");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/98/De-@^.ogg|Adjective}#Form of [@-2]", ">ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/45/De-@^.ogg|Adjective}#Form of [@-2]", "!ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4a/De-@^.ogg|Adjective}#Form of [@-2]", ")ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2b/De-@^.ogg|Adjective}#Form of [@-2]", "`ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f2/De-@^.ogg|Adjective}#Form of [@-4]", ":ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fb/De-@^.ogg|Adjective}#Form of [@-2]", ";ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1d/De-@^.ogg|Adjective}#Form of [@-2]", "=ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b0/De-@^.ogg|Adjective}#Form of [@-2]", "-ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3d/De-@^.ogg|Adjective}#Form of [@-2]", "(ğ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ac/De-@^.ogg|Adjective}#Form of [@-2]", "@Ğ");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/77/De-@^.ogg|Adjective}#Form of [@-4]", "_Ğ");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/24/De-@^.ogg|Adjective}#Form of [@-2]", "^Ğ");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/af/De-@^.ogg|Adjective}#Form of [@-2]", "-Ğ");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7f/De-@^.ogg|Adjective}#Form of [@-2]", "(Ğ");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8c/De-@^.ogg|Adjective}#Form of [@-2]", "?Ğ");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e1/De-@^.ogg|Adjective}#Form of [@-2]", "'Ğ");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d7/De-@^.ogg|Adjective}#Form of [@-2]", "+Ğ");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1f/De-@^.ogg|Adjective}#Form of [@-2]", ".Ğ");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cb/De-@^.ogg|Adjective}#Form of [@-2]", "/Ğ");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/59/De-@^.ogg|Adjective}#Form of [@-2]", "$ü");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/93/De-@^.ogg|Adjective}#Form of [@-2]", "<ü");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/75/De-@^.ogg|Adjective}#Form of [@-2]", ">ü");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/39/De-@^.ogg|Adjective}#Form of [@-2]", "~Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/50/De-@^.ogg|Adjective}#Form of [@-2]", "&Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/32/De-@^.ogg|Adjective}#Form of [@-2]", "$Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b5/De-@^.ogg|Adjective}#Form of [@-2]", "<Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/61/De-@^.ogg|Adjective}#Form of [@-2]", "!Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/40/De-@^.ogg|Adjective}#Form of [@-2]", ")Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/17/De-@^.ogg|Adjective}#Form of [@-2]", "`Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/03/De-@^.ogg|Adjective}#Form of [@-2]", "=Ü");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ef/De-@^.ogg|Adjective}#Form of [@-4]", "$é");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/25/De-@^.ogg|Adjective}#Form of [@-2]", "<é");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a9/De-@^.ogg|Adjective}#Form of [@-2]", "!é");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/68/De-@^.ogg|Adjective}#Form of [@-2]", "_İ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ae/De-@^.ogg|Adjective}#Form of [@-4]", "^İ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/21/De-@^.ogg|Adjective}#Form of [@-2]", "~İ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a6/De-@^.ogg|Adjective}#Form of [@-2]", "&İ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bb/De-@^.ogg|Adjective}#Form of [@-2]", "$İ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c4/De-@^.ogg|Adjective}#Form of [@-2]", "<İ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fb/De-@^.ogg|Adjective}#Form of [@-4]", ".İ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a4/De-@^.ogg|Adjective}#Form of [@-2]", "/İ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/85/De-@^.ogg|Adjective}#Form of [@-2]", "%İ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/25/De-@^.ogg|Adjective}#Form of [@-4]", ",İ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5e/De-@^.ogg|Adjective}#Form of [@-2]", "{İ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f6/De-@^.ogg|Adjective}#Form of [@-2]", "}İ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9c/De-@^.ogg|Adjective}#Form of [@-2]", "<ı");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fc/De-@^.ogg|Adjective}#Form of [@-2]", ">ı");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e4/De-@^.ogg|Adjective}#Form of [@-2]", "!ı");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/92/De-@^.ogg|Adjective}#Form of [@-2]", ")ı");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f8/De-@^.ogg|Adjective}#Form of [@-2]", "`ı");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/23/De-@^.ogg|Adjective}#Form of [@-2]", "}ı");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c5/De-@^.ogg|Adjective}#Form of [@-4]", "£ı");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/71/De-@^.ogg|Adjective}#Form of [@-4]", "éı");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/ba/De-@^.ogg|Adjective}#Form of [@-2]", "@ß");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/de/De-@^.ogg|Adjective}#Form of [@-4]", "?ß");//82
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5b/De-@^.ogg|Adjective}#Form of [@-2]", ".ß");//82
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c3/De-@^.ogg|Adjective}#Form of [@-2]", ";Ƒ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3b/De-@^.ogg|Adjective}#Form of [@-4]", "=Ƒ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/01/De-@^.ogg|Adjective}#Form of [@-2]", "-Ƒ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1f/De-@^.ogg|Adjective}#Form of [@-4]", "(Ƒ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/74/De-@^.ogg|Adjective}#Form of [@-4]", "}Ƒ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1e/De-@^.ogg|Adjective}#Form of [@-2]", "£Ƒ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a2/De-@^.ogg|Adjective}#Form of [@-4]", "-ƒ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/88/De-@^.ogg|Adjective}#Form of [@-2]", "(ƒ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/15/De-@^.ogg|Adjective}#Form of [@-2]", "?ƒ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f9/De-@^.ogg|Adjective}#Form of [@-2]", "'ƒ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/37/De-@^.ogg|Adjective}#Form of [@-4]", "+ƒ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/95/De-@^.ogg|Adjective}#Form of [@-2]", "&Ɠ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f0/De-@^.ogg|Adjective}#Form of [@-2]", "$Ɠ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/06/De-@^.ogg|Adjective}#Form of [@-4]", "<Ɠ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/aa/De-@^.ogg|Adjective}#Form of [@-2]", ">Ɠ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/94/De-@^.ogg|Adjective}#Form of [@-2]", "!Ɠ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c6/De-@^.ogg|Adjective}#Form of [@-4]", "{Ɠ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c9/De-@^.ogg|Adjective}#Form of [@-4]", "}Ɠ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/07/De-@^.ogg|Adjective}#Form of [@-4]", "£Ɠ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/43/De-@^.ogg|Adjective}#Form of [@-4]", "éƓ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/09/De-@^.ogg|Adjective}#Form of [@-4]", "@Ɣ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ea/De-@^.ogg|Adjective}#Form of [@-2]", "_Ɣ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2d/De-@^.ogg|Adjective}#Form of [@-4]", "^Ɣ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/87/De-@^.ogg|Adjective}#Form of [@-2]", "~Ɣ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3c/De-@^.ogg|Adjective}#Form of [@-4]", "&Ɣ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d3/De-@^.ogg|Adjective}#Form of [@-2]", "$Ɣ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9c/De-@^.ogg|Adjective}#Form of [@-4]", "'Ɣ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/82/De-@^.ogg|Adjective}#Form of [@-4]", "+Ɣ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/57/De-@^.ogg|Adjective}#Form of [@-4]", ".Ɣ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8c/De-@^.ogg|Adjective}#Form of [@-4]", "/Ɣ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9e/De-@^.ogg|Adjective}#Form of [@-4]", "%Ɣ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6d/De-@^.ogg|Adjective}#Form of [@-4]", ",Ɣ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/35/De-@^.ogg|Adjective}#Form of [@-4]", "{Ɣ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5d/De-@^.ogg|Adjective}#Form of [@-4]", "=ƕ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b8/De-@^.ogg|Adjective}#Form of [@-4]", "-ƕ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d7/De-@^.ogg|Adjective}#Form of [@-4]", "(ƕ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2f/De-@^.ogg|Adjective}#Form of [@-4]", "?ƕ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/20/De-@^.ogg|Adjective}#Form of [@-4]", "'ƕ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7f/De-@^.ogg|Adjective}#Form of [@-4]", "^Ɩ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/32/De-@^.ogg|Adjective}#Form of [@-4]", "~Ɩ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/02/De-@^.ogg|Adjective}#Form of [@-4]", "&Ɩ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b2/De-@^.ogg|Adjective}#Form of [@-4]", "$Ɩ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/75/De-@^.ogg|Adjective}#Form of [@-4]", "<Ɩ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/60/De-@^.ogg|Adjective}#Form of [@-2]", ">Ɩ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/23/De-@^.ogg|Adjective}#Form of [@-4]", "éƖ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7e/De-@^.ogg|Adjective}#Form of [@-4]", "@Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/12/De-@^.ogg|Adjective}#Form of [@-4]", "_Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3a/De-@^.ogg|Adjective}#Form of [@-4]", "^Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/61/De-@^.ogg|Adjective}#Form of [@-4]", "~Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d4/De-@^.ogg|Adjective}#Form of [@-4]", "&Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c3/De-@^.ogg|Adjective}#Form of [@-4]", "$Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6b/De-@^.ogg|Adjective}#Form of [@-4]", "<Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3d/De-@^.ogg|Adjective}#Form of [@-4]", ">Ɨ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/06/De-@^.ogg|Adjective}#Form of [@-2]", "£Ɨ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e5/De-@^.ogg|Adjective}#Form of [@-4]", "éƗ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0a/De-@^.ogg|Adjective}#Form of [@-4]", "@Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/38/De-@^.ogg|Adjective}#Form of [@-4]", "_Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4b/De-@^.ogg|Adjective}#Form of [@-2]", "^Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/55/De-@^.ogg|Adjective}#Form of [@-4]", "~Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e2/De-@^.ogg|Adjective}#Form of [@-4]", "&Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7c/De-@^.ogg|Adjective}#Form of [@-4]", "$Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f8/De-@^.ogg|Adjective}#Form of [@-4]", "<Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/96/De-@^.ogg|Adjective}#Form of [@-4]", ">Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/88/De-@^.ogg|Adjective}#Form of [@-4]", "!Ƙ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/40/De-@^.ogg|Adjective}#Form of [@-4]", "'Ƙ");//71
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5f/De-@^.ogg|Adjective}#Form of [@-4]", "+Ƙ");//71
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d8/De-@^.ogg|Adjective}#Form of [@-4]", ".Ƙ");//71
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/df/De-@^.ogg|Adjective}#Form of [@-4]", "/Ƙ");//71
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/19/De-@^.ogg|Adjective}#Form of [@-4]", "%Ƙ");//71
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/68/De-@^.ogg|Adjective}#Form of [@-4]", "(ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/31/De-@^.ogg|Adjective}#Form of [@-4]", "?ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e1/De-@^.ogg|Adjective}#Form of [@-4]", "'ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d6/De-@^.ogg|Adjective}#Form of [@-4]", "+ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b3/De-@^.ogg|Adjective}#Form of [@-4]", ".ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a8/De-@^.ogg|Adjective}#Form of [@-4]", "/ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/04/De-@^.ogg|Adjective}#Form of [@-4]", "%ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5b/De-@^.ogg|Adjective}#Form of [@-4]", ",ƙ");//70
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1d/De-@^.ogg|Adjective}#Form of [@-4]", ":ƚ");//69
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3e/De-@^.ogg|Adjective}#Form of [@-4]", ";ƚ");//69
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e4/De-@^.ogg|Adjective}#Form of [@-4]", "=ƚ");//69
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/94/De-@^.ogg|Adjective}#Form of [@-4]", "-ƚ");//69
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3c/De-@^.ogg|Adjective}#Form of [@-2]", "(ƚ");//69
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/af/De-@^.ogg|Adjective}#Form of [@-4]", "?ƚ");//69
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b4/De-@^.ogg|Adjective}#Form of [@-4]", "'ƚ");//69
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ac/De-@^.ogg|Adjective}#Form of [@-4]", "`ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7a/De-@^.ogg|Adjective}#Form of [@-2]", ":ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/29/De-@^.ogg|Adjective}#Form of [@-4]", ";ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4d/De-@^.ogg|Adjective}#Form of [@-4]", "=ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/52/De-@^.ogg|Adjective}#Form of [@-4]", "-ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/01/De-@^.ogg|Adjective}#Form of [@-4]", "(ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/27/De-@^.ogg|Adjective}#Form of [@-4]", "?ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/21/De-@^.ogg|Adjective}#Form of [@-4]", "'ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/08/De-@^.ogg|Adjective}#Form of [@-4]", "+ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/13/De-@^.ogg|Adjective}#Form of [@-4]", ".ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c0/De-@^.ogg|Adjective}#Form of [@-4]", "/ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/97/De-@^.ogg|Adjective}#Form of [@-4]", "%ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bc/De-@^.ogg|Adjective}#Form of [@-4]", ",ƛ");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b5/De-@^.ogg|Adjective}#Form of [@-4]", "`Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/aa/De-@^.ogg|Adjective}#Form of [@-4]", ":Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/42/De-@^.ogg|Adjective}#Form of [@-4]", ";Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/99/De-@^.ogg|Adjective}#Form of [@-4]", "=Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/73/De-@^.ogg|Adjective}#Form of [@-4]", "-Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/58/De-@^.ogg|Adjective}#Form of [@-4]", "(Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0b/De-@^.ogg|Adjective}#Form of [@-4]", "?Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e8/De-@^.ogg|Adjective}#Form of [@-4]", "'Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/64/De-@^.ogg|Adjective}#Form of [@-4]", "+Ɯ");//67
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bd/De-@^.ogg|Adjective}#Form of [@-4]", ".Ɲ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3f/De-@^.ogg|Adjective}#Form of [@-4]", "/Ɲ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/eb/De-@^.ogg|Adjective}#Form of [@-4]", "%Ɲ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cd/De-@^.ogg|Adjective}#Form of [@-4]", ",Ɲ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a4/De-@^.ogg|Adjective}#Form of [@-4]", "{Ɲ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6f/De-@^.ogg|Adjective}#Form of [@-4]", "}Ɲ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/84/De-@^.ogg|Adjective}#Form of [@-4]", "£Ɲ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/34/De-@^.ogg|Adjective}#Form of [@-4]", "éƝ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2a/De-@^.ogg|Adjective}#Form of [@-4]", "@ƞ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a1/De-@^.ogg|Adjective}#Form of [@-4]", "_ƞ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2e/De-@^.ogg|Adjective}#Form of [@-4]", "^ƞ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ed/De-@^.ogg|Adjective}#Form of [@-4]", "~ƞ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/70/De-@^.ogg|Adjective}#Form of [@-2]", ".ƞ");//65
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a7/De-@^.ogg|Adjective}#Form of [@-4]", "/ƞ");//65
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/53/De-@^.ogg|Adjective}#Form of [@-4]", "%ƞ");//65
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d2/De-@^.ogg|Adjective}#Form of [@-4]", ",ƞ");//65
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/44/De-@^.ogg|Adjective}#Form of [@-4]", "{ƞ");//65
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/15/De-@^.ogg|Adjective}#Form of [@-4]", "'Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/46/De-@^.ogg|Adjective}#Form of [@-4]", "+Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/79/De-@^.ogg|Adjective}#Form of [@-4]", ".Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d5/De-@^.ogg|Adjective}#Form of [@-4]", "/Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/24/De-@^.ogg|Adjective}#Form of [@-4]", "%Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/03/De-@^.ogg|Adjective}#Form of [@-4]", ",Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/78/De-@^.ogg|Adjective}#Form of [@-4]", "{Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5c/De-@^.ogg|Adjective}#Form of [@-4]", "}Ɵ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/63/De-@^.ogg|Adjective}#Form of [@-4]", ",Ɔ");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0c/De-@^.ogg|Adjective}#Form of [@-4]", "{Ɔ");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fc/De-@^.ogg|Adjective}#Form of [@-4]", "}Ɔ");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/92/De-@^.ogg|Adjective}#Form of [@-4]", "£Ɔ");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c4/De-@^.ogg|Adjective}#Form of [@-4]", "éƆ");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2c/De-@^.ogg|Adjective}#Form of [@-4]", "@É");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f0/De-@^.ogg|Adjective}#Form of [@-4]", "_É");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ab/De-@^.ogg|Adjective}#Form of [@-4]", "^É");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e3/De-@^.ogg|Adjective}#Form of [@-4]", "~É");//63
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d9/De-@^.ogg|Adjective}#Form of [@-4]", "^Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/16/De-@^.ogg|Adjective}#Form of [@-4]", "~Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ee/De-@^.ogg|Adjective}#Form of [@-2]", "&Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/18/De-@^.ogg|Adjective}#Form of [@-4]", "$Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1e/De-@^.ogg|Adjective}#Form of [@-4]", "<Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/98/De-@^.ogg|Adjective}#Form of [@-4]", ">Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8f/De-@^.ogg|Adjective}#Form of [@-4]", "!Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5e/De-@^.ogg|Adjective}#Form of [@-4]", ")Ƕ");//62
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f5/De-@^.ogg|Adjective}#Form of [@-4]", "}Ƕ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/41/De-@^.ogg|Adjective}#Form of [@-4]", "£Ƕ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/da/De-@^.ogg|Adjective}#Form of [@-4]", "éǶ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/db/De-@^.ogg|Adjective}#Form of [@-4]", "@Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f9/De-@^.ogg|Adjective}#Form of [@-4]", "_Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/83/De-@^.ogg|Adjective}#Form of [@-4]", "^Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c7/De-@^.ogg|Adjective}#Form of [@-4]", "~Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/22/De-@^.ogg|Adjective}#Form of [@-4]", "&Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/86/De-@^.ogg|Adjective}#Form of [@-4]", "$Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9f/De-@^.ogg|Adjective}#Form of [@-4]", "<Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1a/De-@^.ogg|Adjective}#Form of [@-4]", ">Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/80/De-@^.ogg|Adjective}#Form of [@-4]", "!Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6c/De-@^.ogg|Adjective}#Form of [@-4]", ")Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fa/De-@^.ogg|Adjective}#Form of [@-4]", "`Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c2/De-@^.ogg|Adjective}#Form of [@-4]", ":Ƚ");//61
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7a/De-@^.ogg|Adjective}#Form of [@-4]", "^Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5a/De-@^.ogg|Adjective}#Form of [@-4]", "~Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b1/De-@^.ogg|Adjective}#Form of [@-4]", "&Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/26/De-@^.ogg|Adjective}#Form of [@-4]", "$Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/49/De-@^.ogg|Adjective}#Form of [@-4]", "<Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1c/De-@^.ogg|Adjective}#Form of [@-4]", ">Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e6/De-@^.ogg|Adjective}#Form of [@-4]", "!Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/60/De-@^.ogg|Adjective}#Form of [@-4]", ")Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8d/De-@^.ogg|Adjective}#Form of [@-4]", "`Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0f/De-@^.ogg|Adjective}#Form of [@-4]", ":Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/90/De-@^.ogg|Adjective}#Form of [@-4]", ";Ƞ");//60
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3e/De-@^.ogg|Adjective}#Form of ", "%g");//271
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/16/De-@^.ogg|Adjective}#Form of ", "!h");//265
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ae/De-@^.ogg|Adjective}#Form of ", "`h");//265
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/77/De-@^.ogg|Adjective}#Form of ", "=h");//264
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/63/De-@^.ogg|Adjective}#Form of ", "%h");//264
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ef/De-@^.ogg|Adjective}#Form of ", "~i");//263
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/09/De-@^.ogg|Adjective}#Form of ", "`i");//259
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/47/De-@^.ogg|Adjective}#Form of ", "%i");//257
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/35/De-@^.ogg|Adjective}#Form of ", "{i");//257
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/08/De-@^.ogg|Adjective}#Form of ", "$j");//254
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f2/De-@^.ogg|Adjective}#Form of ", ">j");//253
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/99/De-@^.ogg|Adjective}#Form of ", "!j");//252
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/42/De-@^.ogg|Adjective}#Form of ", "`j");//252
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4d/De-@^.ogg|Adjective}#Form of ", "=j");//252
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bf/De-@^.ogg|Adjective}#Form of ", "?j");//251
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5c/De-@^.ogg|Adjective}#Form of ", "%j");//251
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2c/De-@^.ogg|Adjective}#Form of ", "{j");//251
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d1/De-@^.ogg|Adjective}#Form of ", "£j");//250
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9e/De-@^.ogg|Adjective}#Form of ", "&k");//250
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/de/De-@^.ogg|Adjective}#Form of ", "$k");//250
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/43/De-@^.ogg|Adjective}#Form of ", ">k");//250
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/71/De-@^.ogg|Adjective}#Form of ", "`k");//248
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0e/De-@^.ogg|Adjective}#Form of ", "=k");//248
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8e/De-@^.ogg|Adjective}#Form of ", "?k");//248
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3a/De-@^.ogg|Adjective}#Form of ", "%k");//248
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a2/De-@^.ogg|Adjective}#Form of ", "{k");//247
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bd/De-@^.ogg|Adjective}#Form of ", "£k");//247
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c5/De-@^.ogg|Adjective}#Form of ", "$l");//247
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/07/De-@^.ogg|Adjective}#Form of ", "=l");//246
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f4/De-@^.ogg|Adjective}#Form of ", "%l");//246
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e5/De-@^.ogg|Adjective}#Form of ", "£l");//246
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2e/De-@^.ogg|Adjective}#Form of ", "$m");//246
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8f/De-@^.ogg|Adjective}#Form of ", "!m");//245
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e6/De-@^.ogg|Adjective}#Form of ", "`m");//245
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/33/De-@^.ogg|Adjective}#Form of ", "%m");//244
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c6/De-@^.ogg|Adjective}#Form of ", "{m");//244
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cd/De-@^.ogg|Adjective}#Form of ", "$n");//243
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3b/De-@^.ogg|Adjective}#Form of ", "`n");//243
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0f/De-@^.ogg|Adjective}#Form of ", "=n");//243
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d0/De-@^.ogg|Adjective}#Form of ", "?n");//242
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b2/De-@^.ogg|Adjective}#Form of ", "%n");//242
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a1/De-@^.ogg|Adjective}#Form of ", "£n");//242
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/44/De-@^.ogg|Adjective}#Form of ", "~o");//242
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/55/De-@^.ogg|Adjective}#Form of ", "$o");//241
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/54/De-@^.ogg|Adjective}#Form of ", "<o");//241
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/dc/De-@^.ogg|Adjective}#Form of ", "!o");//241
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/58/De-@^.ogg|Adjective}#Form of ", "`o");//241
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/02/De-@^.ogg|Adjective}#Form of ", "=o");//241
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8d/De-@^.ogg|Adjective}#Form of ", "?o");//241
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/75/De-@^.ogg|Adjective}#Form of ", "%o");//240
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/20/De-@^.ogg|Adjective}#Form of ", "{o");//240
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e7/De-@^.ogg|Adjective}#Form of ", "£o");//240
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c7/De-@^.ogg|Adjective}#Form of ", "$p");//240
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fa/De-@^.ogg|Adjective}#Form of ", "!p");//240
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/62/De-@^.ogg|Adjective}#Form of ", "=p");//240
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7c/De-@^.ogg|Adjective}#Form of ", "%p");//240
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b4/De-@^.ogg|Adjective}#Form of ", "$q");//239
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6b/De-@^.ogg|Adjective}#Form of ", "!q");//239
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/29/De-@^.ogg|Adjective}#Form of ", "`q");//238
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/86/De-@^.ogg|Adjective}#Form of ", "=q");//238
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/73/De-@^.ogg|Adjective}#Form of ", "?q");//238
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/82/De-@^.ogg|Adjective}#Form of ", "%q");//238
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6e/De-@^.ogg|Adjective}#Form of ", "£q");//238
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/11/De-@^.ogg|Adjective}#Form of ", "!r");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d5/De-@^.ogg|Adjective}#Form of ", "`r");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1a/De-@^.ogg|Adjective}#Form of ", "=r");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d3/De-@^.ogg|Adjective}#Form of ", "?r");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b1/De-@^.ogg|Adjective}#Form of ", "%r");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ab/De-@^.ogg|Adjective}#Form of ", "£r");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/72/De-@^.ogg|Adjective}#Form of ", "$s");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d4/De-@^.ogg|Adjective}#Form of ", "`s");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ca/De-@^.ogg|Adjective}#Form of ", "=s");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/26/De-@^.ogg|Adjective}#Form of ", "£s");//237
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c9/De-@^.ogg|Adjective}#Form of ", "!t");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/34/De-@^.ogg|Adjective}#Form of ", "`t");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d2/De-@^.ogg|Adjective}#Form of ", "=t");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c0/De-@^.ogg|Adjective}#Form of ", "%t");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/76/De-@^.ogg|Adjective}#Form of ", "{t");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/64/De-@^.ogg|Adjective}#Form of ", "£t");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e8/De-@^.ogg|Adjective}#Form of ", "&u");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/96/De-@^.ogg|Adjective}#Form of ", "$u");//236
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5f/De-@^.ogg|Adjective}#Form of ", "`u");//235
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/78/De-@^.ogg|Adjective}#Form of ", "=u");//235
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1f/De-@^.ogg|Adjective}#Form of ", "?u");//235
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/13/De-@^.ogg|Adjective}#Form of ", "%u");//235
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8b/De-@^.ogg|Adjective}#Form of ", "{u");//235
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0d/De-@^.ogg|Adjective}#Form of ", "éu");//234
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6f/De-@^.ogg|Adjective}#Form of ", "$v");//234
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2d/De-@^.ogg|Adjective}#Form of ", "<v");//234
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b3/De-@^.ogg|Adjective}#Form of ", "!v");//234
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/90/De-@^.ogg|Adjective}#Form of ", "`v");//234
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7d/De-@^.ogg|Adjective}#Form of ", "{v");//233
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/30/De-@^.ogg|Adjective}#Form of ", "£v");//233
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a5/De-@^.ogg|Adjective}#Form of ", "&w");//233
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d9/De-@^.ogg|Adjective}#Form of ", "$w");//233
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4c/De-@^.ogg|Adjective}#Form of ", "<w");//233
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/21/De-@^.ogg|Adjective}#Form of ", "!w");//233
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/31/De-@^.ogg|Adjective}#Form of ", "`w");//233
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b8/De-@^.ogg|Adjective}#Form of ", "?w");//232
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/41/De-@^.ogg|Adjective}#Form of ", "%w");//232
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/46/De-@^.ogg|Adjective}#Form of ", "{w");//232
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e4/De-@^.ogg|Adjective}#Form of ", "£w");//232
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e1/De-@^.ogg|Adjective}#Form of ", "@x");//232
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/db/De-@^.ogg|Adjective}#Form of ", "_x");//232
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e2/De-@^.ogg|Adjective}#Form of ", "~x");//232
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/32/De-@^.ogg|Adjective}#Form of ", "$x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a8/De-@^.ogg|Adjective}#Form of ", "<x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/66/De-@^.ogg|Adjective}#Form of ", ">x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a3/De-@^.ogg|Adjective}#Form of ", "!x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f6/De-@^.ogg|Adjective}#Form of ", "`x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/be/De-@^.ogg|Adjective}#Form of ", ";x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/38/De-@^.ogg|Adjective}#Form of ", "=x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/18/De-@^.ogg|Adjective}#Form of ", "?x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e3/De-@^.ogg|Adjective}#Form of ", "%x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/22/De-@^.ogg|Adjective}#Form of ", "{x");//231
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7e/De-@^.ogg|Adjective}#Form of ", "£x");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9f/De-@^.ogg|Adjective}#Form of ", "éx");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2a/De-@^.ogg|Adjective}#Form of ", "~y");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4e/De-@^.ogg|Adjective}#Form of ", "&y");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/14/De-@^.ogg|Adjective}#Form of ", "$y");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6a/De-@^.ogg|Adjective}#Form of ", "<y");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/65/De-@^.ogg|Adjective}#Form of ", ">y");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/dd/De-@^.ogg|Adjective}#Form of ", "!y");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/97/De-@^.ogg|Adjective}#Form of ", "`y");//230
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f7/De-@^.ogg|Adjective}#Form of ", "=y");//229
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6d/De-@^.ogg|Adjective}#Form of ", "?y");//229
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cf/De-@^.ogg|Adjective}#Form of ", "%y");//229
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/40/De-@^.ogg|Adjective}#Form of ", "{y");//229
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0b/De-@^.ogg|Adjective}#Form of ", "£y");//229
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5e/De-@^.ogg|Adjective}#Form of ", "&z");//229
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ea/De-@^.ogg|Adjective}#Form of ", "$z");//229
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0c/De-@^.ogg|Adjective}#Form of ", "<z");//228
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/12/De-@^.ogg|Adjective}#Form of ", "!z");//228
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fd/De-@^.ogg|Adjective}#Form of ", "`z");//228
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1d/De-@^.ogg|Adjective}#Form of ", "=z");//228
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c8/De-@^.ogg|Adjective}#Form of ", "?z");//228
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b7/De-@^.ogg|Adjective}#Form of ", "%z");//228
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5d/De-@^.ogg|Adjective}#Form of ", "{z");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/79/De-@^.ogg|Adjective}#Form of ", "£z");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8c/De-@^.ogg|Adjective}#Form of ", "@ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fb/De-@^.ogg|Adjective}#Form of ", "_ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2f/De-@^.ogg|Adjective}#Form of ", "^ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9c/De-@^.ogg|Adjective}#Form of ", "&ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/37/De-@^.ogg|Adjective}#Form of ", "$ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f8/De-@^.ogg|Adjective}#Form of ", "<ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1b/De-@^.ogg|Adjective}#Form of ", ">ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3d/De-@^.ogg|Adjective}#Form of ", "!ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ed/De-@^.ogg|Adjective}#Form of ", "`ʁ");//227
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c3/De-@^.ogg|Adjective}#Form of ", "=ʁ");//226
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4f/De-@^.ogg|Adjective}#Form of ", "?ʁ");//226
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f1/De-@^.ogg|Adjective}#Form of ", "'ʁ");//226
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ac/De-@^.ogg|Adjective}#Form of ", "%ʁ");//226
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fe/De-@^.ogg|Adjective}#Form of ", "{ʁ");//226
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/52/De-@^.ogg|Adjective}#Form of ", "£ʁ");//226
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f5/De-@^.ogg|Adjective}#Form of ", "éʁ");//226
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ce/De-@^.ogg|Adjective}#Form of ", "_ɔ");//225
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/80/De-@^.ogg|Adjective}#Form of ", "^ɔ");//225
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2b/De-@^.ogg|Adjective}#Form of ", "~ɔ");//225
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/81/De-@^.ogg|Adjective}#Form of ", "&ɔ");//225
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/19/De-@^.ogg|Adjective}#Form of ", "$ɔ");//225
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bc/De-@^.ogg|Adjective}#Form of ", "<ɔ");//225
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/df/De-@^.ogg|Adjective}#Form of ", ">ɔ");//224
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/89/De-@^.ogg|Adjective}#Form of ", "!ɔ");//224
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a7/De-@^.ogg|Adjective}#Form of ", "`ɔ");//224
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5b/De-@^.ogg|Adjective}#Form of ", ";ɔ");//224
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ec/De-@^.ogg|Adjective}#Form of ", "=ɔ");//224
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6c/De-@^.ogg|Adjective}#Form of ", "(ɔ");//224
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b6/De-@^.ogg|Adjective}#Form of ", "?ɔ");//224
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/27/De-@^.ogg|Adjective}#Form of ", "'ɔ");//223
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/74/De-@^.ogg|Adjective}#Form of ", "%ɔ");//223
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a4/De-@^.ogg|Adjective}#Form of ", ",ɔ");//223
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/53/De-@^.ogg|Adjective}#Form of ", "{ɔ");//223
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a0/De-@^.ogg|Adjective}#Form of ", "£ɔ");//223
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3c/De-@^.ogg|Adjective}#Form of ", "_ɪ");//222
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d6/De-@^.ogg|Adjective}#Form of ", "^ɪ");//222
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d8/De-@^.ogg|Adjective}#Form of ", "~ɪ");//222
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d7/De-@^.ogg|Adjective}#Form of ", "&ɪ");//222
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/eb/De-@^.ogg|Adjective}#Form of ", "$ɪ");//222
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/17/De-@^.ogg|Adjective}#Form of ", "<ɪ");//222
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/49/De-@^.ogg|Adjective}#Form of ", ">ɪ");//221
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/61/De-@^.ogg|Adjective}#Form of ", "!ɪ");//221
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8a/De-@^.ogg|Adjective}#Form of ", "`ɪ");//221
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/10/De-@^.ogg|Adjective}#Form of ", ";ɪ");//221
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9b/De-@^.ogg|Adjective}#Form of ", "=ɪ");//221
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7f/De-@^.ogg|Adjective}#Form of ", "?ɪ");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9d/De-@^.ogg|Adjective}#Form of ", "'ɪ");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/51/De-@^.ogg|Adjective}#Form of ", "%ɪ");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/85/De-@^.ogg|Adjective}#Form of ", "{ɪ");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/84/De-@^.ogg|Adjective}#Form of ", "£ɪ");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/25/De-@^.ogg|Adjective}#Form of ", "éɪ");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/00/De-@^.ogg|Adjective}#Form of ", "@̯");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/69/De-@^.ogg|Adjective}#Form of ", "_̯");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/93/De-@^.ogg|Adjective}#Form of ", "^̯");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f3/De-@^.ogg|Adjective}#Form of ", "~̯");//220
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/83/De-@^.ogg|Adjective}#Form of ", "$̯");//219
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/06/De-@^.ogg|Adjective}#Form of ", "<̯");//219
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/67/De-@^.ogg|Adjective}#Form of ", ">̯");//219
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/04/De-@^.ogg|Adjective}#Form of ", "!̯");//219
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/98/De-@^.ogg|Adjective}#Form of ", ")̯");//219
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7b/De-@^.ogg|Adjective}#Form of ", "`̯");//219
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/24/De-@^.ogg|Adjective}#Form of ", ":̯");//219
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/50/De-@^.ogg|Adjective}#Form of ", ";̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cc/De-@^.ogg|Adjective}#Form of ", "=̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/23/De-@^.ogg|Adjective}#Form of ", "-̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/da/De-@^.ogg|Adjective}#Form of ", "(̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/05/De-@^.ogg|Adjective}#Form of ", "?̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ad/De-@^.ogg|Adjective}#Form of ", "'̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/af/De-@^.ogg|Adjective}#Form of ", "+̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/88/De-@^.ogg|Adjective}#Form of ", ".̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/ff/De-@^.ogg|Adjective}#Form of ", "%̯");//218
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/57/De-@^.ogg|Adjective}#Form of ", ",̯");//217
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e0/De-@^.ogg|Adjective}#Form of ", "{̯");//217
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/92/De-@^.ogg|Adjective}#Form of ", "£̯");//216
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0a/De-@^.ogg|Adjective}#Form of ", "é̯");//216
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/28/De-@^.ogg|Adjective}#Form of ", "@A");//216
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fc/De-@^.ogg|Adjective}#Form of ", "$A");//215
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b5/De-@^.ogg|Adjective}#Form of ", "<A");//215
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4a/De-@^.ogg|Adjective}#Form of ", ">A");//215
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c4/De-@^.ogg|Adjective}#Form of ", "`A");//215
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/03/De-@^.ogg|Adjective}#Form of ", "=A");//215
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e9/De-@^.ogg|Adjective}#Form of ", "{A");//214
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/45/De-@^.ogg|Adjective}#Form of ", "£A");//214
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/91/De-@^.ogg|Adjective}#Form of ", "@B");//213
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a9/De-@^.ogg|Adjective}#Form of ", "~B");//213
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b9/De-@^.ogg|Adjective}#Form of ", "&B");//212
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/36/De-@^.ogg|Adjective}#Form of ", "$B");//212
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/ba/De-@^.ogg|Adjective}#Form of ", "<B");//212
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/48/De-@^.ogg|Adjective}#Form of ", "!B");//212
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9a/De-@^.ogg|Adjective}#Form of ", "£B");//211
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/68/De-@^.ogg|Adjective}#Form of ", "éB");//211
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/aa/De-@^.ogg|Adjective}#Form of ", "~C");//211
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/01/De-@^.ogg|Adjective}#Form of ", "&C");//211
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f9/De-@^.ogg|Adjective}#Form of ", "$C");//211
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/60/De-@^.ogg|Adjective}#Form of ", "<C");//210
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c1/De-@^.ogg|Adjective}#Form of ", "!C");//210
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a6/De-@^.ogg|Adjective}#Form of ", "?C");//209
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/59/De-@^.ogg|Adjective}#Form of ", "éC");//208
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/56/De-@^.ogg|Adjective}#Form of ", "~D");//208
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5a/De-@^.ogg|Adjective}#Form of ", "$D");//208
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/95/De-@^.ogg|Adjective}#Form of ", "<D");//208
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f0/De-@^.ogg|Adjective}#Form of ", "`D");//207
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/94/De-@^.ogg|Adjective}#Form of ", "=D");//206
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cb/De-@^.ogg|Adjective}#Form of ", "%D");//206
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/39/De-@^.ogg|Adjective}#Form of ", "£D");//205
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/15/De-@^.ogg|Adjective}#Form of ", "éD");//205
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1c/De-@^.ogg|Adjective}#Form of ", "@E");//204
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b0/De-@^.ogg|Adjective}#Form of ", "$E");//204
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4b/De-@^.ogg|Adjective}#Form of ", "<E");//204
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3f/De-@^.ogg|Adjective}#Form of ", "`E");//204
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c2/De-@^.ogg|Adjective}#Form of ", "=E");//204
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ee/De-@^.ogg|Adjective}#Form of ", "éE");//196
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7a/De-@^.ogg|Adjective}#Form of ", "&F");//195
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1e/De-@^.ogg|Adjective}#Form of ", "$F");//194
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bb/De-@^.ogg|Adjective}#Form of ", "<F");//193
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/87/De-@^.ogg|Adjective}#Form of ", "%F");//190
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/70/De-@^.ogg|Adjective}#Form of ", "éF");//186
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e4/De-@^.ogg|Verb}#verb form of ", "éJ");//126
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/87/De-@^.ogg|Verb}#verb form of ", "{K");//123
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/ba/De-@^.ogg|Verb}#verb form of ", "&L");//122
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ae/De-@^.ogg|Verb}#verb form of ", "&N");//118
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d8/De-@^.ogg|Verb}#verb form of ", "$N");//118
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/65/De-@^.ogg|Verb}#verb form of ", "&O");//117
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/67/De-@^.ogg|Verb}#verb form of ", "<P");//116
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/76/De-@^.ogg|Verb}#verb form of ", "%Q");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/58/De-@^.ogg|Verb}#verb form of ", "{Q");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ce/De-@^.ogg|Verb}#verb form of ", "£Q");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f3/De-@^.ogg|Verb}#verb form of ", "éQ");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cb/De-@^.ogg|Verb}#verb form of ", "@R");//114
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/00/De-@^.ogg|Verb}#verb form of ", "~R");//113
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/68/De-@^.ogg|Verb}#verb form of ", "%S");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5e/De-@^.ogg|Verb}#verb form of ", "{S");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c8/De-@^.ogg|Verb}#verb form of ", "£S");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/16/De-@^.ogg|Verb}#verb form of ", "éS");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2e/De-@^.ogg|Verb}#verb form of ", "@T");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4c/De-@^.ogg|Verb}#verb form of ", "~T");//111
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6a/De-@^.ogg|Verb}#verb form of ", "{T");//110
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f9/De-@^.ogg|Verb}#verb form of ", "£T");//110
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bc/De-@^.ogg|Verb}#verb form of ", "éT");//110
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0a/De-@^.ogg|Verb}#verb form of ", "=U");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/31/De-@^.ogg|Verb}#verb form of ", "%U");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/44/De-@^.ogg|Verb}#verb form of ", "{U");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8a/De-@^.ogg|Verb}#verb form of ", "£U");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6f/De-@^.ogg|Verb}#verb form of ", "éU");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/92/De-@^.ogg|Verb}#verb form of ", "~V");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/46/De-@^.ogg|Verb}#verb form of ", "&V");//109
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/35/De-@^.ogg|Verb}#verb form of ", "éV");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5a/De-@^.ogg|Verb}#verb form of ", "@W");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c0/De-@^.ogg|Verb}#verb form of ", "~W");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/60/De-@^.ogg|Verb}#verb form of ", "&W");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6e/De-@^.ogg|Verb}#verb form of ", "$W");//108
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d5/De-@^.ogg|Verb}#verb form of ", "_Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fd/De-@^.ogg|Verb}#verb form of ", "^Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9e/De-@^.ogg|Verb}#verb form of ", "~Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/30/De-@^.ogg|Verb}#verb form of ", "&Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a6/De-@^.ogg|Verb}#verb form of ", "$Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5b/De-@^.ogg|Verb}#verb form of ", "<Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/41/De-@^.ogg|Verb}#verb form of ", ">Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2a/De-@^.ogg|Verb}#verb form of ", ")Y");//107
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9a/De-@^.ogg|Verb}#verb form of ", "?Z");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ec/De-@^.ogg|Verb}#verb form of ", "%Z");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3f/De-@^.ogg|Verb}#verb form of ", "{Z");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/20/De-@^.ogg|Verb}#verb form of ", "£Z");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/04/De-@^.ogg|Verb}#verb form of ", "éZ");//106
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f5/De-@^.ogg|Verb}#verb form of ", ";X");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/39/De-@^.ogg|Verb}#verb form of ", "=X");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a9/De-@^.ogg|Verb}#verb form of ", "?X");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/52/De-@^.ogg|Verb}#verb form of ", "+X");//105
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6b/De-@^.ogg|Verb}#verb form of ", "$ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d6/De-@^.ogg|Verb}#verb form of ", "<ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d7/De-@^.ogg|Verb}#verb form of ", ">ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d4/De-@^.ogg|Verb}#verb form of ", "!ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/36/De-@^.ogg|Verb}#verb form of ", "`ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5c/De-@^.ogg|Verb}#verb form of ", ";ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/80/De-@^.ogg|Verb}#verb form of ", "=ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/75/De-@^.ogg|Verb}#verb form of ", "?ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/33/De-@^.ogg|Verb}#verb form of ", "'ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/49/De-@^.ogg|Verb}#verb form of ", "%ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/72/De-@^.ogg|Verb}#verb form of ", ",ç");//104
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/32/De-@^.ogg|Verb}#verb form of ", "!Ç");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/54/De-@^.ogg|Verb}#verb form of ", ")Ç");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a2/De-@^.ogg|Verb}#verb form of ", "`Ç");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/84/De-@^.ogg|Verb}#verb form of ", ";Ç");//103
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0f/De-@^.ogg|Verb}#verb form of ", "{Ç");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/19/De-@^.ogg|Verb}#verb form of ", "£Ç");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8c/De-@^.ogg|Verb}#verb form of ", "éÇ");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7c/De-@^.ogg|Verb}#verb form of ", "_ö");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0d/De-@^.ogg|Verb}#verb form of ", "&ö");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b7/De-@^.ogg|Verb}#verb form of ", "$ö");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/62/De-@^.ogg|Verb}#verb form of ", "<ö");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d2/De-@^.ogg|Verb}#verb form of ", ">ö");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/27/De-@^.ogg|Verb}#verb form of ", "!ö");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/82/De-@^.ogg|Verb}#verb form of ", "`ö");//102
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/81/De-@^.ogg|Verb}#verb form of ", "_Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/70/De-@^.ogg|Verb}#verb form of ", "^Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a1/De-@^.ogg|Verb}#verb form of ", "~Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/03/De-@^.ogg|Verb}#verb form of ", "&Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e5/De-@^.ogg|Verb}#verb form of ", "$Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a0/De-@^.ogg|Verb}#verb form of ", "<Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0b/De-@^.ogg|Verb}#verb form of ", ">Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/eb/De-@^.ogg|Verb}#verb form of ", "!Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/10/De-@^.ogg|Verb}#verb form of ", "`Ö");//101
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2d/De-@^.ogg|Verb}#verb form of ", ".Ö");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9b/De-@^.ogg|Verb}#verb form of ", "%Ö");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cc/De-@^.ogg|Verb}#verb form of ", "{Ö");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/24/De-@^.ogg|Verb}#verb form of ", "£Ö");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3e/De-@^.ogg|Verb}#verb form of ", "éÖ");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1b/De-@^.ogg|Verb}#verb form of ", "@ğ");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/71/De-@^.ogg|Verb}#verb form of ", "_ğ");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/15/De-@^.ogg|Verb}#verb form of ", "^ğ");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f7/De-@^.ogg|Verb}#verb form of ", "~ğ");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/78/De-@^.ogg|Verb}#verb form of ", "&ğ");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e3/De-@^.ogg|Verb}#verb form of ", "$ğ");//100
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b2/De-@^.ogg|Verb}#verb form of ", "<ğ");//100
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/ae/De-^@.ogg|Adjective}#Form of ", "&é");//93
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/9c/De-^@.ogg|Adjective}#Form of ", "{ı");//89
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/e0/De-^@.ogg|Adjective}#Form of ", "=ß");//88
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/aa/De-^@.ogg|Adjective}#Form of ", "?Ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/8c/De-^@.ogg|Adjective}#Form of ", "'Ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/ce/De-^@.ogg|Adjective}#Form of ", "+Ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/2d/De-^@.ogg|Adjective}#Form of ", "éƑ");//85
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/be/De-^@.ogg|Adjective}#Form of ", "@ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/95/De-^@.ogg|Adjective}#Form of ", "_ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/90/De-^@.ogg|Adjective}#Form of ", "^ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/ee/De-^@.ogg|Adjective}#Form of ", "~ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d7/De-^@.ogg|Adjective}#Form of ", "&ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/dd/De-^@.ogg|Adjective}#Form of ", ".ƒ");//84
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/02/De-^@.ogg|Adjective}#Form of ", "/ƒ");//84
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/29/De-^@.ogg|Adjective}#Form of ", ")Ɠ");//83
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/26/De-^@.ogg|Adjective}#Form of ", "`Ɠ");//83
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/46/De-^@.ogg|Adjective}#Form of ", ":Ɠ");//83
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c1/De-^@.ogg|Adjective}#Form of ", ";Ɠ");//83
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/ed/De-^@.ogg|Adjective}#Form of ", ">Ɣ");//82
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/03/De-^@.ogg|Adjective}#Form of ", "!Ɣ");//82
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/8e/De-^@.ogg|Adjective}#Form of ", "£Ɣ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/99/De-^@.ogg|Adjective}#Form of ", "éƔ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/6d/De-^@.ogg|Adjective}#Form of ", "@ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/16/De-^@.ogg|Adjective}#Form of ", "_ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/70/De-^@.ogg|Adjective}#Form of ", "^ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d2/De-^@.ogg|Adjective}#Form of ", "~ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/0a/De-^@.ogg|Adjective}#Form of ", "&ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c3/De-^@.ogg|Adjective}#Form of ", "$ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/3e/De-^@.ogg|Adjective}#Form of ", "+ƕ");//80
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c6/De-^@.ogg|Adjective}#Form of ", ".ƕ");//80
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/8f/De-^@.ogg|Adjective}#Form of ", "/ƕ");//80
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/eb/De-^@.ogg|Adjective}#Form of ", "%ƕ");//80
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/13/De-^@.ogg|Adjective}#Form of ", "!Ɩ");//79
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/63/De-^@.ogg|Adjective}#Form of ", ")Ɩ");//79
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/05/De-^@.ogg|Adjective}#Form of ", "`Ɩ");//79
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/34/De-^@.ogg|Adjective}#Form of ", ":Ɩ");//79
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c7/De-^@.ogg|Adjective}#Form of ", "%Ɩ");//78
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/1e/De-^@.ogg|Adjective}#Form of ", ",Ɩ");//78
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/f2/De-^@.ogg|Adjective}#Form of ", "{Ɩ");//78
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/76/De-^@.ogg|Adjective}#Form of ", "}Ɩ");//78
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/78/De-^@.ogg|Adjective}#Form of ", "=Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/bc/De-^@.ogg|Adjective}#Form of ", "-Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/43/De-^@.ogg|Adjective}#Form of ", "(Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/e7/De-^@.ogg|Adjective}#Form of ", "?Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/7e/De-^@.ogg|Adjective}#Form of ", "'Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/24/De-^@.ogg|Adjective}#Form of ", "+Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/9f/De-^@.ogg|Adjective}#Form of ", ".Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d5/De-^@.ogg|Adjective}#Form of ", "/Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/5c/De-^@.ogg|Adjective}#Form of ", "%Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/0c/De-^@.ogg|Adjective}#Form of ", ",Ɨ");//77
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/94/De-^@.ogg|Adjective}#Form of ", ";Ƙ");//76
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/58/De-^@.ogg|Adjective}#Form of ", "=Ƙ");//76
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/51/De-^@.ogg|Adjective}#Form of ", "-Ƙ");//76
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/31/De-^@.ogg|Adjective}#Form of ", "(Ƙ");//76
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/15/De-^@.ogg|Adjective}#Form of ", "?Ƙ");//76
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/25/De-^@.ogg|Adjective}#Form of ", "&ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/84/De-^@.ogg|Adjective}#Form of ", "$ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/61/De-^@.ogg|Adjective}#Form of ", "<ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/62/De-^@.ogg|Adjective}#Form of ", ">ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/82/De-^@.ogg|Adjective}#Form of ", "!ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/4b/De-^@.ogg|Adjective}#Form of ", ")ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/88/De-^@.ogg|Adjective}#Form of ", "`ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/a9/De-^@.ogg|Adjective}#Form of ", ":ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c5/De-^@.ogg|Adjective}#Form of ", ";ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/e6/De-^@.ogg|Adjective}#Form of ", "=ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/6f/De-^@.ogg|Adjective}#Form of ", "-ƙ");//75
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/85/De-^@.ogg|Adjective}#Form of ", "^ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/56/De-^@.ogg|Adjective}#Form of ", "~ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/b1/De-^@.ogg|Adjective}#Form of ", "&ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/8b/De-^@.ogg|Adjective}#Form of ", "$ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d1/De-^@.ogg|Adjective}#Form of ", "<ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/47/De-^@.ogg|Adjective}#Form of ", ">ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/91/De-^@.ogg|Adjective}#Form of ", "!ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/2a/De-^@.ogg|Adjective}#Form of ", ")ƚ");//74
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/68/De-^@.ogg|Adjective}#Form of ", "%ƚ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/52/De-^@.ogg|Adjective}#Form of ", ",ƚ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/f4/De-^@.ogg|Adjective}#Form of ", "{ƚ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/35/De-^@.ogg|Adjective}#Form of ", "}ƚ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/da/De-^@.ogg|Adjective}#Form of ", "£ƚ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/7a/De-^@.ogg|Adjective}#Form of ", "éƚ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/19/De-^@.ogg|Adjective}#Form of ", "@ƛ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/69/De-^@.ogg|Adjective}#Form of ", "_ƛ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/81/De-^@.ogg|Adjective}#Form of ", "^ƛ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/b7/De-^@.ogg|Adjective}#Form of ", "~ƛ");//73
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/1c/De-^@.ogg|Adjective}#Form of ", "£ƛ");//72
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/67/De-^@.ogg|Adjective}#Form of ", "éƛ");//72
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/e9/De-^@.ogg|Adjective}#Form of ", "@Ɯ");//72
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/f1/De-^@.ogg|Adjective}#Form of ", "_Ɯ");//72
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/83/De-^@.ogg|Adjective}#Form of ", "^Ɯ");//72
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/ca/De-^@.ogg|Adjective}#Form of ", "/Ɯ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/6b/De-^@.ogg|Adjective}#Form of ", "%Ɯ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/07/De-^@.ogg|Adjective}#Form of ", ",Ɯ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/cc/De-^@.ogg|Adjective}#Form of ", "{Ɯ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/6e/De-^@.ogg|Adjective}#Form of ", "}Ɯ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/54/De-^@.ogg|Adjective}#Form of ", "£Ɯ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/2f/De-^@.ogg|Adjective}#Form of ", "éƜ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/79/De-^@.ogg|Adjective}#Form of ", "@Ɲ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/bf/De-^@.ogg|Adjective}#Form of ", "_Ɲ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/e3/De-^@.ogg|Adjective}#Form of ", "^Ɲ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/e5/De-^@.ogg|Adjective}#Form of ", "~Ɲ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/9b/De-^@.ogg|Adjective}#Form of ", "&Ɲ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/1b/De-^@.ogg|Adjective}#Form of ", "$Ɲ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/73/De-^@.ogg|Adjective}#Form of ", "<Ɲ");//71
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/1d/De-^@.ogg|Adjective}#Form of ", ")ƞ");//70
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d8/De-^@.ogg|Adjective}#Form of ", "`ƞ");//70
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/3a/De-^@.ogg|Adjective}#Form of ", ":ƞ");//70
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/89/De-^@.ogg|Adjective}#Form of ", ";ƞ");//70
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/b6/De-^@.ogg|Adjective}#Form of ", "=ƞ");//70
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/01/De-^@.ogg|Adjective}#Form of ", "-ƞ");//70
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/fe/De-^@.ogg|Adjective}#Form of ", "(ƞ");//70
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c4/De-^@.ogg|Adjective}#Form of ", "_Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/72/De-^@.ogg|Adjective}#Form of ", "^Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/cb/De-^@.ogg|Adjective}#Form of ", "~Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c2/De-^@.ogg|Adjective}#Form of ", "&Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/93/De-^@.ogg|Adjective}#Form of ", "$Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/28/De-^@.ogg|Adjective}#Form of ", "<Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/49/De-^@.ogg|Adjective}#Form of ", ">Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/ab/De-^@.ogg|Adjective}#Form of ", "!Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/5f/De-^@.ogg|Adjective}#Form of ", ")Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/0f/De-^@.ogg|Adjective}#Form of ", "`Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ0/0e/De-^@.ogg|Adjective}#Form of ", ":Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/40/De-^@.ogg|Adjective}#Form of ", ";Ɵ");//69
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/f7/De-^@.ogg|Adjective}#Form of ", "&Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/4d/De-^@.ogg|Adjective}#Form of ", "$Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/8d/De-^@.ogg|Adjective}#Form of ", "<Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/1a/De-^@.ogg|Adjective}#Form of ", ">Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ5/5e/De-^@.ogg|Adjective}#Form of ", "!Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d0/De-^@.ogg|Adjective}#Form of ", ")Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/cd/De-^@.ogg|Adjective}#Form of ", "`Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/42/De-^@.ogg|Adjective}#Form of ", ":Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/dc/De-^@.ogg|Adjective}#Form of ", ";Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/a8/De-^@.ogg|Adjective}#Form of ", "=Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/48/De-^@.ogg|Adjective}#Form of ", "-Ɔ");//68
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/7b/De-^@.ogg|Adjective}#Form of ", "$É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ8/87/De-^@.ogg|Adjective}#Form of ", "<É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/74/De-^@.ogg|Adjective}#Form of ", ">É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/77/De-^@.ogg|Adjective}#Form of ", "!É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/41/De-^@.ogg|Adjective}#Form of ", ")É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/ba/De-^@.ogg|Adjective}#Form of ", "`É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/17/De-^@.ogg|Adjective}#Form of ", ":É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d3/De-^@.ogg|Adjective}#Form of ", ";É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/27/De-^@.ogg|Adjective}#Form of ", "=É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/f0/De-^@.ogg|Adjective}#Form of ", "-É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/3b/De-^@.ogg|Adjective}#Form of ", "(É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/12/De-^@.ogg|Adjective}#Form of ", "?É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/23/De-^@.ogg|Adjective}#Form of ", "+É");//67
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/af/De-^@.ogg|Adjective}#Form of ", ";Ƕ");//66
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/3d/De-^@.ogg|Adjective}#Form of ", "=Ƕ");//66
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/a5/De-^@.ogg|Adjective}#Form of ", "-Ƕ");//66
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ4/45/De-^@.ogg|Adjective}#Form of ", "(Ƕ");//66
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓd/d9/De-^@.ogg|Adjective}#Form of ", "=Ƚ");//65
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/a6/De-^@.ogg|Adjective}#Form of ", "-Ƚ");//65
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓc/c0/De-^@.ogg|Adjective}#Form of ", "(Ƚ");//65
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ7/7d/De-^@.ogg|Adjective}#Form of ", "?Ƚ");//65
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓa/a4/De-^@.ogg|Adjective}#Form of ", "'Ƚ");//65
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/18/De-^@.ogg|Adjective}#Form of ", "=Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/21/De-^@.ogg|Adjective}#Form of ", "-Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ1/10/De-^@.ogg|Adjective}#Form of ", "(Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ6/66/De-^@.ogg|Adjective}#Form of ", "?Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/98/De-^@.ogg|Adjective}#Form of ", "'Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ3/33/De-^@.ogg|Adjective}#Form of ", "+Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓe/ea/De-^@.ogg|Adjective}#Form of ", ".Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/fd/De-^@.ogg|Adjective}#Form of ", "/Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ9/97/De-^@.ogg|Adjective}#Form of ", "%Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ2/2b/De-^@.ogg|Adjective}#Form of ", ",Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓb/b8/De-^@.ogg|Adjective}#Form of ", "{Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓf/ff/De-^@.ogg|Adjective}#Form of ", "}Ƞ");//64
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f1/De-@^.ogg|Verb}#verb form of ", ".ğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/66/De-@^.ogg|Verb}#verb form of ", "/ğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/be/De-@^.ogg|Verb}#verb form of ", "%ğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/59/De-@^.ogg|Verb}#verb form of ", ",ğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/93/De-@^.ogg|Verb}#verb form of ", "{ğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fc/De-@^.ogg|Verb}#verb form of ", "}ğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2b/De-@^.ogg|Verb}#verb form of ", "£ğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c7/De-@^.ogg|Verb}#verb form of ", "éğ");//99
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8d/De-@^.ogg|Verb}#verb form of ", "&Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bd/De-@^.ogg|Verb}#verb form of ", "$Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0c/De-@^.ogg|Verb}#verb form of ", "<Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a8/De-@^.ogg|Verb}#verb form of ", ">Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ad/De-@^.ogg|Verb}#verb form of ", "!Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9f/De-@^.ogg|Verb}#verb form of ", ")Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/25/De-@^.ogg|Verb}#verb form of ", "`Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f8/De-@^.ogg|Verb}#verb form of ", ":Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c5/De-@^.ogg|Verb}#verb form of ", ";Ğ");//98
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d0/De-@^.ogg|Verb}#verb form of ", "%Ğ");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3d/De-@^.ogg|Verb}#verb form of ", ",Ğ");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/74/De-@^.ogg|Verb}#verb form of ", "{Ğ");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/da/De-@^.ogg|Verb}#verb form of ", "}Ğ");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/df/De-@^.ogg|Verb}#verb form of ", "£Ğ");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0e/De-@^.ogg|Verb}#verb form of ", "éĞ");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c9/De-@^.ogg|Verb}#verb form of ", "~ü");//97
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c4/De-@^.ogg|Verb}#verb form of ", "`ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/85/De-@^.ogg|Verb}#verb form of ", "=ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7b/De-@^.ogg|Verb}#verb form of ", "?ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a3/De-@^.ogg|Verb}#verb form of ", "%ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c3/De-@^.ogg|Verb}#verb form of ", "{ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9c/De-@^.ogg|Verb}#verb form of ", "£ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/40/De-@^.ogg|Verb}#verb form of ", "éü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cf/De-@^.ogg|Verb}#verb form of ", "@Ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/79/De-@^.ogg|Verb}#verb form of ", "^Ü");//96
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/17/De-@^.ogg|Verb}#verb form of ", "%Ü");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/61/De-@^.ogg|Verb}#verb form of ", "{Ü");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/dc/De-@^.ogg|Verb}#verb form of ", "£Ü");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f2/De-@^.ogg|Verb}#verb form of ", "éÜ");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3b/De-@^.ogg|Verb}#verb form of ", "@é");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4a/De-@^.ogg|Verb}#verb form of ", "_é");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e2/De-@^.ogg|Verb}#verb form of ", "^é");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b0/De-@^.ogg|Verb}#verb form of ", "~é");//95
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/91/De-@^.ogg|Verb}#verb form of ", ")é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ef/De-@^.ogg|Verb}#verb form of ", "`é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/22/De-@^.ogg|Verb}#verb form of ", ";é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e7/De-@^.ogg|Verb}#verb form of ", "=é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/14/De-@^.ogg|Verb}#verb form of ", "(é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a5/De-@^.ogg|Verb}#verb form of ", "?é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1c/De-@^.ogg|Verb}#verb form of ", "+é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ea/De-@^.ogg|Verb}#verb form of ", ".é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3a/De-@^.ogg|Verb}#verb form of ", "/é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b4/De-@^.ogg|Verb}#verb form of ", "%é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e8/De-@^.ogg|Verb}#verb form of ", "{é");//94
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/07/De-@^.ogg|Verb}#verb form of ", ">İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c1/De-@^.ogg|Verb}#verb form of ", "!İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/ff/De-@^.ogg|Verb}#verb form of ", ")İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e1/De-@^.ogg|Verb}#verb form of ", "`İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7a/De-@^.ogg|Verb}#verb form of ", ":İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/db/De-@^.ogg|Verb}#verb form of ", ";İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f0/De-@^.ogg|Verb}#verb form of ", "=İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/06/De-@^.ogg|Verb}#verb form of ", "(İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fe/De-@^.ogg|Verb}#verb form of ", "?İ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/64/De-@^.ogg|Verb}#verb form of ", "£İ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c2/De-@^.ogg|Verb}#verb form of ", "éİ");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ed/De-@^.ogg|Verb}#verb form of ", "@ı");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4e/De-@^.ogg|Verb}#verb form of ", "_ı");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4d/De-@^.ogg|Verb}#verb form of ", "^ı");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2c/De-@^.ogg|Verb}#verb form of ", "~ı");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/77/De-@^.ogg|Verb}#verb form of ", "&ı");//92
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/95/De-@^.ogg|Verb}#verb form of ", "=ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/90/De-@^.ogg|Verb}#verb form of ", "-ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ab/De-@^.ogg|Verb}#verb form of ", "(ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b6/De-@^.ogg|Verb}#verb form of ", "?ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/89/De-@^.ogg|Verb}#verb form of ", "'ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/12/De-@^.ogg|Verb}#verb form of ", "+ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2f/De-@^.ogg|Verb}#verb form of ", ".ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6d/De-@^.ogg|Verb}#verb form of ", "/ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d1/De-@^.ogg|Verb}#verb form of ", "%ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b8/De-@^.ogg|Verb}#verb form of ", ",ı");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/01/De-@^.ogg|Verb}#verb form of ", "_ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a7/De-@^.ogg|Verb}#verb form of ", "~ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/09/De-@^.ogg|Verb}#verb form of ", "&ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/13/De-@^.ogg|Verb}#verb form of ", "$ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fb/De-@^.ogg|Verb}#verb form of ", "<ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f6/De-@^.ogg|Verb}#verb form of ", ">ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7e/De-@^.ogg|Verb}#verb form of ", "!ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/21/De-@^.ogg|Verb}#verb form of ", ")ß");//90
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e9/De-@^.ogg|Verb}#verb form of ", "{ß");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b3/De-@^.ogg|Verb}#verb form of ", "£ß");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/48/De-@^.ogg|Verb}#verb form of ", "éß");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6c/De-@^.ogg|Verb}#verb form of ", "@Ƒ");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/56/De-@^.ogg|Verb}#verb form of ", "_Ƒ");//89
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7d/De-@^.ogg|Verb}#verb form of ", "$Ƒ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b9/De-@^.ogg|Verb}#verb form of ", "<Ƒ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/dd/De-@^.ogg|Verb}#verb form of ", ">Ƒ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/51/De-@^.ogg|Verb}#verb form of ", "!Ƒ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d9/De-@^.ogg|Verb}#verb form of ", ")Ƒ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fa/De-@^.ogg|Verb}#verb form of ", "`Ƒ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1f/De-@^.ogg|Verb}#verb form of ", ":Ƒ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/43/De-@^.ogg|Verb}#verb form of ", ".Ƒ");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/29/De-@^.ogg|Verb}#verb form of ", "/Ƒ");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d3/De-@^.ogg|Verb}#verb form of ", "%Ƒ");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/88/De-@^.ogg|Verb}#verb form of ", ",Ƒ");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1a/De-@^.ogg|Verb}#verb form of ", "{Ƒ");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b5/De-@^.ogg|Verb}#verb form of ", "<ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/11/De-@^.ogg|Verb}#verb form of ", ">ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/96/De-@^.ogg|Verb}#verb form of ", "!ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4b/De-@^.ogg|Verb}#verb form of ", ")ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/18/De-@^.ogg|Verb}#verb form of ", "`ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1e/De-@^.ogg|Verb}#verb form of ", ":ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ca/De-@^.ogg|Verb}#verb form of ", ";ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/45/De-@^.ogg|Verb}#verb form of ", "=ƒ");//86
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5d/De-@^.ogg|Verb}#verb form of ", ",ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/57/De-@^.ogg|Verb}#verb form of ", "{ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b1/De-@^.ogg|Verb}#verb form of ", "}ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e6/De-@^.ogg|Verb}#verb form of ", "£ƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/42/De-@^.ogg|Verb}#verb form of ", "éƒ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/4f/De-@^.ogg|Verb}#verb form of ", "@Ɠ");//85
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/86/De-@^.ogg|Verb}#verb form of ", "-Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/53/De-@^.ogg|Verb}#verb form of ", "(Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/63/De-@^.ogg|Verb}#verb form of ", "?Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/de/De-@^.ogg|Verb}#verb form of ", "'Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/26/De-@^.ogg|Verb}#verb form of ", "+Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/50/De-@^.ogg|Verb}#verb form of ", ".Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1d/De-@^.ogg|Verb}#verb form of ", "/Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bf/De-@^.ogg|Verb}#verb form of ", "%Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e0/De-@^.ogg|Verb}#verb form of ", ",Ɠ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/69/De-@^.ogg|Verb}#verb form of ", ":Ɣ");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/37/De-@^.ogg|Verb}#verb form of ", ";Ɣ");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/af/De-@^.ogg|Verb}#verb form of ", "!ƕ");//82
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/99/De-@^.ogg|Verb}#verb form of ", ")ƕ");//82
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bb/De-@^.ogg|Verb}#verb form of ", "`ƕ");//82
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/34/De-@^.ogg|Verb}#verb form of ", "{ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/98/De-@^.ogg|Verb}#verb form of ", "}ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/55/De-@^.ogg|Verb}#verb form of ", "£ƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/23/De-@^.ogg|Verb}#verb form of ", "éƕ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/cd/De-@^.ogg|Verb}#verb form of ", "-Ɩ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8f/De-@^.ogg|Verb}#verb form of ", "(Ɩ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/02/De-@^.ogg|Verb}#verb form of ", "?Ɩ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7f/De-@^.ogg|Verb}#verb form of ", "'Ɩ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9d/De-@^.ogg|Verb}#verb form of ", "!Ɨ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/ee/De-@^.ogg|Verb}#verb form of ", ")Ɨ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ4/47/De-@^.ogg|Verb}#verb form of ", "`Ɨ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8b/De-@^.ogg|Verb}#verb form of ", "{Ƙ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/ac/De-@^.ogg|Verb}#verb form of ", "}Ƙ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/8e/De-@^.ogg|Verb}#verb form of ", "£Ƙ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5f/De-@^.ogg|Verb}#verb form of ", "éƘ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/94/De-@^.ogg|Verb}#verb form of ", "{ƙ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/08/De-@^.ogg|Verb}#verb form of ", "}ƙ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/05/De-@^.ogg|Verb}#verb form of ", "`ƚ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3c/De-@^.ogg|Verb}#verb form of ", "!ƛ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/83/De-@^.ogg|Verb}#verb form of ", ")ƛ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/97/De-@^.ogg|Verb}#verb form of ", "<Ɯ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/aa/De-@^.ogg|Verb}#verb form of ", ">Ɯ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a4/De-@^.ogg|Verb}#verb form of ", "?ƞ");//71
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/73/De-@^.ogg|Verb}#verb form of ", "/É");//68
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/38/De-@^.ogg|Verb}#verb form of ", ".Ƚ");//66
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5e/De-@^.ogg|Noun}#Form of ", "_Ɠ");//93
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/91/De-@^.ogg|Noun}#Form of ", "`Ɣ");//91
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/97/De-@^.ogg|Noun}#Form of ", "_Ɩ");//88
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/75/De-@^.ogg|Noun}#Form of ", ".Ɩ");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/ff/De-@^.ogg|Noun}#Form of ", "/Ɩ");//87
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e3/De-@^.ogg|Noun}#Form of ", "@ƙ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/19/De-@^.ogg|Noun}#Form of ", "_ƙ");//84
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2f/De-@^.ogg|Noun}#Form of ", "£ƙ");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c1/De-@^.ogg|Noun}#Form of ", "éƙ");//83
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0b/De-@^.ogg|Noun}#Form of ", "+ƚ");//82
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/e6/De-@^.ogg|Noun}#Form of ", ".ƚ");//82
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/56/De-@^.ogg|Noun}#Form of ", "&ƛ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2d/De-@^.ogg|Noun}#Form of ", "$ƛ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3f/De-@^.ogg|Noun}#Form of ", "<ƛ");//81
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2a/De-@^.ogg|Noun}#Form of ", "~Ɯ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c6/De-@^.ogg|Noun}#Form of ", "&Ɯ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/6d/De-@^.ogg|Noun}#Form of ", "$Ɯ");//80
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/38/De-@^.ogg|Noun}#Form of ", ">Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/87/De-@^.ogg|Noun}#Form of ", "!Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b5/De-@^.ogg|Noun}#Form of ", ")Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓe/eb/De-@^.ogg|Noun}#Form of ", "`Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ9/9e/De-@^.ogg|Noun}#Form of ", ":Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d6/De-@^.ogg|Noun}#Form of ", ";Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/81/De-@^.ogg|Noun}#Form of ", "=Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓd/d9/De-@^.ogg|Noun}#Form of ", "-Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/c5/De-@^.ogg|Noun}#Form of ", "(Ɲ");//79
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ca/De-@^.ogg|Noun}#Form of ", "$ƞ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fa/De-@^.ogg|Noun}#Form of ", "<ƞ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓc/ce/De-@^.ogg|Noun}#Form of ", ">ƞ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/1a/De-@^.ogg|Noun}#Form of ", "!ƞ");//78
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b9/De-@^.ogg|Noun}#Form of ", "£ƞ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/69/De-@^.ogg|Noun}#Form of ", "éƞ");//77
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/57/De-@^.ogg|Noun}#Form of ", "£Ɵ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ2/2e/De-@^.ogg|Noun}#Form of ", "éƟ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/fc/De-@^.ogg|Noun}#Form of ", "@Ɔ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/77/De-@^.ogg|Noun}#Form of ", "_Ɔ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0a/De-@^.ogg|Noun}#Form of ", "^Ɔ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/b8/De-@^.ogg|Noun}#Form of ", "~Ɔ");//76
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/04/De-@^.ogg|Noun}#Form of ", "+Ɔ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3d/De-@^.ogg|Noun}#Form of ", ".Ɔ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓf/f1/De-@^.ogg|Noun}#Form of ", "/Ɔ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bc/De-@^.ogg|Noun}#Form of ", "%Ɔ");//75
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/70/De-@^.ogg|Noun}#Form of ", "}É");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/67/De-@^.ogg|Noun}#Form of ", "£É");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓb/bf/De-@^.ogg|Noun}#Form of ", "éÉ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/34/De-@^.ogg|Noun}#Form of ", "@Ƕ");//74
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/55/De-@^.ogg|Noun}#Form of ", "?Ƕ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/18/De-@^.ogg|Noun}#Form of ", "'Ƕ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/3c/De-@^.ogg|Noun}#Form of ", "+Ƕ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓa/a0/De-@^.ogg|Noun}#Form of ", ".Ƕ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/13/De-@^.ogg|Noun}#Form of ", "/Ƕ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7d/De-@^.ogg|Noun}#Form of ", "%Ƕ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0c/De-@^.ogg|Noun}#Form of ", ",Ƕ");//73
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/01/De-@^.ogg|Noun}#Form of ", "/Ƚ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ6/66/De-@^.ogg|Noun}#Form of ", "%Ƚ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/73/De-@^.ogg|Noun}#Form of ", ",Ƚ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ8/80/De-@^.ogg|Noun}#Form of ", "{Ƚ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ1/16/De-@^.ogg|Noun}#Form of ", "}Ƚ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ0/0e/De-@^.ogg|Noun}#Form of ", "£Ƚ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ7/7b/De-@^.ogg|Noun}#Form of ", "éȽ");//72
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ3/39/De-@^.ogg|Noun}#Form of ", "£Ƞ");//71
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ5/5f/De-@^.ogg|Noun}#Form of ", "éȠ");//71
+		mapofdecoders.put("De-@^.ogg|Adjective}#@-4|Adjective}#Form of [@-4]", "@5");//2200
+		mapofdecoders.put("De-@^.ogg|Participle}#past participle of [@-1en]", "%7");//1155
+		mapofdecoders.put("De-^@.ogg|Adjective}#@-4|Adjective}#Form of [@-4]", "é9");//654
+		mapofdecoders.put("De-@^.ogg|Adjective}#@-5|Adjective}#Form of [@-5]", "`a");//624
+		mapofdecoders.put("De-@^.ogg|Noun}(neut.,genitive:@^es,plural:[@^er]", "&H");//185
+		mapofdecoders.put("De-^@.ogg|Adjective}#@-5|Adjective}#Form of [@-5]", "/X");//124
+		mapofdecoders.put("German{}|Adjective}#@-4|Adjective}#Form of [@-4]", "%c");//467
+		mapofdecoders.put("De-^@.ogg|Participle}#past participle of [@-1en]", "@H");//190
+		mapofdecoders.put("German{}|Adjective}#@-5|Adjective}#Form of [@-5]", ";ı");//110
+		mapofdecoders.put("De-@^.ogg|Noun}(mask.,genitive:@^es,plural:[@^e]", "=Ɣ");//100
+		mapofdecoders.put("@^.ogg|Adjective}#@-4|Adjective}#Form of [@-4]", "<5");//2200
+		mapofdecoders.put("De-@^.ogg|Participle}#past participle of [@-1n]", ";ʁ");//279
+		mapofdecoders.put("German{}|Etymology}Borrowed fr.|Pronunciation}Ⓓ", "£F");//231
+		mapofdecoders.put("German{}|Etymology}Borrowed la.|Pronunciation}Ⓓ", "£ç");//128
+		mapofdecoders.put("De-@^.ogg|Noun}(mask.,genitive:@^s,plural:[@^s]", ";ß");//111
+		mapofdecoders.put("German{}|Participle}#past participle of [@-1en]", "?Ɣ");//102
+		mapofdecoders.put("@^.ogg|Participle}#past participle of [@-1en]", "^8");//1148
+		mapofdecoders.put("@^.ogg|Adjective}#@-5|Adjective}#Form of [@-5]", "£a");//624
+		mapofdecoders.put("@^.ogg|Noun}(neut.,genitive:@^es,plural:[@^er]", "£I");//170
+		mapofdecoders.put("German{}|Etymology}Borrowed en.|Pronunciation}Ⓓ", "_ƚ");//93
+		mapofdecoders.put("@.ogg|Adjective}#@-4|Adjective}#Form of [@-4]", "?a");//654
+		mapofdecoders.put("@.ogg|Adjective}#@-5|Adjective}#Form of [@-5]", "!ü");//124
+		mapofdecoders.put("/De-@^.ogg|Participle}#past participle of [", "=3");//3924
+		mapofdecoders.put("German{}|Adjective}#alternative spelling of ", "éA");//282
+		mapofdecoders.put("@^.ogg|Participle}#past participle of [@-1n]", "{B");//279
+		mapofdecoders.put("@.ogg|Participle}#past participle of [@-1en]", "@I");//188
+		mapofdecoders.put("@^.ogg|Noun}(mask.,genitive:@^s,plural:[@^s]", "<Ɣ");//110
+		mapofdecoders.put("@^.ogg|Noun}(mask.,genitive:@^es,plural:[@^e]", "&É");//88
+		mapofdecoders.put("German{}|Etymology}From Middle High German", "£3");//3790
+		mapofdecoders.put(".ogg|Adjective}#@-4|Adjective}#Form of @-4", "+4");//2855
+		mapofdecoders.put("German{}|Adjective}#@-4|Adjective}#Form of ", "<e");//467
+		mapofdecoders.put("German{}|Adjective}#@-5|Adjective}#Form of ", ":ƕ");//110
+		mapofdecoders.put("De-@^.ogg|Adjective}#comparative of [@-2]", "`4");//2966
+		mapofdecoders.put(".ogg|Participle}#past participle of @-1en", "{7");//1347
+		mapofdecoders.put(".ogg|Adjective}#@-5|Adjective}#Form of @-5", "!a");//748
+		mapofdecoders.put("German{}|Etymology}from Middle High German", "=G");//229
+		mapofdecoders.put(".ogg|Noun}(neut.,genitive:@^es,plural:@^er", "éI");//185
+		mapofdecoders.put("German{}|Noun}+)}#alternative spelling of ", "}Ɨ");//108
+		mapofdecoders.put("De-^@.ogg|Adjective}#comparative of [@-2]", "^9");//910
+		mapofdecoders.put(".ogg|Noun}(mask.,genitive:@^es,plural:@^e", "+ƞ");//100
+		mapofdecoders.put(".ogg|Adjective}#@-4|Adjective}#Form of ", "£4");//2855
+		mapofdecoders.put(".ogg|Participle}#past participle of @-1n", "=m");//355
+		mapofdecoders.put("German{}|Participle}#past participle of ", ";y");//333
+		mapofdecoders.put("German{}|Adjective}#comparative of [@-2]", "=H");//219
+		mapofdecoders.put("German{}|Adjective}#alternative form of ", "}é");//136
+		mapofdecoders.put(".ogg|Noun}(mask.,genitive:@^s,plural:@^s", "£Ɩ");//115
+		mapofdecoders.put("@^.ogg|Adjective}#comparative of [@-2]", "{4");//2963
+		mapofdecoders.put(".ogg|Adjective}#@-5|Adjective}#Form of ", "%a");//748
+		mapofdecoders.put("German{}|Etymology}From Old High German", "!H");//229
+		mapofdecoders.put(".ogg(Austria)(Austria)|Noun}#plural of ", "!W");//160
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-5ehen]", "@İ");//139
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-4ehen]", "`Ƕ");//100
+		mapofdecoders.put("De-@^.ogg|Noun}(mask.,plural:[@^(e)s]", "é8");//1051
+		mapofdecoders.put("German{}|Etymology}@-2|Pronunciation}Ⓓ", "!M");//184
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [aus@-6n]", ")Ɣ");//127
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [ein@-6n]", "&ƞ");//109
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [aus@-5n]", ";Ƚ");//101
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [auf@-6n]", "_Ƞ");//100
+		mapofdecoders.put(".ogg|Participle}#past participle of ", "{3");//4592
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-2en]", "$5");//2901
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-3en]", "?5");//2749
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-4en]", "~8");//1428
+		mapofdecoders.put("@.ogg|Adjective}#comparative of [@-2]", ")9");//910
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-3en]", "&b");//773
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-2en]", "%b");//687
+		mapofdecoders.put("De-@^.ogg|Noun}(neut.,plural:[@^(e)s]", "$c");//647
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-1en]", "=d");//588
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-4en]", "{f");//453
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [ab@-5n]", "<N");//184
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [ab@-4n]", "{ç");//163
+		mapofdecoders.put("De-^@.ogg|Noun}(neut.,plural:[^@(e)s]", "£é");//147
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [an@-5n]", "`ß");//141
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [ab@-3n]", ":ß");//141
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-2ern]", "^Ɠ");//133
+		mapofdecoders.put("De-@^.ogg|Noun}#archaic Form of [@-1]", ",ƕ");//127
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [an@-4n]", ">ƛ");//116
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [aus@-4]", "?Ɵ");//109
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [an@-3n]", "{Ƕ");//104
+		mapofdecoders.put("De-@^.ogg|Adjective}#Form of [@-2]", ")0");//26663
+		mapofdecoders.put("De-@^.ogg|Adjective}#Form of [@-4]", "%0");//18603
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-2n]", "é4");//3155
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-1n]", "@6");//2623
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-3n]", "?8");//1213
+		mapofdecoders.put("De-@^.ogg|Participle}#Form of [@-2]", "&9");//1044
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-1en]", "=a");//836
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-2en]", "`f");//478
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-3en]", "£f");//460
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-2n]", "!g");//439
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-1n]", "=i");//415
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-4en]", "`H");//245
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-3n]", "&K");//201
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [@r-4n]", "%T");//178
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [ab@-3]", "+ğ");//160
+		mapofdecoders.put("De-@^.ogg|Proper noun}#Form of [@-1]", "+İ");//149
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-5ehen]", "$ƒ");//139
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-1en]", ":Ɨ");//127
+		mapofdecoders.put("De-@_.ogg|Verb}#verb form of [an@-3]", "{ƛ");//118
+		mapofdecoders.put(".ogg|Adjective}#alternative form of ", "}ƛ");//118
+		mapofdecoders.put("De-@^.ogg|Adjective}#Form of [@-5el]", "'Ɲ");//116
+		mapofdecoders.put("German{}|Noun}(mask.,plural:[@^(e)s]", "=Ɵ");//113
+		mapofdecoders.put("German{}|Verb}#verb form of [@-4ern]", "(Ɔ");//111
+		mapofdecoders.put("German{}|Verb}#verb form of [@-3ern]", "?Ɔ");//111
+		mapofdecoders.put("De-@^.ogg|Adjective}#Form of [@-1]", "<2");//7284
+		mapofdecoders.put("De-^@.ogg|Adjective}#Form of [@-2]", "`2");//6885
+		mapofdecoders.put("De-^@.ogg|Adjective}#Form of [@-4]", "&3");//5600
+		mapofdecoders.put("De-@^.ogg|Adjective}#Form of [@-3]", "!3");//5094
+		mapofdecoders.put(".ogg|Adjective}#comparative of @-2", "$4");//3876
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@^n]", "£5");//2769
+		mapofdecoders.put("De-^@.ogg|Adjective}#Form of [@-1]", "<7");//1965
+		mapofdecoders.put("De-@^.ogg|Adjective}#Form of [@-5]", ")7");//1886
+		mapofdecoders.put("De-^@.ogg|Adjective}#Form of [@-3]", "@8");//1566
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@^en]", "£b");//726
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-2n]", "$e");//586
+		mapofdecoders.put("De-@^.ogg|Verb}#verb form of [@-4n]", "!e");//570
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-1n]", "£g");//444
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-3n]", "$G");//296
+		mapofdecoders.put("De-@^.ogg|Participle}#Form of [@-1]", "~H");//260
+		mapofdecoders.put("German{}|Adjective}#comparative of ", "&I");//233
+		mapofdecoders.put("German{}|Verb}#verb form of [@-2en]", "%K");//204
+		mapofdecoders.put("German{}|Verb}#verb form of [@-3en]", "$V");//180
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [^@en]", "?ğ");//165
+		mapofdecoders.put("De-^@.ogg|Participle}#Form of [@-2]", "'İ");//154
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [@-4n]", ";ƕ");//135
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [aus@-6n]", "~ƙ");//127
+		mapofdecoders.put("De-@^.ogg|Noun}(mask.,plural:[@^en]", "@ƚ");//125
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [ein@-6n]", "@Ƞ");//109
+		mapofdecoders.put("/De-@^.ogg|Adjective}#Form of [@", "~0");//59770
+		mapofdecoders.put("/De-@^.ogg|Verb}#verb form of [@", "+0");//20337
+		mapofdecoders.put("German{}|Adjective}#Form of [@-2]", "~4");//4639
+		mapofdecoders.put("German{}|Adjective}#Form of [@-4]", "=4");//3675
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-2en]", "{5");//2901
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-3en]", "^6");//2749
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-4en]", ")8");//1428
+		mapofdecoders.put("German{}|Adjective}#Form of [@-1]", "{8");//1276
+		mapofdecoders.put("@^.ogg|Noun}(mask.,plural:[@^(e)s]", ";9");//988
+		mapofdecoders.put("German{}|Adjective}#Form of [@-3]", "?9");//1015
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-3en]", "=b");//773
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-2en]", "!c");//686
+		mapofdecoders.put("@^.ogg|Noun}(neut.,plural:[@^(e)s]", "%d");//613
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-1en]", "`e");//586
+		mapofdecoders.put("De-^@.ogg|Verb}#verb form of [^@n]", "%f");//497
+		mapofdecoders.put("German{}|Verb}#verb form of [@-2n]", "`g");//464
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-4en]", "$h");//453
+		mapofdecoders.put("De-@^.ogg|Noun}(mask.,plural:[@^s]", "$i");//448
+		mapofdecoders.put("De-^@.ogg|Adjective}#Form of [@-5]", "=w");//397
+		mapofdecoders.put("German{}|Verb}#verb form of [@-3n]", "=C");//357
+		mapofdecoders.put("De-@^.ogg|Noun}(neut.,plural:[@^s]", "`F");//325
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [ab@-5n]", "<W");//184
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [ab@-4n]", "?Ü");//163
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [an@-5n]", "-Ɣ");//141
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [ab@-3n]", "(Ɣ");//141
+		mapofdecoders.put("German{}|Verb}#verb form of [@-1n]", "@Ɩ");//138
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-2ern]", "`Ƙ");//133
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [an@-4n]", ".É");//116
+		mapofdecoders.put("@^.ogg|Noun}#archaic Form of [@-1]", "_Ƕ");//115
+		mapofdecoders.put("@^.ogg|Adjective}#Form of [@-2]", "=0");//26653
+		mapofdecoders.put("@^.ogg|Adjective}#Form of [@-4]", "£0");//18603
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-2n]", ")5");//3155
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-1n]", "%6");//2623
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-3n]", "@9");//1213
+		mapofdecoders.put("@^.ogg|Participle}#Form of [@-2]", "{9");//1044
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-1en]", "!b");//835
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-2n]", "!k");//439
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-1n]", "$t");//415
+		mapofdecoders.put("German{}|Adjective}#Form of [@-5]", "&G");//315
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-3n]", "&Q");//201
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [@r-4n]", ";ö");//178
+		mapofdecoders.put("German{}|Verb}#verb form of [@^n]", "?Ö");//176
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [ab@-3]", ":ı");//160
+		mapofdecoders.put("De-@^.ogg|Noun}(fem.,plural:[@^s]", "&Ƒ");//155
+		mapofdecoders.put("@^.ogg|Proper noun}#Form of [@-1]", "~Ɠ");//149
+		mapofdecoders.put("@.ogg|Noun}(neut.,plural:[^@(e)s]", ";Ɨ");//138
+		mapofdecoders.put("@_.ogg|Verb}#verb form of [an@-3]", ":Ƕ");//118
+		mapofdecoders.put("@^.ogg|Adjective}#Form of [@-5el]", "+Ƚ");//116
+		mapofdecoders.put("@^.ogg|Adjective}#Form of [@-1]", ";2");//7284
+		mapofdecoders.put("@^.ogg|Adjective}#Form of [@-3]", "é3");//5094
+		mapofdecoders.put(".ogg|Adjective}#comparative of ", ")4");//4029
+		mapofdecoders.put("De-@^.ogg|Noun}#plural of [@-1]", "=5");//3197
+		mapofdecoders.put("De-@^.ogg|Noun}#plural of [@-2]", "`6");//2747
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@^n]", "=6");//2747
+		mapofdecoders.put("@^.ogg|Adjective}#Form of [@-5]", "'7");//1886
+		mapofdecoders.put("Participle}#past participle of ", "$8");//1603
+		mapofdecoders.put("De-@^.ogg|Noun}(mask.,genitive:", ";8");//1459
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@^en]", "=c");//722
+		mapofdecoders.put("@^.ogg|Verb}#verb form of [@-4n]", "£e");//570
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-2en]", "£h");//478
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-3en]", "<j");//460
+		mapofdecoders.put("@^.ogg|Participle}#Form of [@-1]", "éH");//260
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-4en]", "{I");//245
+		mapofdecoders.put("De-@^.ogg|Numeral}#Form of [@-1]", ">ƕ");//149
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-5ehen", "^ƙ");//139
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-1en]", "-Ɵ");//127
+		mapofdecoders.put("@^.ogg|Noun}(mask.,plural:[@^en]", ",É");//123
+		mapofdecoders.put("De-@^.ogg|Noun}#Form of [@-1]", "`1");//12309
+		mapofdecoders.put("@.ogg|Adjective}#Form of [@-2]", "?2");//6885
+		mapofdecoders.put("@.ogg|Adjective}#Form of [@-4]", "?3");//5600
+		mapofdecoders.put("/De-@^.ogg|Noun}(mask.,plural:", "&7");//2409
+		mapofdecoders.put("@.ogg|Adjective}#Form of [@-1]", "?7");//1965
+		mapofdecoders.put("@.ogg|Adjective}#Form of [@-3]", "`8");//1566
+		mapofdecoders.put("German{}|Noun}#plural of [@-1]", "$9");//1170
+		mapofdecoders.put("German{}|Noun}#plural of [@-2]", "<9");//1166
+		mapofdecoders.put(".ogg|Noun}(mask.,plural:@^(e)s", "$a");//1060
+		mapofdecoders.put("De-^@.ogg|Noun}#plural of [@-2]", "£c");//712
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-2n]", "$f");//586
+		mapofdecoders.put("De-@^.ogg|Noun}#plural of [@-3]", "$g");//533
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-2en]", "!l");//461
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-1n]", ">r");//444
+		mapofdecoders.put("De-^@.ogg|Noun}#plural of [@-1]", "@ɔ");//421
+		mapofdecoders.put("@^.ogg|Noun}(mask.,plural:[@^s]", "@ɪ");//416
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-3en]", "£E");//376
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-1en]", "!F");//358
+		mapofdecoders.put("@^.ogg|Noun}(neut.,plural:[@^s]", "{G");//305
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-3n]", "éG");//296
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-4en]", "~Ğ");//184
+		mapofdecoders.put("@^.wav|Adjective}#Form of [@-2]", "=Ğ");//183
+		mapofdecoders.put("De-^@.ogg|Noun}#plural of [@-3]", "$ı");//171
+		mapofdecoders.put("@.ogg|Verb}#verb form of [^@en]", "~Ƒ");//165
+		mapofdecoders.put("@.ogg|Participle}#Form of [@-2]", "<ƕ");//154
+		mapofdecoders.put("German{}|Etymology}Compound of ", ":Ƙ");//145
+		mapofdecoders.put("@.ogg|Verb}#verb form of [@-4n]", "?Ɲ");//135
+		mapofdecoders.put("@^.wav|Adjective}#Form of [@-4]", "(Ɵ");//131
+		mapofdecoders.put(".ogg|Verb}#verb form of aus@-6n", "%É");//127
+		mapofdecoders.put("German{}|Adjective}#Form of ", "%1");//11200
+		mapofdecoders.put("De-@^.ogg|Noun}#Form of [@-2]", "£2");//6601
+		mapofdecoders.put("De-^@.ogg|Noun}#Form of [@-1]", "`5");//3420
+		mapofdecoders.put(".ogg|Verb}#verb form of @-2en", "%5");//3379
+		mapofdecoders.put(".ogg|Verb}#verb form of @-3en", "é5");//3209
+		mapofdecoders.put("De-^@.ogg|Noun}#Form of [@-2]", "=7");//2058
+		mapofdecoders.put(".ogg|Verb}#verb form of @-4en", "<8");//1673
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-3en", "`c");//773
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-2en", "£d");//688
+		mapofdecoders.put(".ogg|Noun}(neut.,plural:@^(e)s", "?e");//655
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-1en", "!f");//588
+		mapofdecoders.put("German{}|Etymology}from German", "?f");//567
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-2n]", "!i");//505
+		mapofdecoders.put("@.ogg|Verb}#verb form of [^@n]", "&j");//493
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-1n]", "<u");//455
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-4en", "£u");//453
+		mapofdecoders.put("@.ogg|Adjective}#Form of [@-5]", "{D");//397
+		mapofdecoders.put("German{}|Noun}#plural of [@-3]", "=K");//238
+		mapofdecoders.put(".ogg|Adjective}#relational of ", "&ü");//187
+		mapofdecoders.put(".ogg|Verb}#verb form of ab@-5n", ".Ü");//184
+		mapofdecoders.put(".ogg|Verb}#verb form of @-2ern", "%ƒ");//165
+		mapofdecoders.put(".ogg|Verb}#verb form of ab@-4n", "=Ɠ");//163
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-3n]", ")Ƙ");//151
+		mapofdecoders.put(".ogg|Noun}(neut.,plural:^@(e)s", ",Ƙ");//149
+		mapofdecoders.put(".ogg|Verb}#verb form of an@-5n", "!Ɯ");//141
+		mapofdecoders.put(".ogg|Verb}#verb form of ab@-3n", ")Ɯ");//141
+		mapofdecoders.put("German{}|Etymology}From German", ".Ɯ");//140
+		mapofdecoders.put("@^.ogg|Noun}(fem.,plural:[@^s]", "+Ɲ");//139
+		mapofdecoders.put(".ogg|Noun}#archaic Form of @-1", "'Ɔ");//133
+		mapofdecoders.put(".ogg|Adjective}#Form of @-2", "`0");//33565
+		mapofdecoders.put(".ogg|Adjective}#Form of @-4", "?0");//24205
+		mapofdecoders.put("German{}|Noun}#Form of [@-1]", ";3");//6037
+		mapofdecoders.put("German{}|Verb}#verb form of ", "?4");//4328
+		mapofdecoders.put(".ogg|Verb}#verb form of @-2n", "&5");//3741
+		mapofdecoders.put("@^.ogg|Noun}#plural of [@-1]", "~6");//3185
+		mapofdecoders.put(".ogg|Verb}#verb form of @-1n", "<6");//3067
+		mapofdecoders.put("German{}|Noun}#Form of [@-2]", "é6");//2885
+		mapofdecoders.put("@^.ogg|Noun}#plural of [@-2]", "^7");//2732
+		mapofdecoders.put(".ogg|Verb}#verb form of @-3n", "+8");//1509
+		mapofdecoders.put(".ogg|Participle}#Form of @-2", "=9");//1198
+		mapofdecoders.put(".ogg|Verb}#verb form of @-1en", "$b");//964
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@^n]", "=v");//467
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-2n", "&̯");//439
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-1n", "£C");//416
+		mapofdecoders.put("De-^@.ogg|Noun}#Form of [@-3]", "=F");//381
+		mapofdecoders.put("De-@^.ogg|Noun}#Form of [@-3]", "%G");//327
+		mapofdecoders.put("De-@^.ogg|Verb}#Form of [@-1]", "$H");//311
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-3n", "=Ö");//201
+		mapofdecoders.put(".ogg|Proper noun}#Form of @-1", "/ß");//178
+		mapofdecoders.put(".ogg|Verb}#verb form of @r-4n", "%ß");//178
+		mapofdecoders.put(".ogg|Verb}#verb form of ab@-3", "=Ɩ");//160
+		mapofdecoders.put("@^.ogg|Numeral}#Form of [@-1]", "/ƚ");//149
+		mapofdecoders.put("@^.ogg|Noun}#Form of [@-1]", "?1");//12192
+		mapofdecoders.put(".ogg|Adjective}#Form of @-1", "$2");//9253
+		mapofdecoders.put("German{}|Alternative forms}", "{2");//7615
+		mapofdecoders.put(".ogg|Adjective}#Form of @-3", "$3");//6660
+		mapofdecoders.put(".ogg|Verb}#verb form of @^n", "~7");//2773
+		mapofdecoders.put(".ogg|Adjective}#Form of @-5", "`7");//2283
+		mapofdecoders.put(".ogg|Verb}#verb form of @^en", "{d");//739
+		mapofdecoders.put(".ogg|Verb}#verb form of @-4n", "=e");//705
+		mapofdecoders.put("@^.ogg|Noun}#plural of [@-3]", "£i");//531
+		mapofdecoders.put("@-4|Adjective}#Form of [@-4]", "%v");//483
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-2en]", "éɔ");//461
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-3en]", "~G");//376
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-1en]", "`G");//358
+		mapofdecoders.put(".ogg|Participle}#Form of @-1", "{H");//301
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-4en]", "^Ƒ");//184
+		mapofdecoders.put(".ogg|Verb}#verb form of ^@en", "+Ɩ");//165
+		mapofdecoders.put("German{}|Noun}#Form of [@-3]", "{Ɨ");//162
+		mapofdecoders.put("German{}|Pronunciation}Ⓓ", "^0");//226948
+		mapofdecoders.put("German{}|Pronunciation}^Ⓓ", "$0");//45248
+		mapofdecoders.put(".ogg|Adjective}#Form of [", "<1");//18531
+		mapofdecoders.put("@^.ogg|Noun}#Form of [@-2]", "`3");//6509
+		mapofdecoders.put("}#colloquial verb form of [", "{c");//829
+		mapofdecoders.put(".ogg|Verb}#zu-inifinite of ", "`d");//813
+		mapofdecoders.put("@.ogg|Noun}#plural of [@-2]", "%e");//712
+		mapofdecoders.put("De-@^.ogg|Noun}(fem.,plural", "{e");//679
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-2n]", "!u");//505
+		mapofdecoders.put(".ogg|Verb}#verb form of ^@n", "&x");//498
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-1n]", "`B");//455
+		mapofdecoders.put(".ogg|Noun}(mask.,plural:@^s", "=B");//455
+		mapofdecoders.put("@.ogg|Noun}#plural of [@-1]", "~F");//421
+		mapofdecoders.put(".ogg|Noun}(neut.,plural:@^s", "<H");//332
+		mapofdecoders.put("|Proper noun}(mask.,plural:", "£H");//310
+		mapofdecoders.put("@.ogg|Noun}#plural of [@-3]", ";Ɩ");//172
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-3n]", "@Ɵ");//151
+		mapofdecoders.put("German{}|Pronunciation}", "@0");//266655
+		mapofdecoders.put(".ogg|Adjective}#Form of ", "&0");//77857
+		mapofdecoders.put(".ogg|Verb}#verb form of ", "<0");//45859
+		mapofdecoders.put("@.ogg|Noun}#Form of [@-1]", "?6");//3404
+		mapofdecoders.put("German{}|Noun}#plural of ", "$7");//2820
+		mapofdecoders.put("@.ogg|Noun}#Form of [@-2]", "&8");//2047
+		mapofdecoders.put(".ogg|Participle}#Form of ", "_9");//1516
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@^n]", "`C");//467
+		mapofdecoders.put("@^.wav|Noun}#Form of [@-1]", "@G");//414
+		mapofdecoders.put("@^.ogg|Noun}#Form of [@-3]", "%H");//327
+		mapofdecoders.put("@^.ogg|Verb}#Form of [@-1]", "$I");//311
+		mapofdecoders.put(".ogg|Proper noun}#Form of ", "@Y");//239
+		mapofdecoders.put("@^.wav|Noun}#Form of [@-2]", "(ß");//199
+		mapofdecoders.put(".ogg|Noun}(fem.,plural:@^s", "'ƞ");//158
+		mapofdecoders.put("From Middle High German ", "<4");//5395
+		mapofdecoders.put(".ogg|Noun}#plural of @-1", "&6");//3648
+		mapofdecoders.put(".ogg|Noun}#plural of @-2", "£6");//3472
+		mapofdecoders.put("De-@^.ogg|Noun}(mask.)}#", "_7");//3226
+		mapofdecoders.put("from Proto-West Germanic", "é7");//2271
+		mapofdecoders.put("@.ogg|Noun}#Form of [@-3]", "£G");//378
+		mapofdecoders.put(".ogg|Numeral}#Form of @-1", "{É");//157
+		mapofdecoders.put(".ogg|Noun}#Form of @-1", "=1");//15783
+		mapofdecoders.put("|Adjective}#Form of [@", "é1");//11772
+		mapofdecoders.put("German{}|Noun}#Form of ", "=2");//9622
+		mapofdecoders.put("from Middle High German", "£9");//1449
+		mapofdecoders.put("#alternative spelling of", "?c");//945
+		mapofdecoders.put(".ogg|Noun}#plural of @-3", "=f");//709
+		mapofdecoders.put(".ogg|Verb}#Form of @-2en", "£p");//578
+		mapofdecoders.put(".ogg|Verb}#Form of @-3en", "{E");//491
+		mapofdecoders.put(".ogg|Verb}#Form of @-1en", "!G");//426
+		mapofdecoders.put(".ogg|Verb}#Form of @-4en", "'ğ");//240
+		mapofdecoders.put(".ogg|Noun}#Form of @-2", "~3");//8682
+		mapofdecoders.put("|Noun}(neut.,genitive:", "!9");//1552
+		mapofdecoders.put("German{}|Verb}#Form of ", "$d");//959
+		mapofdecoders.put(".ogg|Verb}#Form of @-2n", "$r");//600
+		mapofdecoders.put(".ogg|Verb}#Form of @-1n", "}̯");//545
+		mapofdecoders.put(".ogg|Verb}#Form of @-3n", "}ƞ");//178
+		mapofdecoders.put(".ogg|Noun}#plural of ", "<3");//8539
+		mapofdecoders.put("German{}|Proper noun}", "!8");//2258
+		mapofdecoders.put(".ogg|Noun}#Form of @-3", "=g");//715
+		mapofdecoders.put(".ogg|Verb}#Form of @^n", "<G");//467
+		mapofdecoders.put("from Middle Low German", "?H");//393
+		mapofdecoders.put(".ogg|Verb}#Form of @-1", "_I");//371
+		mapofdecoders.put("German{}|Etymology}", "!0");//53561
+		mapofdecoders.put(".ogg|Noun}#Form of ", "&1");//26246
+		mapofdecoders.put("German{}|Adjective}", "&2");//13459
+		mapofdecoders.put("Verb}#verb form of [", ")6");//4270
+		mapofdecoders.put("De-@^.ogg|Adjective}", "@7");//3912
+		mapofdecoders.put("|Noun}(neut.,plural:", "!7");//3247
+		mapofdecoders.put("|Noun}(mask.,plural:", "£7");//2747
+		mapofdecoders.put("from Old High German", "`b");//1373
+		mapofdecoders.put("German{}|Etymology 1}", "$J");//360
+		mapofdecoders.put("From Old High German ", "$Q");//315
+		mapofdecoders.put(".ogg|Verb}#Form of ", "!4");//6714
+		mapofdecoders.put("German{}from German", "£8");//2206
+		mapofdecoders.put("German{}|Participle}", "£m");//705
+		mapofdecoders.put("|Pronunciation}", "é0");//35955
+		mapofdecoders.put("German{}|Noun}", "£1");//21315
+		mapofdecoders.put("|Noun}#Form of ", "&4");//9713
+		mapofdecoders.put("German{}|Adverb}", "}Ɣ");//299
+		mapofdecoders.put("German{}|Verb}", "$6");//6186
+		mapofdecoders.put("|Noun}(fem.)}#", "=8");//3109
+		mapofdecoders.put("|Proper noun}", "`9");//2588
+		mapofdecoders.put("|Adjective}#", "?b");//2131
+		mapofdecoders.put("@^", "@^");//xxx
 
-		mapofdecoders.put("German", "de{}");//de{}
-		mapofdecoders.put("Etymology", "E{}");//E{}
-		mapofdecoders.put("Pronunciation", "P{}");//P{}
-		mapofdecoders.put("Derived terms", "D{}");//D{}
-		mapofdecoders.put("Further reading", "F{}");//F{}
-		mapofdecoders.put("German", "de{}{}");//de{}{}
-		mapofdecoders.put("Letter", "L{}");//L{}
-		mapofdecoders.put("See also", "S{}");//S{}
-		mapofdecoders.put("Pronunciation", "P{}{}");//P{}{}
-		mapofdecoders.put("Letter", "L{}{}");//L{}{}
-		mapofdecoders.put("See also", "S{}{}");//S{}{}
-		mapofdecoders.put("Noun", "N{}");//N{}
-		mapofdecoders.put("Related terms", "R{}");//R{}
-		mapofdecoders.put("Noun", "N{}{}");//N{}{}
-		mapofdecoders.put("Etymology 1", "E{}{}");//E{}{}
-		mapofdecoders.put("Derived terms", "D{}{}");//D{}{}
-		mapofdecoders.put("Adjective", "A{}");//A{}
-		mapofdecoders.put("Usage notes", "U{}");//U{}
-		mapofdecoders.put("Related terms", "R{}{}");//R{}{}
-		mapofdecoders.put("Further reading", "F{}{}");//F{}{}
-		mapofdecoders.put("Adjective", "A{}{}");//A{}{}
-		mapofdecoders.put("Hyponyms", "H{}");//H{}
-		mapofdecoders.put("Verb", "V{}");//V{}
-		mapofdecoders.put("Usage notes", "U{}{}");//U{}{}
-		mapofdecoders.put("Conjunction", "C{}");//C{}
-		mapofdecoders.put("Interjection", "I{}");//I{}
-		mapofdecoders.put("Verb", "V{}{}");//V{}{}
-		mapofdecoders.put("Conjugation", "C{}{}");//C{}{}
-		mapofdecoders.put("Inflection", "I{}{}");//I{}{}
-		mapofdecoders.put("Hyponyms", "H{}{}");//H{}{}
-		mapofdecoders.put("Meronyms", "M{}");//M{}
-		mapofdecoders.put("Meronyms", "M{}{}");//M{}{}
-		mapofdecoders.put("Quotations", "Q{}");//Q{}
-		mapofdecoders.put("Quotations", "Q{}{}");//Q{}{}
-		mapofdecoders.put("Trivia", "T{}");//T{}
-		mapofdecoders.put("Trivia", "T{}{}");//T{}{}
-		mapofdecoders.put("Gallery", "G{}");//G{}
-		mapofdecoders.clear();
 
 
-		
 		List<Map.Entry<String, String>> entries =
 				  new ArrayList<Map.Entry<String, String>>(mapofdecoders.entrySet());
 				Collections.sort(entries, new Comparator<Map.Entry<String, String>>() {
@@ -1915,7 +3572,8 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 		String[] seperated = null;
 	//	string=string.replace("#\n", "").replace("#¡", "").replace("#‽‽¡", "").replace("#‽¡", "").trim();
 		string=string.replace("#\n", "").replace("#}", "").trim();
-
+		//Toast.makeText(mContext, word+": "+ string, Toast.LENGTH_LONG).show();
+		//string= ReplaceEncodedHeader(string,word);
 		if (string.contains("||")) {
 			seperated = string.split(java.util.regex.Pattern.quote("||"));
 		} else {
@@ -2220,8 +3878,10 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 					def=def.replace(",", ", ");
 					listviewresult.setVisibility(View.GONE);
 					mExpandableListView.setVisibility(View.VISIBLE);
-					
-					SetExpanderCollection(word, def);
+					String wordDecoded=w.peyv;
+					if(SelectedWord!=null&&SelectedWord.contains("^")&&w.NormalizedWord.length()!=SelectedWord.length())
+							wordDecoded=ReplaceEncodedChars(wordDecoded,w.NormalizedWord);
+					SetExpanderCollection(wordDecoded, def);
 					defaultWordedSplashed = true;
 					wreturn=new Words();
 					wreturn.id=id;
@@ -2254,12 +3914,17 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 						{
 							String peyv=WQDictionaryQueryProvider.GetValue(cursor, WQDictionaryDB.KEY_WORD);
 							String id=WQDictionaryQueryProvider.GetValue(cursor, WQDictionaryDB.KEY_ID);
+							String peyv_n=WQDictionaryQueryProvider. GetValue(cursor, WQDictionaryDB.KEY_WORD_N);
 							if(peyv==null||peyv.equals(""))
-								peyv=WQDictionaryQueryProvider. GetValue(cursor, WQDictionaryDB.KEY_WORD_N);
+								peyv=peyv_n;
+							else if(peyv.contains("^")&&peyv_n.length()!=peyv.length())
+								peyv=ReplaceEncodedChars(peyv,peyv_n);
+
 							String  def=WQDictionaryQueryProvider.GetValue(cursor, WQDictionaryDB.KEY_DEFINITION);
 							list.add(putData(
 									peyv,
 									def));
+
 							Words ww=new Words();
 							ww.peyv=peyv;
 							ww.wate=def;
@@ -2269,6 +3934,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 						}
 						adapter.listOfWords=listofWords;
 						listviewresult.setAdapter(adapter);
+						//makeText("SetListaadapter2");
 						WQDictionaryActivity.listofWords=listofWords;
 						UpdateAnimatedButtonVisibilities(true);
 					}
@@ -2900,11 +4566,12 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 			listviewresult.setVisibility(View.VISIBLE);
 			imageButtonFav.setVisibility(View.GONE);
 			listviewresult.setAdapter(adapter);
+			//makeText("SetListaadapter3");
 
 		}
 		else
 		{
-			makeText("Favori listeniz boş");
+			makeText("Favourite List is empty");
 		}
 
 	}
@@ -2941,7 +4608,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 		sAux = sAux+"\""+word+"\""+"\n\n";
 		String wordw=word.replace(" ", "_");
 		sAux = sAux
-				+ "http://tr.wiktionary.org/wiki/"+wordw+ " \n\n";
+				+ "http://en.wiktionary.org/wiki/"+wordw+ " \n\n";
 		i.putExtra(Intent.EXTRA_TEXT, sAux);
 		startActivity(Intent.createChooser(i,
 				getString(R.string.select)));
@@ -3107,7 +4774,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 	}
 	public void UpDateFooterView(String word)
 	{		
-		if(!word.equalsIgnoreCase(""))
+		if(word!= null&&!word.equalsIgnoreCase(""))
 		{
 			imageButtonGoToWiki.setTag(word);
 			if(IsButtonsVisible)
@@ -3154,7 +4821,7 @@ public class WQDictionaryActivity extends AppCompatActivity implements OnClickLi
 				}
 				if(imageButtonGoToWiki.getTag()==null)
 					return;
-				String url = "https://ku.wiktionary.org/wiki/"
+				String url = "https://en.wiktionary.org/wiki/"
 						+ imageButtonGoToWiki.getTag().toString();
 				if (!url.startsWith("http://") && !url.startsWith("https://"))
 					url = "http://" + url;

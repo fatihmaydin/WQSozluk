@@ -22,7 +22,7 @@ public class WQDictionaryWidgetConfig extends Activity {
 	Spinner spinnerZiman;
 	Spinner spinnerCure;	
 	Button buttonOK;
-	private static final String PREFS_NAME = "com.wqsozluk";
+	private static final String PREFS_NAME = "com.wqwoerterbuch";
 	private static final String PREF_PREFIX_KEY = "widget_";
 	LinearLayout linearAlfabe;
 	public static int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;

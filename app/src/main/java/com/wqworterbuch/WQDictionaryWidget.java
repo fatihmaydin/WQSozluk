@@ -22,7 +22,7 @@ public class WQDictionaryWidget extends AppWidgetProvider {
 	public static String ACTION_WIDGET_RECEIVER = "com.wqworterbuch.ACTION_WIDGET_RECEIVER";
 	public static final String OPEN_URL_ACTION = "com.wqworterbuch.OPEN_URL_ACTION";
 	public static final String Refresh = "com.wqworterbuch.Refresh";
-	public static final String LAUNCH_WQDictionary = "com.wqworterbuch.LAUNCH_WQSozluk";
+	public static final String LAUNCH_WQDictionary = "com.wqworterbuch.LAUNCH_WQWoerterbuch";
 	public static final String Web_Link = "com.wqworterbuch.Web_Link";
 	public static final String Zareva = "com.wqworterbuch.Zareva";
 	public static String UPDATE_LIST = "UPDATE_LIST";

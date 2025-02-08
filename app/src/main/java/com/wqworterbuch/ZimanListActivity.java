@@ -60,7 +60,7 @@ public class ZimanListActivity extends AppCompatActivity {
 			if (android.os.Build.VERSION.SDK_INT >= 11) {
 				actionBar.setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_HOME | androidx.appcompat.app.ActionBar.DISPLAY_USE_LOGO);
 				// Set the icon
-				actionBar.setIcon(R.drawable.wqqoerterbuch); // Your icon resource
+				actionBar.setIcon(R.drawable.wqwoerterbuch); // Your icon resource
 				getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 				getSupportActionBar().setDisplayShowHomeEnabled(true);
 

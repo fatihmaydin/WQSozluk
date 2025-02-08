@@ -38,7 +38,7 @@ public class WQDictionaryConfig extends AppCompatActivity {
 	private Spinner spinnerLanguage;
 
 	List<CheckBox> checkBoxes	=new ArrayList<>();
-	private static final String PREFS_NAME = "com.wqsozluk";
+	private static final String PREFS_NAME = "com.wqwoerterbuch";
 	private static final String PREF_PREFIX_KEY = "GenSett_";
 	LinearLayout linearAlfabe;
 
@@ -151,11 +151,11 @@ public class WQDictionaryConfig extends AppCompatActivity {
 
 		List<String> items2=new ArrayList<String>();
 
-		items2.add( "ku-" +getResources().getString(R.string.Langku));
+		//items2.add( "ku-" +getResources().getString(R.string.Langku));
 		items2.add( "en-" +getResources().getString(R.string.Langen));
 		items2.add( "de-" + getResources().getString(R.string.Langde));
-		items2.add( "tr-" + getResources().getString(R.string.Langtr));
-		items2.add( "fa-" + getResources().getString(R.string.Langfa));
+		//items2.add( "tr-" + getResources().getString(R.string.Langtr));
+		//items2.add( "fa-" + getResources().getString(R.string.Langfa));
 
 		ArrayAdapter<String> spinnerArrayAdapterLang = new ArrayAdapter<String>(
 				this, android.R.layout.simple_spinner_dropdown_item,
@@ -165,7 +165,7 @@ public class WQDictionaryConfig extends AppCompatActivity {
 				"Theme");
 		final SharedPreferences prefsLang = getBaseContext()
 				.getSharedPreferences("Lang", 0);
-		final String currentlang = prefsLang.getString("Lang", "ku") + "-";
+		final String currentlang = prefsLang.getString("Lang", "de") + "-";
 		// makeText(currentlang);
 		int selectedItemLangIndex = 0;
 		for (int xx = 0; xx < items2.size(); xx++) {
@@ -208,23 +208,25 @@ public class WQDictionaryConfig extends AppCompatActivity {
 
 								SharedPreferences.Editor editor = prefsLang
 										.edit();
-								if (itemselected.contains("ku-")) {
-									editor.putString("Lang", "ku");
-								WQDictionaryActivity.	languageToLoad = "ku";
-								} else if (itemselected.contains("en-")) {
+//								if (itemselected.contains("ku-")) {
+//									editor.putString("Lang", "ku");
+//								WQDictionaryActivity.	languageToLoad = "ku";
+//								} else
+									if (itemselected.contains("en-")) {
 									editor.putString("Lang", "en");
 									WQDictionaryActivity.		languageToLoad = "en";
 								} else if (itemselected.contains("de-")) {
 									editor.putString("Lang", "de");
 									WQDictionaryActivity.	languageToLoad = "de";
-								} else if (itemselected.contains("tr-")) {
-									WQDictionaryActivity.	languageToLoad = "tr";
-									editor.putString("Lang", "tr");
 								}
-								else if (itemselected.contains("fa-")) {
-									WQDictionaryActivity.		languageToLoad = "fa";
-									editor.putString("Lang", "fa");
-								}
+//								else if (itemselected.contains("tr-")) {
+//									WQDictionaryActivity.	languageToLoad = "tr";
+//									editor.putString("Lang", "tr");
+//								}
+//								else if (itemselected.contains("fa-")) {
+//									WQDictionaryActivity.		languageToLoad = "fa";
+//									editor.putString("Lang", "fa");
+//								}
 								editor.commit();
 
 								if (itemselected.contains("-"))
